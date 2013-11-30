@@ -1,7 +1,8 @@
 <?php
 
+include_once "SousCategorie.php";
+include "Base.php";
 
-  
 class Categorie {
 	
 	
@@ -9,7 +10,7 @@ class Categorie {
 	
 	
 
-	private $lebelleC;
+	private $libelleC;
 	
 
 	
@@ -24,8 +25,7 @@ class Categorie {
 	
 	public function __toString() {
 		return "[". __CLASS__ . "] idC : ". $this->idC . ":
-		lebelleC  ". $this->lebelleC  .":
-		description ". $this->description  ;
+		libelleC  ". $this->libelleC;
 	}
 
 	
@@ -50,7 +50,7 @@ class Categorie {
 	}
 	
 	
-	
+	/*
 	public function save() {
 		if (!isset($this->idC)) {
 			return $this->insert();
@@ -67,11 +67,11 @@ class Categorie {
 		} 
 		
 		
-		$save_query = "update categorie set lebelleC= :lebelleC, description = :description where idC= :idC";
+		$save_query = "UPDATE categorie SET libelleC= :libelleC WHERE idC= :idC";
 		$pdo = Base::getConnection();
 		
 		$nb = $pdo->prepare($save_query);
-		$nb->bindparam(':lebelleC', $this->lebelleC);
+		$nb->bindparam(':libelleC', $this->libelleC);
 		$nb->bindparam(':description', $this->description);
 		$nb->bindparam(':idC', $this->idC);
 		$nb->execute();
@@ -88,8 +88,8 @@ class Categorie {
 		} 
 		
 		
-		$delete_query = "delete from Categorie
-			where idC= :idC";
+		$delete_query = "DELETE FROME Categorie
+			WHERE idC= :idC";
 		$pdo = Base::getConnection();
 		$nb=$pdo->prepare($delete_query);
 		$nb->bindparam(':idC', $this->idC);
@@ -106,11 +106,11 @@ class Categorie {
 		
 
 		
-		$insert_query = "INSERT INTO Categorie VALUES('', :lebelleC, :description)";
+		$insert_query = "INSERT INTO Categorie VALUES('', :libelleC, :description)";
 		$pdo = Base::getConnection();
 		
 		$nb = $pdo->prepare($insert_query);
-		$nb->bindparam(':lebelleC', $this->lebelleC);
+		$nb->bindparam(':libelleC', $this->libelleC);
 		$nb->bindparam(':description', $this->description);
 		
 		$nb->execute();
@@ -121,32 +121,30 @@ class Categorie {
 		
 		
 		
-	}
+	}*/
 	
 
 	public static function findByidC($idC) {
-		$query = "select * from categorie where idC= :idC";
-		$pdo = Base::getConnection();
-		$dbres = $pdo->prepare($query);
-		$dbres->bindparam(':idC', $idC);
-		$dbres->execute();
-		
-		if(!$dbres){
-			throw new Exception('Mysql query error : '.$query.' : '.mysql_error());
+		$query = "SELECT * FROM categorie WHERE idC = $idC";
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
+		$obj = odbc_fetch_object($dbres);
+
+		if(!$obj){
+			return(false);
 		}
-		
-		$obj = $dbres->fetch(PDO::FETCH_OBJ);
+		else{
+			
 			
 				
 				$categorie = new Categorie();
 				
 				$categorie->setAttr('idC', $obj->idC);
-				$categorie->setAttr('lebelleC', $obj->lebelleC);
-				$categorie->setAttr('description', $obj->description);
+				$categorie->setAttr('libelleC', $obj->libelleC);
 		
 		
 		return($categorie);
-		
+		}
 	
 		
 	}
@@ -155,57 +153,79 @@ class Categorie {
 	
 	public static function findAll() {
 		
-		$query = "select * from categorie order by lebelleC asc";
+		$query = "SELECT * FROM categorie";
 		$c = Base::getConnection();
-		$dbres = $c->prepare($query);
-		$dbres->execute();
+		$dbres = odbc_exec($c, $query);
 		
 		if(!$dbres){
-			throw new Exception('Mysql query error : '.$query.' : '.mysql_error());
-		}
-		$res = array();
-			while($row = $dbres->fetch(PDO::FETCH_ASSOC)){
+				return(false);		
+			}
+			else{
+			$res = array();
+			while($row = odbc_fetch_object($dbres)){
 			
 				
 				$categorie = new Categorie();
-				$categorie->idC = $row['idC'];
-				$categorie->lebelleC = $row['lebelleC'];
-				$categorie->description = $row['description'];
+				$categorie->idC = $row->idC;
+				$categorie->libelleC = $row->libelleC;
 				array_push($res, $categorie);
-			
+			return $res;
 		}
-		return $res;
+	}
+		
 	}
 	
-	public static function findBylebelleC($lebelleC){
+	public static function findBylibelleC($libelleC){
 		
-		$query = "select * from categorie where lebelleC= :lebelleC";
-		$pdo = Base::getConnection();
-		$dbres = $pdo->prepare($query);
-		$dbres->bindparam(':lebelleC', $lebelleC);
-		$dbres->execute();
+		$query = "SELECT * FROM categorie WHERE libelleC = '$libelleC'";
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
 
 		if(!$dbres){
-			throw new Exception('Mysql query error : '.$query.' : '.mysql_error());
+			throw new Exception('ODBC query error : '.$query.' : '.odbc_error());
 		}
 		
-		$obj = $dbres->fetch(PDO::FETCH_OBJ);
+		$obj = odbc_fetch_object($dbres);
 
 		if(!$obj){
-			echo("Aucune catégorie ayant ce lebelleC");
+			echo("Aucune catÃ©gorie ayant ce libelle");
 			return(null);	
 		}
 		else{ 
 		$categorie = new Categorie();
 				
 				$categorie->setAttr('idC', $obj->idC);
-				$categorie->setAttr('lebelleC', $obj->lebelleC);
-				$categorie->setAttr('description', $obj->description);
+				$categorie->setAttr('libelleC', $obj->libelleC);
 		
 		
 		return($categorie);
 		}
 		
+	}
+
+
+
+	public function findAllSousCat() {
+		
+		$query = "SELECT * FROM sous_categorie WHERE idC = $this->idC";
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
+		
+		if(!$dbres){
+			throw new Exception('ODBC query error : '.$query.' : '.odbc_error());
+		}
+		$res = array();
+			while($row = odbc_fetch_object($dbres)){
+			
+				
+				$Scategorie = new SousCategorie();
+				$Scategorie->setAttr('idSC', $row->idSC);
+				$Scategorie->setAttr('libelleSC', $row->libelleSC);
+				$Scategorie->setAttr('idC', $row->idC);
+				array_push($res, $Scategorie);
+			
+		}
+		return $res;
 	}
 }
 
