@@ -16,6 +16,10 @@ class Users{
 	
 	private $idL;
 
+	private $login;
+
+	private $mdp;
+
 	
 	
 	public function __construct() {
@@ -75,23 +79,32 @@ class Users{
 		
 		
 		
-		$insert_query = "INSERT INTO users VALUES('', :nomU, :prenomU, :adresseU, :melU, :idL)";
-		$pdo = Base::getConnection();
-		$nb=$pdo->prepare($insert_query);
-		$nb->bindparam(':nomU', $this->nomU);
-		$nb->bindparam(':prenomU', $this->prenomU);
-		$nb->bindparam(':adresseU', $this->adresseU);
-		$nb->bindparam(':melU', $this->melU);
-		$nb->bindparam(':idL', $this->idL);
-		$nb->execute();
-		$nbligne = $pdo->lastInsertId();
-		$this->setAttr('idU', $nbligne);
+		$c = Base::getConnection();
+
+		$queryTest = "Select * from logs where login = '$this->login'";
+		$resTest = odbc_exec($c, $queryTest);
+		$userTest = odbc_fetch_object($resTest);
+
+		if(!$userTest){
 		
-		return $nb;
+		$query = "INSERT INTO logs VALUES('$this->login', '$this->mdp')";
+		$res = odbc_exec($c, $query);
 		
+		$resInt = odbc_exec($c, "Select * from logs where login = '$this->login'");
+		$usr = odbc_fetch_object($resInt);
 		
+		$query2 = "INSERT INTO utilisateur VALUES('$this->nomU', '$this->prenomU', '$this->adresseU', '$this->melU', $usr->idL)";
+		$res2 = odbc_exec($c, $query2);
+	
 		
-	}
+		return $res2;
+		}
+		else{
+
+			return(false);
+		}
+	}	
+		
 	
 	public function save() {
 		if (!isset($this->idU)) {
@@ -104,26 +117,21 @@ class Users{
 	
 	public function update() {
 		
-		if (!isset($this->idU)) {
-			throw new Exception(__CLASS__ . ": Primary Key undefined : cannot update");
-		} 
 		
 		
-		$save_query = "update users set nomU= :nomU, prenomU= :prenomU, adresseU= :adresseU, melU= :melU,
-				idL= :idL where idU= :idU";
+		$queryUser = "UPDATE utilisateur SET nomU = '$this->nomU', prenomU = '$this->prenomU', adresseU = '$this->adresseU', melU = '$this->melU'
+				WHERE idU = $this->idU";
+
+		$queryLogs = "UPDATE logs SET login = '$this->login', mdp = '$this->mdp' WHERE idL = $this->idL ";
 				
-				$pdo = Base::getConnection();
-				$nb=$pdo->prepare($save_query);
-		$nb->bindparam(':id', $this->idU);
-		$nb->bindparam(':nomU', $this->nomU);
-		$nb->bindparam(':prenomU', $this->prenomU);
-		$nb->bindparam(':adresseU', $this->adresseU);
-		$nb->bindparam(':melU', $this->melU);
-		$nb->bindparam(':idL', $this->idL);
-		$nb->execute();
-		$pdo = Base::getConnection();
+				
+				$c = Base::getConnection();
+				$res = odbc_exec($c, $queryUser);
+				$res2 = odbc_exec($c, $queryLogs);
+				$c = Base::getConnection();
 		
-		return $nb;
+		return $res;
+
 		
 	}
 	

@@ -5,14 +5,13 @@
 class Categorie {
 	
 	
-	private $id ; 
+	private $idC ; 
 	
 	
 
-	private $titre;
+	private $lebelleC;
 	
 
-	private $description;
 	
 	
 	
@@ -24,8 +23,8 @@ class Categorie {
 	
 	
 	public function __toString() {
-		return "[". __CLASS__ . "] id : ". $this->id . ":
-		titre  ". $this->titre  .":
+		return "[". __CLASS__ . "] idC : ". $this->idC . ":
+		lebelleC  ". $this->lebelleC  .":
 		description ". $this->description  ;
 	}
 
@@ -53,7 +52,7 @@ class Categorie {
 	
 	
 	public function save() {
-		if (!isset($this->id)) {
+		if (!isset($this->idC)) {
 			return $this->insert();
 		} else {
 			return $this->update();
@@ -63,18 +62,18 @@ class Categorie {
 
 	public function update() {
 		
-		if (!isset($this->id)) {
+		if (!isset($this->idC)) {
 			throw new Exception(__CLASS__ . ": Primary Key undefined : cannot update");
 		} 
 		
 		
-		$save_query = "update categorie set titre= :titre, description = :description where id= :id";
+		$save_query = "update categorie set lebelleC= :lebelleC, description = :description where idC= :idC";
 		$pdo = Base::getConnection();
 		
 		$nb = $pdo->prepare($save_query);
-		$nb->bindparam(':titre', $this->titre);
+		$nb->bindparam(':lebelleC', $this->lebelleC);
 		$nb->bindparam(':description', $this->description);
-		$nb->bindparam(':id', $this->id);
+		$nb->bindparam(':idC', $this->idC);
 		$nb->execute();
 		
 		return $nb;
@@ -84,16 +83,16 @@ class Categorie {
 
 	public function delete() {
 		
-		if (!isset($this->id)) {
+		if (!isset($this->idC)) {
 			throw new Exception(__CLASS__ . ": Primary Key undefined : cannot delete");
 		} 
 		
 		
 		$delete_query = "delete from Categorie
-			where id= :id";
+			where idC= :idC";
 		$pdo = Base::getConnection();
 		$nb=$pdo->prepare($delete_query);
-		$nb->bindparam(':id', $this->id);
+		$nb->bindparam(':idC', $this->idC);
 		$nb->execute();
 		
 		return $nb;
@@ -107,16 +106,16 @@ class Categorie {
 		
 
 		
-		$insert_query = "INSERT INTO Categorie VALUES('', :titre, :description)";
+		$insert_query = "INSERT INTO Categorie VALUES('', :lebelleC, :description)";
 		$pdo = Base::getConnection();
 		
 		$nb = $pdo->prepare($insert_query);
-		$nb->bindparam(':titre', $this->titre);
+		$nb->bindparam(':lebelleC', $this->lebelleC);
 		$nb->bindparam(':description', $this->description);
 		
 		$nb->execute();
-		$nbligne = $pdo->lastInsertId();
-		$this->setAttr('id', $nbligne);
+		$nbligne = $pdo->lastInsertidC();
+		$this->setAttr('idC', $nbligne);
 		
 		return $nb;
 		
@@ -125,11 +124,11 @@ class Categorie {
 	}
 	
 
-	public static function findById($id) {
-		$query = "select * from categorie where id= :id";
+	public static function findByidC($idC) {
+		$query = "select * from categorie where idC= :idC";
 		$pdo = Base::getConnection();
 		$dbres = $pdo->prepare($query);
-		$dbres->bindparam(':id', $id);
+		$dbres->bindparam(':idC', $idC);
 		$dbres->execute();
 		
 		if(!$dbres){
@@ -141,8 +140,8 @@ class Categorie {
 				
 				$categorie = new Categorie();
 				
-				$categorie->setAttr('id', $obj->id);
-				$categorie->setAttr('titre', $obj->titre);
+				$categorie->setAttr('idC', $obj->idC);
+				$categorie->setAttr('lebelleC', $obj->lebelleC);
 				$categorie->setAttr('description', $obj->description);
 		
 		
@@ -156,7 +155,7 @@ class Categorie {
 	
 	public static function findAll() {
 		
-		$query = "select * from categorie order by titre asc";
+		$query = "select * from categorie order by lebelleC asc";
 		$c = Base::getConnection();
 		$dbres = $c->prepare($query);
 		$dbres->execute();
@@ -169,8 +168,8 @@ class Categorie {
 			
 				
 				$categorie = new Categorie();
-				$categorie->id = $row['id'];
-				$categorie->titre = $row['titre'];
+				$categorie->idC = $row['idC'];
+				$categorie->lebelleC = $row['lebelleC'];
 				$categorie->description = $row['description'];
 				array_push($res, $categorie);
 			
@@ -178,12 +177,12 @@ class Categorie {
 		return $res;
 	}
 	
-	public static function findByTitre($titre){
+	public static function findBylebelleC($lebelleC){
 		
-		$query = "select * from categorie where titre= :titre";
+		$query = "select * from categorie where lebelleC= :lebelleC";
 		$pdo = Base::getConnection();
 		$dbres = $pdo->prepare($query);
-		$dbres->bindparam(':titre', $titre);
+		$dbres->bindparam(':lebelleC', $lebelleC);
 		$dbres->execute();
 
 		if(!$dbres){
@@ -193,14 +192,14 @@ class Categorie {
 		$obj = $dbres->fetch(PDO::FETCH_OBJ);
 
 		if(!$obj){
-			echo("Aucune catégorie ayant ce titre");
+			echo("Aucune catégorie ayant ce lebelleC");
 			return(null);	
 		}
 		else{ 
 		$categorie = new Categorie();
 				
-				$categorie->setAttr('id', $obj->id);
-				$categorie->setAttr('titre', $obj->titre);
+				$categorie->setAttr('idC', $obj->idC);
+				$categorie->setAttr('lebelleC', $obj->lebelleC);
 				$categorie->setAttr('description', $obj->description);
 		
 		

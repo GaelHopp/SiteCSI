@@ -46,7 +46,7 @@ $user = Users::findByID(1);
 echo "Recherche de l'utilisateur d'ID incorrect<br/><br/>";
 
 
-$user = Users::findByID(3);
+$user = Users::findByID(1337);
 
 	if($user){
     echo "nom : " . $user->getAttr('nomU') . "<br/>" ;
@@ -92,6 +92,36 @@ $user = Users::findByID(3);
 	else{
 		echo "pas d'utilisateur de ce pseudo<br/>";
 	}
+
+
+
+	echo "<b>Test 4 : insertion d'un user : </b><br/><br/>" ;
+
+	echo "Insertion d'un utilisateur non existant<br/><br/>";
+
+
+	$user = new Users();
+
+	$user->setAttr('login', "AnneSo");
+	$user->setAttr('mdp', "AnneSo");
+	$user->setAttr('nomU', "Duhaut");
+	$user->setAttr('prenomU', "Anne-Sophie");
+	$user->setAttr('adresseU', "Par la");
+	$user->setAttr('melU', "AnneSo@yopmail.com");
+
+	//$user->insert();
+
+
+echo "<b>Test 5 : update d'un user : </b><br/><br/>" ;
+
+	echo "Update d'un utilisateur existant<br/><br/>";
+
+	$user2 = Users::findByPseudo("AnneSo");
+	$user2->setAttr('nomU', "Raleuse");
+	$user2->setAttr('prenomU', "Fu-Girl");
+
+	$user2->update();
+
 
 
 
