@@ -153,7 +153,7 @@ class Categorie {
 	
 	public static function findAll() {
 		
-		$query = "SELECT * FROM categorie";
+		$query = "SELECT * FROM categorie ";
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
 		
@@ -162,6 +162,9 @@ class Categorie {
 			}
 			else{
 			$res = array();
+			
+
+
 			while($row = odbc_fetch_object($dbres)){
 			
 				
@@ -169,9 +172,10 @@ class Categorie {
 				$categorie->idC = $row->idC;
 				$categorie->libelleC = $row->libelleC;
 				array_push($res, $categorie);
-			return $res;
+			
 		}
 	}
+	return $res;
 		
 	}
 	
