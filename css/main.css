@@ -106,3 +106,21 @@ text-align:center;
    left:10px;
    position:fixed;
 }
+
+.connect_ombre{
+border-left:3px solid #cccccc;
+border-top:3px solid #cccccc;
+width: 306px;
+height: 186px;
+position: absolute;
+right: 16%;
+z-index: 10;
+top: 18%;
+}
+.connect{
+border: 1px solid #0088cc;
+padding:5px;
+width: 299px;
+height: 180px;
+background-color:#ffffff;
+}

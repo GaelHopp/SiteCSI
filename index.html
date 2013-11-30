@@ -19,7 +19,37 @@
     <![endif]-->
 
   </head>
+  <!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="js/jquery.rating.pack.js"></script>
+<script>
+$(function() {
+	$('#theme_switcher ul li a').bind('click',
+		function(e) {
+			$("#switch_style").attr("href", "http://bootswatch.com/"+$(this).attr('rel')+"/bootstrap.min.css");    		
+			return false;
+		}
+	);
+});
 
+/* SCRIPT MENU */
+$(document).ready(function(){    
+	//on cache tout
+	$('.connect_ombre').hide();
+	$('.connect').hide();
+	//on click et on affiche tout !!
+    $('.enreg').click(function () {
+
+        $('.connect_ombre').slideToggle('fast');
+		$('.connect').slideToggle('fast');
+
+    });
+
+});
+</script>
   <body>
 
  
@@ -47,9 +77,34 @@
 						<a href="my_account.html">Mon compte</a> |
 						<a href="cart.html">Mes demandes (2)</a> |
 						<a href="two-column.html">A propos</a> |
-						<a href="contact.html">Contact</a>
+						<a href="contact.html">Contact</a> | 
+						<a href="register.html">S'inscrire</a> | 
+						<a href="#" class="enreg">Se connecter</a>
 					</div>
-				
+				<!-- Surplus connexion :) -->
+				<div class="connect_ombre">
+				<div class="connect">
+				<form class="">
+					<fieldset>
+						<div class="control-group">
+							<label for="focusedInput" class="control-label"><b>Pseudo</b></label>
+							<div class="controls">
+							<input type="text" placeholder="Entrez votre pseudo" id="username" class="input-xlarge focused">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label"><b>Mot de passe</b></label>
+							<div class="controls">
+							<input type="password" placeholder="Entrez votre mot de passe" id="password" class="input-xlarge">
+							</div>
+						</div>
+
+						<button class="btn btn-primary pull-right" type="submit">Login</button>
+					</fieldset>
+				</form>
+				</div>
+				</div>
+				<!-- fin Surplus connexion :) -->
 				</div>
 			</div>
 		</div><!-- end header -->
@@ -323,24 +378,6 @@
 		</ul>
 	</div>
 </div> -->
-
-
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
-<script src="js/jquery.rating.pack.js"></script>
-<script>
-$(function() {
-	$('#theme_switcher ul li a').bind('click',
-		function(e) {
-			$("#switch_style").attr("href", "http://bootswatch.com/"+$(this).attr('rel')+"/bootstrap.min.css");    		
-			return false;
-		}
-	);
-});
-</script>
 
 </body>
 </html>
