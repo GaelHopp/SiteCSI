@@ -1,137 +1,275 @@
 <?php
 
-include "Billets.php";
-include "Categorie.php";
-include "Users.php";
-include "Base.php";
+include_once "SousCategorie.php";
+include_once "Categorie.php";
+include_once "Users.php";
+
 
 class Vue{ 
 	
-	function AffichePage($content, $menuleft, $menuright, $barre) {
+	function AffichePage($menuleft, $content) {
 		
-		echo "
-		<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"
-		\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">
-		<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">
-		<head>
-		<title>Blog de Gael</title>
-		<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />
-		<style type=\"text/css\">
-		* { margin:0; padding:0; word-wrap:break-word; }
-		td{padding:10px}
-		BODY { background-color:#fff;
-		font-size:16px;
+		echo "<!DOCTYPE html>
+<html lang=\"fr\"><head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-15\" /> 
+    <title>Site de troc</title>
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <meta name=\"description\" content=\"\">
+    <meta name=\"author\" content=\"\">
+
+    <!-- Le styles -->
+    <link href=\"bootstrap/css/bootstrap.css\" rel=\"stylesheet\">
+    <link id=\"switch_style\" href=\"http://bootswatch.com//bootstrap.min.css\" rel=\"stylesheet\">
+    <link href=\"css/main.css\" rel=\"stylesheet\">
+    <link href=\"css/jquery.rating.css\" rel=\"stylesheet\">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src=\"//html5shim.googlecode.com/svn/trunk/html5.js\"></script>
+    <![endif]-->
+
+  </head>
+  <!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src=\"js/jquery.min.js\"></script>
+<script src=\"bootstrap/js/bootstrap.js\"></script>
+<script src=\"js/jquery.rating.pack.js\"></script>
+<script>
+$(function() {
+	$('#theme_switcher ul li a').bind('click',
+		function(e) {
+			$(\"#switch_style\").attr(\"href\", \"http://bootswatch.com/\"+$(this).attr('rel')+\"/bootstrap.min.css\");    		
+			return false;
 		}
-		
-		.formulaire{
-			display: block;
-			width: 100px;
-			float: left;
-			margin-left: 400px;				
-		}
-		.description{
+	);
+});
+
+/* SCRIPT MENU */
+$(document).ready(function(){    
+	//on cache tout
+	$('.connect_ombre').hide();
+	$('.connect').hide();
+	//on click et on affiche tout !!
+    $('.enreg').click(function () {
+
+        $('.connect_ombre').slideToggle('fast');
+		$('.connect').slideToggle('fast');
+
+    });
+
+});
+</script>
+  <body>
+
+ 
+
+
+    <div class=\"container\">
+		<div class=\"row\"><!-- start header -->
+			<div class=\"span4 logo\">
+			<a href=\"index.html\">
+				<h1>Site de troqué</h1>
+			</a>
+			</div>
+			<div class=\"span8\">
 			
-			margin-left: 300px;				
-		}
-								
-		.tableauB{
-			width: 500px;
-			height: 250px;		
-		}		
-		
-		.tableauC{
-			width: 500px;
-			height: 150px;		
-		}		
-		.tableau{
-			margin: auto;
-		}		
-				
-		.centrer{
-			text-align : center;
-		}	
-				
-		.right{
-			text-align: right;
-		}			
-		
-		.left{
-			text-align: left;
-		}
-				
-		.underline{
-			text-decoration: underline;
-		}	
-				
-		.titre{
-			font-size: 25px;
-		}		
-						
-						
-		#entete { background-color:#ccc;
-		padding:8px; }
-		
-		#barre { background-color:#F5F5F5;
-		padding:8px; }
-		
-		#gauche { float:left;
-		width:200px;
-		padding:8px;
-		background-color:#bbb; }
-		
-		#droite { float:right;
-		width:200px;
-		padding:8px;
-		background-color:#aaa }
-		
-		#centre { margin-right:216px;
-		margin-left:215px;
-		padding:8px;
-		background-color:#fff;
-		border: 1px solid #eee;}
-		
-		#basdepage { clear:both;
-		background-color:#888;
-		padding:8px; }
-		</style>
-		</head>
-		
-		<body>
-		<div class=\"centrer\" id=\"entete\"><h1>Blog de Gaël</h1>";
+				<div class=\"row\">
+					<div class=\"span1\">&nbsp;</div>
+					</div>
+				<br />";
+
+
 		
 		if(empty($_SESSION)){
-			echo "<p class= \"right\"><a href=\"Admin.php?action=login\">Connexion</a></p>
-		<p class= \"right\"><a href=\"Admin.php?action=register\">Inscription</a></p></div>";
+			
+
+			echo "<div class=\"row\">
+					<div class=\"links pull-right\">
+						<a href=\"contact.html\">Contact</a> | 
+						<a href=\"register.html\">S'inscrire</a> | 
+						<a href=\"#\" class=\"enreg\">Se connecter</a>
+					</div>
+
+					<!-- Surplus connexion :) -->
+				<div class=\"connect_ombre\">
+				<div class=\"connect\">
+				
+
+				<form class=\"\">
+					<fieldset>
+						<div class=\"control-group\">
+							<label for=\"focusedInput\" class=\"control-label\"><b>Pseudo</b></label>
+							<div class=\"controls\">
+							<input type=\"text\" placeholder=\"Entrez votre pseudo\" id=\"username\" class=\"input-xlarge focused\">
+							</div>
+						</div>
+						<div class=\"control-group\">
+							<label class=\"control-label\"><b>Mot de passe</b></label>
+							<div class=\"controls\">
+							<input type=\"password\" placeholder=\"Entrez votre mot de passe\" id=\"password\" class=\"input-xlarge\">
+							</div>
+						</div>
+
+						<button class=\"btn btn-primary pull-right\" type=\"submit\">Login</button>
+					</fieldset>
+				</form>
+				</div>
+				</div>
+				<!-- fin Surplus connexion :) -->";
 		}
 		else{
-			echo "<p class= \"right\">Connecté en tant que  <a href= \"Blog.php?action=profil&amp;id=".$_SESSION['id']."\">".$_SESSION['pseudo']."</a></p>
-		<p class= \"right\"><a href=\"Admin.php?action=logout\">Déconnexion</a></p></div>";
+			
+			echo "<div class=\"row\">
+					<div class=\"links pull-right\">
+						<a href=\"index.html\">Home</a> |
+						<a href=\"my_account.html\">Mon compte</a> |
+						<a href=\"cart.html\">Mes demandes (2)</a> |
+						<a href=\"two-column.html\">A propos</a> |
+						<a href=\"contact.html\">Contact</a> | 
+					</div>";
 				
 			
 		}
+
+
+		echo "</div>
+			</div>
+		</div><!-- end header -->";
+
+
+
+
+
+		echo "<div class=\"row\"><!-- start nav -->
+			<div class=\"span12\">
+			  <div class=\"navbar\">
+					<div class=\"navbar-inner\">
+					  <div class=\"container\" style=\"width: auto;\">
+						<a class=\"btn btn-navbar\" data-toggle=\"collapse\" data-target=\".nav-collapse\">
+						  <span class=\"icon-bar\"></span>
+
+						  <span class=\"icon-bar\"></span>
+						  <span class=\"icon-bar\"></span>
+						</a>
+						<div class=\"nav-collapse\">
+						  <ul class=\"nav\">";
+							 
+
+						  	$listeCategories = Categorie::findAll();
+
+						  	foreach($listeCategories as $categorie){
+
+						  		echo "<li class=\"dropdown\">
+							  	<a href=\"category.html\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">". $categorie->getAttr('libelleC') . "<b class=\"caret\"></b></a>
+							  	<ul class=\"dropdown-menu\">";
+
+							 $listeSousCategories = $categorie->findAllSousCat();
+
+							 		foreach($listeSousCategories as $sousCategorie){
+
+							 			echo "<li><a href=\"listings.html\">".$sousCategorie->getAttr('libelleSC')."</a></li>";
+
+							 		}
+
+							 	echo "</ul>
+									</li>";
+						  	}
+
+
+							  
+
+						echo  "<ul class=\"nav pull-right\">
+						   <li class=\"divider-vertical\"></li>
+							<form class=\"navbar-search\" action=\"\">
+								<input type=\"text\" class=\"search-query span2\" placeholder=\"Search\">
+								<button class=\"btn btn-primary btn-small search_btn\" type=\"submit\">Go</button>
+							</form>
+							
+						  </ul>
+						</div><!-- /.nav-collapse -->
+					  </div>
+					</div><!-- /navbar-inner -->
+				</div><!-- /navbar -->
+			</div>
+		</div><!-- end nav -->";
+
+
+
+
+		echo($menuleft);
+
+		echo($content);
 		
 		
 		
-		echo "<div id=\"barre\"><div class=\"centrer\">$barre
-		</div></div>
-		
-		
-		<div><div id=\"gauche\"><div class=\"centrer\"><b>Catégories</b></div><br/>
-		$menuleft</div>
-		
-		<div id=\"droite\"><div class=\"centrer\"><b>Billets</b></div><br/>
-		$menuright</div>
-		
-		<div id=\"centre\"><br/>
-		$content</div></div>
-		
-		<div id=\"basdepage\">"; 
-				if(!empty($_SESSION)){
-						echo("<p class= \"left\"><a href=\"Blog.php?action=listU\">Liste des utilisateurs</a></p>");
-				}
-				echo"</div>
-		</body>
-		</html>";
+				
+
+
+		echo "<footer>
+	<hr />
+	<div class=\"row well no_margin_left\">
+
+	<div class=\"span3\">
+		<h4>Information</h4>
+		<ul>
+			<li><a href=\"two-column.html\">About Us</a></li>
+			<li><a href=\"typography.html\">Delivery Information</a></li>
+			<li><a href=\"typography.html\">Privacy Policy</a></li>
+			<li><a href=\"typography.html\">Terms &amp; Conditions</a></li>
+		</ul>
+	</div>
+	<div class=\"span3\">
+		<h4>Customer Service</h4>
+		<ul>
+			<li><a href=\"contact.html\">Contact Us</a></li>
+			<li><a href=\"typography.html\">Returns</a></li>
+			<li><a href=\"typography.html\">Site Map</a></li>
+		</ul>
+	</div>
+	<div class=\"span3\">
+		<h4>Extras</h4>
+		<ul>
+			<li><a href=\"typography.html\">Brands</a></li>
+			<li><a href=\"typography.html\">Gift Vouchers</a></li>
+			<li><a href=\"typography.html\">Affiliates</a></li>
+			<li><a href=\"typography.html\">Specials</a></li>
+		</ul>
+	</div>
+	<div class=\"span2\">
+		<h4>My Account</h4>
+		<ul>
+			<li><a href=\"my_account.html\">My Account</a></li>
+			<li><a href=\"typography.html\">Order History</a></li>
+			<li><a href=\"typography.html\">Wish List</a></li>
+			<li><a href=\"typography.html\">Newsletter</a></li>
+		</ul>
+	</div>
+
+</footer>
+
+</div> <!-- /container -->
+
+
+<!--<div id=\"theme_switcher\">
+	<div class=\"btn-group\">
+		<a class=\"btn btn-success dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Switch theme <span class=\"caret\"></span></a>
+		<ul class=\"dropdown-menu\">
+            <li><a href=\"#\" rel=\"united\">United</a></li>
+            <li><a href=\"#\" rel=\"spacelab\">Spacelab</a></li>
+			<li><a href=\"#\" rel=\"journal\">Journal</a></li>
+			<li><a href=\"#\" rel=\"simplex\">Simplex</a></li>
+            <li><a href=\"#\" rel=\"cerulean\">Cerulean</a></li>
+			<li><a href=\"#\" rel=\"cyborg\">Cyborg</a></li>
+            <li><a href=\"#\" rel=\"slate\">Slate</a></li>
+            <li><a href=\"#\" rel=\"spruce\">Spruce</a></li>
+			<li><a href=\"#\" rel=\"\">Bootstrap</a></li>
+		</ul>
+	</div>
+</div> -->
+
+</body>
+</html>";
 		
 	}
 	

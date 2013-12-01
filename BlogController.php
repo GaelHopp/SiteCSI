@@ -1,7 +1,7 @@
 <?php
 
 
-include "Afficheur.php";
+include_once "Afficheur.php";
 
 
 class BlogController{
@@ -113,18 +113,7 @@ class BlogController{
 		}
 		else{
 			
-			$u = Users::findById(1);
-			
-			if($u->getAttr('password') == "motdepasse"){
-				$centre = $this->vue->firstRegister();
-				$this->vue->AffichePage($centre, $this->vue->menuGauche(), $this->vue->menuDroit(),"Bienvenue sur mon blog");
-				
-			}
-			else{
-			
-			$centre = "";
-				$this->vue->AffichePage($centre, $this->vue->menuGauche(), $this->vue->menuDroit(),"Bienvenue sur mon blog");
-			}
+			$this->vue->AffichePage("","");
 		}
 	}
 }
