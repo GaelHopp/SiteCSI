@@ -4,7 +4,7 @@
 session_start();
 
 
-include "BlogController.php";
+include_once "BlogController.php";
 
 $controle = new BlogController();
 

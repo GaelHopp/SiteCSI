@@ -68,8 +68,8 @@ $(document).ready(function(){
     <div class=\"container\">
 		<div class=\"row\"><!-- start header -->
 			<div class=\"span4 logo\">
-			<a href=\"index.html\">
-				<h1>Site de troqué</h1>
+			<a href=\"Blog.php\">
+				<h1>Site de troc</h1>
 			</a>
 			</div>
 			<div class=\"span8\">
@@ -86,8 +86,8 @@ $(document).ready(function(){
 
 			echo "<div class=\"row\">
 					<div class=\"links pull-right\">
-						<a href=\"contact.html\">Contact</a> | 
-						<a href=\"register.html\">S'inscrire</a> | 
+						<a href=\"\">Contact</a> | 
+						<a href=\"Blog.php?action=register\">S'inscrire</a> | 
 						<a href=\"#\" class=\"enreg\">Se connecter</a>
 					</div>
 
@@ -161,14 +161,14 @@ $(document).ready(function(){
 						  	foreach($listeCategories as $categorie){
 
 						  		echo "<li class=\"dropdown\">
-							  	<a href=\"category.html\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">". $categorie->getAttr('libelleC') . "<b class=\"caret\"></b></a>
+							  	<a href= \"\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">". $categorie->getAttr('libelleC') . "<b class=\"caret\"></b></a>
 							  	<ul class=\"dropdown-menu\">";
 
 							 $listeSousCategories = $categorie->findAllSousCat();
 
 							 		foreach($listeSousCategories as $sousCategorie){
 
-							 			echo "<li><a href=\"listings.html\">".$sousCategorie->getAttr('libelleSC')."</a></li>";
+							 			echo "<li><a href=\"Blog.php?action=afficheListeProduit&amp;id=". $sousCategorie->getAttr('idSC') ."\">".$sousCategorie->getAttr('libelleSC')."</a></li>";
 
 							 		}
 
@@ -192,9 +192,9 @@ $(document).ready(function(){
 					</div><!-- /navbar-inner -->
 				</div><!-- /navbar -->
 			</div>
-		</div><!-- end nav -->";
+		</div><!-- end nav -->
 
-
+		<div class=\"row\">";
 
 
 		echo($menuleft);
@@ -206,7 +206,9 @@ $(document).ready(function(){
 				
 
 
-		echo "<footer>
+		echo "</div>
+
+		<footer>
 	<hr />
 	<div class=\"row well no_margin_left\">
 
@@ -276,377 +278,308 @@ $(document).ready(function(){
 	
 	
 	
-	function afficheBillet($billet){
+	function afficheSideBar($sousCat){
 		
-		$html = "<span class = \"underline\">Billet n°".$billet->getAttr('id')."</span><div class=\"centrer\"><h3><b><span class = \"underline\">".$billet->getAttr('titre')."</span></b></h3></div><br/>";
-		$titreC = Categorie::findById($billet->getAttr('cat_id'));
-		$html .= "<p class = \"right\"><span class = \"underline\">Catégorie :</span> ".$titreC->getAttr('titre')."    </p><br/><br/>";
-		$html .= $billet->getAttr('body')."<br/><br/>";
-		$u = Users::findById($billet->getAttr('iduser'));
-		$html .= "<p class = \"right\">Posté par : <a href=\"Blog.php?action=profil&amp;id=".$u->getAttr('id')."\">".$u->getAttr('pseudo')."</a><i> le ".$billet->getAttr('date')."</i></p><br/><hr/>";
-		if((!empty($_SESSION)) && (($_SESSION['id'] == $billet->getAttr('iduser')) || ($_SESSION['statut'] == "admin"))){ 
+		$html = "<div class=\"span3\">
+			<!-- start sidebar -->
+<ul class=\"breadcrumb\">
+    <li>Categories</span></li>
+</ul>
+<div class=\"span3 product_list\">
+	<ul class=\"nav\">";
+
+	$listeCategories = Categorie::findAll();
+	$cat = Categorie::findByIdC($sousCat->getAttr('idC'));
+
+	foreach ($listeCategories as $categorie) {
 		
-		$html .= "<p style=\"float: left;\"><a href=\"Admin.php?action=editB&amp;id=".$billet->getAttr('id')."\">Editer ce billet</a></p>
-			<p style=\"float: right;\"><a href=\"Admin.php?action=deleteB&amp;id=".$billet->getAttr('id')."\">Supprimer ce billet</a></p>";
+		$html .= "<li>";
+
+		$firstSousCat = $categorie->findFirstIdSC();
+
+
+		if($cat->getAttr('idC') == $categorie->getAttr('idC')){
+
+			
+			$html .= "<a class=\"active\" href=\"Blog.php?action=afficheListeProduit&amp;id=". $firstSousCat->getAttr('idSC') ."\"> ". $categorie->getAttr('libelleC') ."</a>";
 		}
-		
-		return($html);
-	}
-	
-	
-	function afficheBilletL($billet){
-		
-		$html = "<span class = \"underline\">Billet n°".$billet->getAttr('id')."</span><div class=\"centrer\"><h3><b><span class = \"underline\">".$billet->getAttr('titre')."</span></b></h3></div><br/>";
-		$titreC = Categorie::findById($billet->getAttr('cat_id'));
-		$html .= "<p class = \"right\"><span class = \"underline\">Catégorie :</span> ".$titreC->getAttr('titre')."    </p><br/><br/>";
-		$chaine = $billet->getAttr('body');
-		$fin = substr($chaine, 40);
-		$final = str_replace($fin, "...  <a href = Blog.php?action=detail&amp;id=".$billet->getAttr('id').">[Lire la suite]</a>", $chaine);
-		$html .= $final."<br/><br/>";
-		$u = Users::findById($billet->getAttr('iduser'));
-		$html .= "<p class = \"right\">Posté par : <a href=\"Blog.php?action=profil&amp;id=".$u->getAttr('id')."\">".$u->getAttr('pseudo')."</a><i> le ".$billet->getAttr('date')."</i></p><br/><hr/>";
-		if((!empty($_SESSION)) && (($_SESSION['id'] == $billet->getAttr('iduser')) || (($_SESSION['statut'] == "admin") ||($_SESSION['statut'] == "superAdmin")))){ 
-		
-		$html .= "<p style=\"float: left;\"><a href=\"Admin.php?action=editB&amp;id=".$billet->getAttr('id')."\">Editer ce billet</a></p>
-			<p style=\"float: right;\"><a href=\"Admin.php?action=deleteB&amp;id=".$billet->getAttr('id')."\">Supprimer ce billet</a></p>";
+		else{
+
+			$html .= "<a href=\"Blog.php?action=afficheListeProduit&amp;id=". $firstSousCat->getAttr('idSC'). "\"> ". $categorie->getAttr('libelleC') ."</a>";
+
+
 		}
-		
-		return($html);
-	}
-	
-	
-	
-	function afficheCat($categorie){
-		
-		$html = "<span class = \"underline\">Catégorie n°".$categorie->getAttr('id')."</span><div class=\"centrer\"><h3><b><span class = \"underline\">".$categorie->getAttr('titre')."</span></b></h3></div><br/>";
-		$html .= $categorie->getAttr('description')."<br/><br/><hr/>";
-		if($categorie->getAttr('id') != 1){
-			if((!empty($_SESSION)) && (($_SESSION['statut'] == "admin") || ($_SESSION['statut'] == "superAdmin"))){
-				$html .= "<p style=\"float: left;\"><a href=\"Admin.php?action=editC&amp;id=".$categorie->getAttr('id')."\">Editer cette catégorie</a></p>
-					<p style=\"float: right;\"><a href=\"Admin.php?action=deleteC&amp;id=".$categorie->getAttr('id')."\">Supprimer cette catégorie</a></p>";
+
+		$html .= "<ul>";
+
+		$listeSousCategorie = $categorie->findAllSousCat();
+
+		foreach ($listeSousCategorie as $sousCategorie) {
 				
+				$html .= "<li>";
+
+
+				if($sousCat->getAttr('idSC') == $sousCategorie->getAttr('idSC')){
+
+			$html .= "<a class=\"active\" href=\"Blog.php?action=afficheListeProduit&amp;id=". $sousCategorie->getAttr('idSC') ."\"> -&nbsp;&nbsp;". $sousCategorie->getAttr('libelleSC') ."</a>";
+		}
+		else{
+
+			$html .= "<a href=\"Blog.php?action=afficheListeProduit&amp;id=". $sousCategorie->getAttr('idSC') ."\"> -&nbsp;&nbsp;". $sousCategorie->getAttr('libelleSC') ."</a>";
+
+
+		}
+
+
+			$html .= "</li>";
+
 			}
-		}
-		return($html);
+		$html .= "</ul></li>";
+
+
 	}
-	
-	function afficheListeBillet($billets){
 		
-		$html = "<div><table class = \"tableau\" cellspacing=\"20\" border=\"5\"><caption><span class = \"titre\"><b> Liste des billets</b></span></caption> ";
-		
-		foreach($billets as $billet){
-			$html .= "<tr><td class = \"tableauB\">".$this->afficheBilletL($billet)."</td></tr>";
-		}
-		$html .= "</table></div>";
+	$html .= "</ul> </div><!-- end sidebar -->		</div>";
 		
 		return($html);
 	}
-	
-	function afficheListeCat($categories){
+
+
+
+
+
+
+	function afficheAccueilGuest(){
+
+		$html = "
+
+		<div class=\"span9\">
+
+			<div id=\"myCarousel\" class=\"carousel slide\">
+            <div class=\"carousel-inner\">
+              <div class=\"item active\">
+		<img src=\"css/images/carousel_1.jpg\" alt=\"\">
+                <div class=\"carousel-caption\">
+                  <h4>First Thumbnail label</h4>
+                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                </div>
+
+              </div>
+              <div class=\"item\">
+                <img src=\"css/images/carousel_2.jpg\" alt=\"\">
+                <div class=\"carousel-caption\">
+                  <h4>Second Thumbnail label</h4>
+                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                </div>
+              </div>
+
+              <div class=\"item\">
+		<img src=\"css/images/carousel_3.jpg\" alt=\"\">
+                <div class=\"carousel-caption\">
+                  <h4>Third Thumbnail label</h4>
+                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                </div>
+              </div>
+            </div>
+
+            <a class=\"left carousel-control\" href=\"#myCarousel\" data-slide=\"prev\">&lsaquo;</a>
+            <a class=\"right carousel-control\" href=\"#myCarousel\" data-slide=\"next\">&rsaquo;</a>
+          </div>
+          </div>
+		  
+		  
+		  
+		<div class=\"span7 popular_products\">
+		 <h4>Popular products</h4><br />
+		<ul class=\"thumbnails\">
+       
+	   <li class=\"span2\">
+          <div class=\"thumbnail\">
+            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/ps-vita-150cx123.jpg\" /></a>
+            <div class=\"caption\">
+              <a href=\"Blog.php?action=register\"> <h5>PS Vita</h5></a>  Price: &#36;50.00<br /><br />
+            </div>
+          </div>
+        </li>
+       
+	   <li class=\"span2\">
+          <div class=\"thumbnail\">
+            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/nexus-one-3-150x123.jpg\" /></a>
+            <div class=\"caption\">
+              <a href=\"Blog.php?action=register\"> <h5>Nexus one</h5></a>  Price: &#36;50.00<br /><br />
+            </div>
+          </div>
+        </li>
+       
+	   <li class=\"span2\">
+          <div class=\"thumbnail\">
+            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/thumb_sam_3d.jpg\" /></a>
+            <div class=\"caption\">
+              <a href=\"Blog.php?action=register\"> <h5>Samsung 3D TV</h5></a>  Price: &#36;50.00<br /><br />
+            </div>
+          </div>
+        </li>
+       
+	   <li class=\"span2\">
+          <div class=\"thumbnail\">
+            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/ipad_case.jpg\" /></a>
+            <div class=\"caption\">
+              <a href=\"Blog.php?action=register\"> <h5>iPod Case</h5></a>  Price: &#36;50.00<br /><br />
+            </div>
+          </div>
+        </li>
+       
+	   <li class=\"span2\">
+          <div class=\"thumbnail\">
+            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/HMX-H104.JPG\" /></a>
+            <div class=\"caption\">
+              <a href=\"Blog.php?action=register\"> <h5>HMX Camcorder</h5></a>  Price: &#36;50.00<br /><br />
+            </div>
+          </div>
+        </li>
+       
+	   <li class=\"span2\">
+          <div class=\"thumbnail\">
+            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/expic.png\" /></a>
+            <div class=\"caption\">
+              <a href=\"Blog.php?action=register\"> <h5>Kindle Fire</h5></a>  Price: &#36;50.00<br /><br />
+            </div>
+          </div>
+        </li>
+
+      </ul>
+		</div>
+        <div class=\"span2\">
 		
-		$html = "<div><table class = \"tableau\" cellspacing=\"20\" border=\"5\"><caption> <span class = \"titre\"><b>Liste des catégories</b></span></caption>";
+		 <div class=\"roe\">
+		<h4>Newsletter</h4><br />
+		<p>Sign up for our weekly newsletter and stay up-to-date with the latest offers, and newest products.</p>
 		
-		foreach($categories as $categorie){
-			$html .= "<tr><td class = \"tableauC\">".$this->afficheCat($categorie)."</td></tr>";
-		}
-		$html .= "</table></div>";
+		    <form class=\"form-search\">
+    <input type=\"text\" class=\"span2\" placeholder=\"Enter your email\" /><br /><br />
+    <button type=\"submit\" class=\"btn pull-right\">Subscribe</button>
+    </form>
+		</div><br /><br />
+            <a href=\"Blog.php?action=register\"><img alt=\"\" title=\"\" src=\"css/images/paypal_mc_visa_amex_disc_150x139.gif\" /></a>
+			<a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/bnr_nowAccepting_150x60.gif\" /></a>
+
+		</div>";
+
+		return($html);
+
+
+
+	}
+
+
+
+	function afficheRegister(){
+
+		$html = "<div class=\"span12\">
+		<ul class=\"breadcrumb\">
+			<li><a href=\"#\">Home</a> <span class=\"divider\">/</span></li>
+			<li><a href=\"#\">Mon compte</a> <span class=\"divider\">/</span></li>
+			<li class=\"active\"><a href=\"#\">Inscription</a></li>
+		</ul>
+		</div>
+
+			<div class=\"span12\">
+				<h1>Créer un compte</h1>
+				
+				<br />				
+				<form class=\"form-horizontal\">
+					<fieldset>
+					<div class=\"span6 no_margin_left\">
+						<legend>Vos informations personnelles</legend>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Nom</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Prénom</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						</div>
+					  </div>					  
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Adresse Mail</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						</div>
+					  </div>					 
+
+					  
+					  </div>
+					  <div class=\"span6\">
+					<legend>Votre adresse</legend>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Adresse</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						</div>
+					  </div>
+					 
+					  
+					 
+					  </div>
+					  
+					<div class=\"span12 no_margin_left\">
+					<legend>Vos identifiants</legend>
+					<div class=\"span6 no_margin_left\">
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Login</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						</div>
+					  </div>					 
+					  </div>					 
+					<div class=\"span6\">
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Mot de passe</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						</div>
+					  </div>					  <div class=\"control-group\">
+						<label class=\"control-label\">Confirmez le mot de passe</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						</div>
+					  </div>
+					</div>
+
+					  
+					  
+
+					  
+					  </div>
+
+					
+				<div class=\" span12 no_margin_left\">
+					<hr>
+					<div class=\"span8\">
+						<p>&nbsp;</p>
+					 </div>
+					 <div class=\"span3\"><button class=\"btn btn-primary btn-large pull-right\" type=\"submit\">S'enregistrer</button></div>
+					 <hr>
+          </div></fieldset>
+				  </form>
+	  
+			</div>
 		
+		<hr />";
+
 		return($html);
 	}
-	
-	function menuDroit(){
-		
-		$billets = Billets::findAll();
-		
-		$html ="<div class=\"centrer\"><a href=\"Blog.php?action=list\">Tous les billets</a></div><br/> ";
-		foreach($billets as $billet){
-			$html .= "<div class=\"centrer\"><a href=\"Blog.php?action=detail&amp;id=".$billet->getAttr('id')."\">".$billet->getAttr('titre')."</a></div>";
-		}
-		if(!empty($_SESSION)){
-		$html .= "<br/><div class=\"centrer\"><a href=\"Admin.php?action=addM\">Ajouter un billet</a></div>";
-		}
-		return($html);
-	}
-	
-	function menuGauche(){
-		
-		$categories = Categorie::findAll();
-		$html = "<div class=\"centrer\"><a href=\"Blog.php?action=listC\">Toutes les catégories</a></div><br/> ";
-		foreach($categories as $categorie){
-			$html .= "<div class=\"centrer\"><a href=\"Blog.php?action=cat&amp;id=".$categorie->getAttr('id')."\">".$categorie->getAttr('titre')."</a></div>";
-		}
-		if((!empty($_SESSION)) && (($_SESSION['statut'] == "admin") || ($_SESSION['statut'] == "superAdmin"))){
-		$html .= "<br/><div class=\"centrer\"><a href=\"Admin.php?action=addC\">Ajouter une catégorie</a></div>";
-		}
-		return($html);
-	}
-	
-	function ajoutCategorie(){
-		$html = "<form action=\"Admin.php?action=addC\" method=\"post\">
-			<p class = \"centrer\">
-			<input type=\"text\" name=\"titre\" value=\"titre de votre catégorie\" /><br/><br/>
-			<textarea name=\"description\" rows=\"15\" cols=\"60\">
-			Votre description ici </textarea><br/><br/>
-			<input type=\"submit\" name=\"valider\" value=\"Valider\" />
-			</p>
-			</form>";
-		
-		return($html);
-	}
-	
-	function ajoutBillet(){
-		$html = "<form action=\"Admin.php?action=addM\" method=\"post\">
-			<p class = \"centrer\"> <input type=\"text\" name=\"titre\" value= \"titre de votre billet\"/><br/><br/>
-			<textarea name=\"body\" rows=\"15\" cols=\"60\">
-			Votre message ici
-			</textarea><br/><br/>
-			<select name=\"categorie\">";
-		
-		$lc = Categorie::findAll();
-		foreach($lc as $cat){
-			
-			$html .= "<option value=\"".$cat->getAttr('id')."\">".$cat->getAttr('titre')."</option>";
-		}
-		
-		$html .= "</select><br/><br/>
-			<input type=\"submit\" value=\"Valider\" />
-			</p>
-			</form>";
-		
-		return($html);
-	}
+
+
+
+
+
 	
 	
-	function editBillet($billet){ 
-		
-		$idB = $billet->getAttr('id');
-		$titreB = $billet->getAttr('titre');
-		$bodyB = $billet->getAttr('body');
-		
-		$html = "<form action=\"Admin.php?action=editB&amp;id=$idB\" method=\"post\">
-			<p class=\"centrer\"> <input type=\"text\" name=\"titre\" value= \"$titreB\"/><br/><br/>
-			<textarea name=\"body\" rows=\"15\" cols=\"60\">
-			$bodyB
-			</textarea><br/><br/>
-			
-			<select name=\"categorie\">";
-		
-		$lc = Categorie::findAll();
-		foreach($lc as $cat){
-			if($cat->getAttr('id') == $billet->getAttr('cat_id')){
-				$html .= "<option value=\"".$cat->getAttr('id')."\" selected = \"selected\">".$cat->getAttr('titre')."</option>";
-			}
-			else{
-				$html .= "<option value=\"".$cat->getAttr('id')."\">".$cat->getAttr('titre')."</option>";
-			}
-		}
-		
-		$html .= "</select><br/><br/>
-			<input type=\"submit\" value=\"Valider\" />
-			</p>
-			</form>";
-		
-		return($html);
-	}
-	
-	
-	function editCat($categorie){ 
-		
-		$idC = $categorie->getAttr('id');
-		$titreC = $categorie->getAttr('titre');
-		$descriptionC = $categorie->getAttr('description');
-		
-		$html = "<form action=\"Admin.php?action=editC&amp;id=$idC\" method=\"post\">
-			<p class=\"centrer\"> <input type=\"text\" name=\"titre\" value= \"$titreC\"/><br/><br/>
-			<textarea name=\"description\" rows=\"15\" cols=\"60\">
-			$descriptionC
-			</textarea><br/><br/>
-			
-			
-			<input type=\"submit\" value=\"Valider\" />
-			</p>
-			</form>";
-		
-		return($html);
-	}
-	
-	function deleteBillet($billet){
-		$idB = $billet->getAttr('id');
-		
-		$html = "<div class=\"centrer\"><h2>Êtes vous sûr de vouloir supprimer ce billet ?</h2><br/>
-			<form action=\"Admin.php?action=deleteB&amp;id=$idB\" method=\"post\">
-			<p>
-			<input type=\"submit\" name= \"Oui\" value=\"Oui\" />
-			<input type=\"submit\" name= \"Non\" value=\"Non\" /></p></form></div>";
-		
-		return($html);
-	}
-	
-	function deleteCat($categorie){
-		$idC = $categorie->getAttr('id');
-		
-		$html = "<div class=\"centrer\"><h2>Êtes vous sûr de vouloir supprimer cette catégorie ?</h2><br/>
-			<form action=\"Admin.php?action=deleteC&amp;id=$idC\" method=\"post\">
-			<p>
-			<input type=\"submit\" name= \"Oui\" value=\"Oui\" />
-			<input type=\"submit\" name= \"Non\" value=\"Non\" /></p></form></div>";
-		
-		return($html);
-	}
-	
-	
-	function inscription(){
-		$html = "<form action=\"Admin.php?action=register\" method=\"post\">
-			<p>
-			<span class = \"formulaire\">Pseudo : </span><input type=\"text\" name=\"pseudo\" value=\"Votre pseudo\" /><br/>
-			<span class = \"formulaire\">Mot de passe : </span><input type=\"password\" name=\"password\" value=\"mdp\" /><br/>
-			<span class = \"formulaire\">E-Mail : </span><input type=\"text\" name=\"mail\" value=\"Votre mail\" /><br/>
-			<span class = \"formulaire\">Sexe : </span><select name=\"sexe\">
-   			<option value=\"Homme\">Homme</option>
-    		<option value=\"Homme\">Femme</option>
-			</select><br/>
-			<span class = \"formulaire\">Pays : </span><input type=\"text\" name=\"pays\" value=\"Votre pays\" /><br/>	
-			<span class = \"formulaire\">Ville : </span><input type=\"text\" name=\"ville\" value=\"Votre ville\" /><br/>
-			<span class = \"description\">&nbsp;</span><textarea name=\"description\" rows=\"15\" cols=\"60\">
-			Votre description
-			</textarea><br/>				
-			<span class = \"formulaire\">&nbsp; </span><input type=\"submit\" value=\"Valider\"  />
-			</p>
-			</form>";
-		
-		return($html);
-	}
-	
-	function connexion(){
-		
-		$html = "<form action=\"Admin.php?action=login\" method=\"post\">
-			<p class=\"centrer\">
-			Pseudo : <input type=\"text\" name=\"pseudo\" value=\"Votre pseudo\" /><br/>
-			Mot de passe :<input type=\"password\" name=\"password\" value=\"mdp\" /><br/>
-			<input type=\"submit\" value=\"Valider\"  />
-			</p>
-			</form>";
-		
-		
-		return($html);
-		
-	}
-	
-	function profil($user){
-		$html = "<div class=\"centrer\"><span class = \"underline\">".$user->getAttr('pseudo')."</span>
-				<br/><br/>".$user->getAttr('mail')."
-				<br/><br/>".$user->getAttr('sexe')."
-				<br/><br/>".$user->getAttr('pays')."
-				<br/><br/>".$user->getAttr('ville')."
-				<br/><br/>".$user->getAttr('description')."</div>";
-				if($_SESSION['id'] == $user->getAttr('id')){
-				$html .= "<p class = \"right\"><a href=\"Admin.php?action=editP&amp;id=".$user->getAttr('id')."\">Editer le profil</a></p>"; 		
-				}
-				return($html);
-	}
-	
-	function deleteUser($user){
-		$idU = $user->getAttr('id');
-		
-		$html = "<div class=\"centrer\"><h2>Êtes vous sûr de vouloir supprimer cet utilisateur ?</h2><br/>
-			<form action=\"Admin.php?action=deleteU&amp;id=$idU\" method=\"post\"><p>
-			<input type=\"submit\" name= \"Oui\" value=\"Oui\" />
-			<input type=\"submit\" name= \"Non\" value=\"Non\" /></p></form></div>";
-		
-		return($html);
-	}
-	
-	
-	function addAdmin($user){
-		$idU = $user->getAttr('id');
-		
-		$html = "<div class=\"centrer\"><h2>Êtes vous sûr de vouloir donner les droits d'administrateur à cet utilisateur ?</h2><br/>
-			<form action=\"Admin.php?action=addAdmin&amp;id=$idU\" method=\"post\"><p>
-			<input type=\"submit\" name= \"Oui\" value=\"Oui\" />
-			<input type=\"submit\" name= \"Non\" value=\"Non\" /></p></form></div>";
-		
-		return($html);
-	}
-	
-	function deleteAdmin($user){
-		$idU = $user->getAttr('id');
-		
-		$html = "<div class=\"centrer\"><h2>Êtes vous sûr de vouloir ôter les droits d'administrateur à cet utilisateur ?</h2><br/>
-			<form action=\"Admin.php?action=deleteAdmin&amp;id=$idU\" method=\"post\"><p>
-			<input type=\"submit\" name= \"Oui\" value=\"Oui\" />
-			<input type=\"submit\" name= \"Non\" value=\"Non\" /></p></form></div>";
-		
-		return($html);
-	}
-	
-	function afficheListeUsers($users){
-		
-		$html = "<div><table class = \"tableau\" border=\"5\" cellspacing=\"10\" cellpadding=\"30\"><caption><span class = \"titre\"><b> Liste des utilisateurs</b></span> </caption>";
-		
-		foreach($users as $user){
-			$idU = $user->getAttr('id');
-			$html .= "<tr><td >".$user->getAttr('statut')."</td>";
-			$html .= "<td ><a href=\"Blog.php?action=profil&amp;id=$idU\">".$user->getAttr('pseudo')."</a></td>";
-			$html .= "<td >".$user->getAttr('mail')."</td>";
-			if(($_SESSION['statut'] == "superAdmin") && ($idU != 1) && ($_SESSION['id'] != $idU)){
-				$html .= "<td><a href=\"Admin.php?action=deleteU&amp;id=$idU\">Supprimer cet utilisateur</a></td>";
-				if($user->getAttr('statut') != "admin"){
-					$html .= "<td><a href=\"Admin.php?action=addAdmin&amp;id=$idU\">Ajouter un administrateur</a></td></tr>";
-				}
-				else{
-					if($_SESSION['statut'] == "superAdmin"){
-						$html .= "<td><a href=\"Admin.php?action=deleteAdmin&amp;id=$idU\">Supprimer un administrateur</a></td></tr>";
-					}
-				}
-			}
-			else{
-				$html .= "</tr>";
-			}
-			
-		}
-		$html .= "</table></div>";
-		
-		return($html);
-	}
-	
-	function editProfil($user){
-		
-		$html = "<form action=\"Admin.php?action=editP&amp;id=".$user->getAttr('id')."\" method=\"post\">
-			<p class=\"centrer\">
-			Pseudo : <input type=\"text\" name=\"pseudo\" value=\"".$user->getAttr('pseudo')."\" /><br/>
-			Mot de passe : <input type=\"password\" name=\"password\" value=\"".$user->getAttr('password')."\" /><br/>
-			E-Mail : <input type=\"text\" name=\"mail\" value=\"".$user->getAttr('mail')."\" /><br/>
-			Sexe : <select name=\"sexe\">
-   			<option value=\"Homme\">Homme</option>
-    		<option value=\"Homme\">Femme</option>
-			</select><br/>
-			Pays : <input type=\"text\" name=\"pays\" value=\"".$user->getAttr('pays')."\" /><br/>
-			Ville : <input type=\"text\" name=\"ville\" value=\"".$user->getAttr('ville')."\" /><br/>		
-			<textarea name=\"description\" rows=\"15\" cols=\"60\">
-			".$user->getAttr('description')."
-			</textarea><div class=\"centrer\"><br/>				
-			<input type=\"submit\" value=\"Valider\"  />
-			</p>
-			</form>";
-		
-		return($html);
-		
-		
-	}
-	
-	
-	function firstRegister(){
-		$html = "<div class = \"centrer\">Veuillez entrez le mot de passe administrateur ! </div>
-				<div class = \"centrer\">Login = admin</div>
-				<form action=\"Blog.php?action=firstR\" method=\"post\">
-			<p class = \"centrer\">
-			Mot de passe : <input type=\"password\" name=\"password\" value=\"mdp\" /><br/>				
-			<input type=\"submit\" value=\"Valider\"  />
-			</p>
-			</form>";
-		
-		return($html);
-	}
+
 	
 }
 

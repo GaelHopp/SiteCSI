@@ -13,10 +13,9 @@ class BlogController{
 		$this->vue = new Vue();
 		}
 	
-	public function listCAction(){
-		$lc = Categorie::findAll();
-		$centre = $this->vue->afficheListeCat($lc);
-		$this->vue->AffichePage($centre, $this->vue->menuGauche(), $this->vue->menuDroit(), "");
+	public function afficheListeProduit($sousCat){
+		$menuleft = $this->vue->afficheSideBar($sousCat);
+		$this->vue->AffichePage($menuleft, "");
 	}
 	
 	public function listAction(){
@@ -50,24 +49,10 @@ class BlogController{
 		
 	}
 	
-	public function firstRegisterAction(){
+	public function registerAction(){
 		
-		if(!empty($_POST)){
-		
-		$u = Users::findById(1);
-		$u->setAttr('password', md5($_POST['password']));
-		
-		$u->save();
-		
-		$lb = Billets::findAll();
-		$centre = $this->vue->afficheListeBillet($lb);
-		$this->vue->AffichePage($centre, $this->vue->menuGauche(), $this->vue->menuDroit(), "");
-		}
-		else{
-		
-		$centre = $this->vue->firstRegister();
-		$this->vue->AffichePage($centre, $this->vue->menuGauche(), $this->vue->menuDroit(), "");
-		}
+		$centre = $this->vue->afficheRegister();
+		$this->vue->AffichePage("", $centre);
 	}
 	
 	public function analyse(){
@@ -75,14 +60,14 @@ class BlogController{
 		if(!empty($_GET)){ 
 			switch($_GET['action']) {
 			
-				case 'list':
-					
-					$this->listAction();
+				case 'afficheListeProduit':
+					$sousCat = SousCategorie::findByIdSC($_GET['id']);
+					$this->afficheListeProduit($sousCat);
 					break;
 					
-				case 'listC':
+				case 'register':
 					
-					$this->listCAction();
+					$this->registerAction();
 					break;
 					
 				case 'detail':
@@ -113,7 +98,7 @@ class BlogController{
 		}
 		else{
 			
-			$this->vue->AffichePage("","");
+			$this->vue->AffichePage("",$this->vue->afficheAccueilGuest());
 		}
 	}
 }

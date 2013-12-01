@@ -1,7 +1,7 @@
 <?php
 
 include_once "SousCategorie.php";
-include "Base.php";
+include_once "Base.php";
 
 class Categorie {
 	
@@ -125,7 +125,7 @@ class Categorie {
 	
 
 	public static function findByidC($idC) {
-		$query = "SELECT * FROM categorie WHERE idC = $idC";
+		$query = "SELECT * FROM categorie WHERE idC = ".$idC;
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
 		$obj = odbc_fetch_object($dbres);
@@ -144,6 +144,33 @@ class Categorie {
 		
 		
 		return($categorie);
+		}
+	
+		
+	}
+
+
+	public function findFirstIdSC() {
+		$query = "SELECT * FROM sous_categorie WHERE idC = ". $this->idC;
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
+		$obj = odbc_fetch_object($dbres);
+
+		if(!$obj){
+			return(false);
+		}
+		else{
+			
+			
+				
+				$Scategorie = new SousCategorie();
+				
+				$Scategorie->setAttr('idSC', $obj->idSC);
+				$Scategorie->setAttr('libelleSC', $obj->libelleSC);
+				$Scategorie->setAttr('idC', $obj->idC);
+		
+		
+		return($Scategorie);
 		}
 	
 		
