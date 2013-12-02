@@ -9,6 +9,9 @@ class Vue{
 	
 	function AffichePage($menuleft, $content) {
 		
+		
+
+
 		echo "<!DOCTYPE html>
 <html lang=\"fr\"><head>
 <meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-15\" /> 
@@ -79,9 +82,10 @@ $(document).ready(function(){
 					</div>
 				<br />";
 
-
 		
-		if(empty($_SESSION)){
+		
+		if(!isset($_SESSION['login'])){
+			
 			
 
 			echo "<div class=\"row\">
@@ -96,18 +100,18 @@ $(document).ready(function(){
 				<div class=\"connect\">
 				
 
-				<form class=\"\">
+				<form class=\"\" action=\"Blog.php?action=login\" method= \"post\">
 					<fieldset>
 						<div class=\"control-group\">
 							<label for=\"focusedInput\" class=\"control-label\"><b>Pseudo</b></label>
 							<div class=\"controls\">
-							<input type=\"text\" placeholder=\"Entrez votre pseudo\" id=\"username\" class=\"input-xlarge focused\">
+							<input type=\"text\" name = \"login\" placeholder=\"Entrez votre pseudo\" id=\"username\" class=\"input-xlarge focused\">
 							</div>
 						</div>
 						<div class=\"control-group\">
 							<label class=\"control-label\"><b>Mot de passe</b></label>
 							<div class=\"controls\">
-							<input type=\"password\" placeholder=\"Entrez votre mot de passe\" id=\"password\" class=\"input-xlarge\">
+							<input type=\"password\" name = \"mdp\" placeholder=\"Entrez votre mot de passe\" id=\"password\" class=\"input-xlarge\">
 							</div>
 						</div>
 
@@ -346,6 +350,62 @@ $(document).ready(function(){
 
 
 
+function afficheSideBarNormale(){
+		
+		$html = "<div class=\"span3\">
+			<!-- start sidebar -->
+<ul class=\"breadcrumb\">
+    <li>Categories</span></li>
+</ul>
+<div class=\"span3 product_list\">
+	<ul class=\"nav\">";
+
+	$listeCategories = Categorie::findAll();
+	
+
+	foreach ($listeCategories as $categorie) {
+		
+		$html .= "<li>";
+
+		
+		$firstSousCat = $categorie->findFirstIdSC();
+
+			$html .= "<a href=\"Blog.php?action=afficheListeProduit&amp;id=". $firstSousCat->getAttr('idSC'). "\"> ". $categorie->getAttr('libelleC') ."</a>";
+
+
+		
+
+		$html .= "<ul>";
+
+		$listeSousCategorie = $categorie->findAllSousCat();
+
+		foreach ($listeSousCategorie as $sousCategorie) {
+				
+				$html .= "<li>";
+
+
+				
+
+			$html .= "<a href=\"Blog.php?action=afficheListeProduit&amp;id=". $sousCategorie->getAttr('idSC') ."\"> -&nbsp;&nbsp;". $sousCategorie->getAttr('libelleSC') ."</a>";
+
+
+		
+
+
+			$html .= "</li>";
+
+			}
+		$html .= "</ul></li>";
+
+
+	}
+		
+	$html .= "</ul> </div><!-- end sidebar -->		</div>";
+		
+		return($html);
+	}
+
+
 
 
 
@@ -395,54 +455,54 @@ $(document).ready(function(){
        
 	   <li class=\"span2\">
           <div class=\"thumbnail\">
-            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/ps-vita-150cx123.jpg\" /></a>
+            <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/ps-vita-150cx123.jpg\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=register\"> <h5>PS Vita</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>PS Vita</h5></a>  Price: &#36;50.00<br /><br />
             </div>
           </div>
         </li>
        
 	   <li class=\"span2\">
           <div class=\"thumbnail\">
-            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/nexus-one-3-150x123.jpg\" /></a>
+            <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/nexus-one-3-150x123.jpg\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=register\"> <h5>Nexus one</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Nexus one</h5></a>  Price: &#36;50.00<br /><br />
             </div>
           </div>
         </li>
        
 	   <li class=\"span2\">
           <div class=\"thumbnail\">
-            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/thumb_sam_3d.jpg\" /></a>
+            <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/thumb_sam_3d.jpg\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=register\"> <h5>Samsung 3D TV</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Samsung 3D TV</h5></a>  Price: &#36;50.00<br /><br />
             </div>
           </div>
         </li>
        
 	   <li class=\"span2\">
           <div class=\"thumbnail\">
-            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/ipad_case.jpg\" /></a>
+            <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/ipad_case.jpg\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=register\"> <h5>iPod Case</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>iPod Case</h5></a>  Price: &#36;50.00<br /><br />
             </div>
           </div>
         </li>
        
 	   <li class=\"span2\">
           <div class=\"thumbnail\">
-            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/HMX-H104.JPG\" /></a>
+            <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/HMX-H104.JPG\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=register\"> <h5>HMX Camcorder</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>HMX Camcorder</h5></a>  Price: &#36;50.00<br /><br />
             </div>
           </div>
         </li>
        
 	   <li class=\"span2\">
           <div class=\"thumbnail\">
-            <a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/expic.png\" /></a>
+            <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/expic.png\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=register\"> <h5>Kindle Fire</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Kindle Fire</h5></a>  Price: &#36;50.00<br /><br />
             </div>
           </div>
         </li>
@@ -460,8 +520,8 @@ $(document).ready(function(){
     <button type=\"submit\" class=\"btn pull-right\">Subscribe</button>
     </form>
 		</div><br /><br />
-            <a href=\"Blog.php?action=register\"><img alt=\"\" title=\"\" src=\"css/images/paypal_mc_visa_amex_disc_150x139.gif\" /></a>
-			<a href=\"Blog.php?action=register\"><img alt=\"\" src=\"css/images/bnr_nowAccepting_150x60.gif\" /></a>
+            <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" title=\"\" src=\"css/images/paypal_mc_visa_amex_disc_150x139.gif\" /></a>
+			<a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/bnr_nowAccepting_150x60.gif\" /></a>
 
 		</div>";
 
@@ -571,6 +631,67 @@ $(document).ready(function(){
 		<hr />";
 
 		return($html);
+	}
+
+
+	function afficheRegisterOuLogin(){
+
+
+	$html = "<div class=\"span12\">
+		<ul class=\"breadcrumb\">
+			<li><a href=\"#\">Home</a> <span class=\"divider\">/</span></li>
+			<li><a href=\"#\">Mon compte</a> <span class=\"divider\">/</span></li>
+			<li class=\"active\"><a href=\"#\">Login</a></li>
+		</ul>
+
+		<div class=\"row\">
+			<div class=\"span9\">
+				<h1>Se connecter à un compte</h1>
+			</div>
+		</div>
+		
+		<hr />
+
+		<div class=\"row\">
+
+			<div class=\"span5 well\">
+				<h2>Nouveaux utilisateurs</h2>
+				<p>En créant un nouveau compte vous pourrez consulter les produits</p><br />
+				<a href=\"Blog.php?action=register\" class=\"btn btn-primary pull-right\">Create an account</a>
+			</div>	 		
+			
+			<div class=\"span5 well pull-right\">
+				<h2>Utilisateurs enregistrés</h2>
+				<p>Si vous avez déjà un compte, connectez vous !</p>
+
+				<form class=\"\">
+					<fieldset>
+						<div class=\"control-group\">
+							<label for=\"focusedInput\" class=\"control-label\">Login</label>
+							<div class=\"controls\">
+							<input type=\"text\" placeholder=\"Entrez votre login\" id=\"login\" class=\"input-xlarge focused\">
+							</div>
+						</div>
+						<div class=\"control-group\">
+							<label class=\"control-label\">Mot de passe</label>
+							<div class=\"controls\">
+							<input type=\"password\" placeholder=\"Entrez votre mot de passe\" id=\"mdp\" class=\"input-xlarge\">
+							</div>
+						</div>
+
+						<button class=\"btn btn-primary pull-right\" type=\"submit\">Login</button>
+					</fieldset>
+				</form>
+				
+			</div>
+
+		</div>
+	</div>";
+
+
+
+		return($html);
+
 	}
 
 

@@ -147,8 +147,19 @@ class Users{
 			throw new Exception('ODBC error : '.$query.' : '.odbc_error());
 		}
 		$res = array();
+		
 		while($row = odbc_fetch_object($dbres)){
 			
+
+		$query2 = "select * from logs WHERE idL = ". $row->idL;
+		
+		$dbres2 = odbc_exec($c, $query2);
+		if(!$dbres2){
+			throw new Exception('ODBC error : '.$query.' : '.odbc_error());
+		}
+			
+			$row2 = odbc_fetch_object($dbres2);
+
 
 			
 			$user = new Users();
@@ -158,6 +169,8 @@ class Users{
 			$user->adresseU = $row->adresseU;
 			$user->melU = $row->melU;
 			$user->idL = $row->idL;
+			$user->login = $row2->login;
+			$user->mdp = $row2->mdp;
 			array_push($res, $user);
 			
 		}
@@ -186,6 +199,14 @@ class Users{
 		}
 		else{
 			
+			$query2 = "select * from logs WHERE idL = ". $obj->idL;
+		
+		$dbres2 = odbc_exec($c, $query2);
+		if(!$dbres2){
+			throw new Exception('ODBC error : '.$query.' : '.odbc_error());
+		}
+			
+			$row2 = odbc_fetch_object($dbres2);
 			
 			$user = new Users();
 			
@@ -195,6 +216,8 @@ class Users{
 			$user->setAttr('adresseU', $obj->adresseU);
 			$user->setAttr('melU', $obj->melU);
 			$user->setAttr('idL', $obj->idL);
+			$user->setAttr('login', $row2->login);
+			$user->setAttr('mdp', $row2->mdp);
 			
 			
 			return($user);
@@ -204,7 +227,7 @@ class Users{
 
 	public static function findByIDL($idL){
 		
-		$query = "select * from utilisateur where idL= $idL";
+		$query = "select * from utilisateur where idL= ".$idL;
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
 		
@@ -220,6 +243,15 @@ class Users{
 		}
 		else{
 			
+			$query2 = "select * from logs WHERE idL = ". $obj->idL;
+		
+		$dbres2 = odbc_exec($c, $query2);
+		if(!$dbres2){
+			throw new Exception('ODBC error : '.$query.' : '.odbc_error());
+		}
+		
+
+			$row2 = odbc_fetch_object($dbres2);
 			
 			$user = new Users();
 			
@@ -229,15 +261,18 @@ class Users{
 			$user->setAttr('adresseU', $obj->adresseU);
 			$user->setAttr('melU', $obj->melU);
 			$user->setAttr('idL', $obj->idL);
+			$user->setAttr('login', $row2->login);
+			$user->setAttr('mdp', $row2->mdp);
 			
-			
+
+
 			return($user);
 		}
 	}
 	
 	public static function findByPseudo($login){
 		
-		$query = "select * from logs where login = '$login'";
+		$query = "select * from logs where login = '".$login."'";
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
 		
@@ -252,6 +287,7 @@ class Users{
 		}
 		else{
 			
+
 
 			$user = self::findByIDL($log->idL);
 			

@@ -2,7 +2,7 @@
 
 
 session_start();
-
+//session_unset();
 
 include_once "BlogController.php";
 
