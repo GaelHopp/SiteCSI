@@ -91,7 +91,7 @@ $(document).ready(function(){
 			echo "<div class=\"row\">
 					<div class=\"links pull-right\">
 						<a href=\"\">Contact</a> | 
-						<a href=\"Blog.php?action=register\">S'inscrire</a> | 
+						<a href=\"Blog.php?action=afficheRegister\">S'inscrire</a> | 
 						<a href=\"#\" class=\"enreg\">Se connecter</a>
 					</div>
 
@@ -535,6 +535,33 @@ function afficheSideBarNormale(){
 
 	function afficheRegister(){
 
+		$nomU ="";
+		$prenomU ="";
+		$melU ="";
+		$adresseU ="";
+		$login ="";
+		$mdp = "";
+
+		if(isset($_POST['nomU'])){
+			$nomU = $_POST['nomU'];
+		}
+		if(isset($_POST['prenomU'])){
+			$prenomU = $_POST['prenomU'];
+		}
+		if(isset($_POST['melU'])){
+			$melU = $_POST['melU'];
+		}
+		if(isset($_POST['adresseU'])){
+			$adresseU = $_POST['adresseU'];
+		}
+		if(isset($_POST['login'])){
+			$login = $_POST['login'];
+		}
+		if(isset($_POST['mdp'])){
+			$mdp = $_POST['mdp'];
+		}
+
+
 		$html = "<div class=\"span12\">
 		<ul class=\"breadcrumb\">
 			<li><a href=\"#\">Home</a> <span class=\"divider\">/</span></li>
@@ -547,26 +574,26 @@ function afficheSideBarNormale(){
 				<h1>Créer un compte</h1>
 				
 				<br />				
-				<form class=\"form-horizontal\">
+				<form class=\"form-horizontal\" action=\"Blog.php?action=register\" method = \"post\">
 					<fieldset>
 					<div class=\"span6 no_margin_left\">
 						<legend>Vos informations personnelles</legend>
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Nom</label>
 						<div class=\"controls docs-input-sizes\">
-						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						  <input type=\"text\" name=\"nomU\" value=\"$nomU\" class=\"span4\">
 						</div>
 					  </div>
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Prénom</label>
 						<div class=\"controls docs-input-sizes\">
-						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						  <input type=\"text\" name=\"prenomU\" value=\"$prenomU\" class=\"span4\">
 						</div>
 					  </div>					  
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Adresse Mail</label>
 						<div class=\"controls docs-input-sizes\">
-						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						  <input type=\"text\" name=\"melU\" value=\"$melU\" class=\"span4\">
 						</div>
 					  </div>					 
 
@@ -577,7 +604,7 @@ function afficheSideBarNormale(){
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Adresse</label>
 						<div class=\"controls docs-input-sizes\">
-						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						  <input type=\"text\" name=\"adresseU\" value=\"$adresseU\" class=\"span4\">
 						</div>
 					  </div>
 					 
@@ -591,7 +618,7 @@ function afficheSideBarNormale(){
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Login</label>
 						<div class=\"controls docs-input-sizes\">
-						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						  <input type=\"text\" name=\"login\" value=\"$login\" class=\"span4\">
 						</div>
 					  </div>					 
 					  </div>					 
@@ -599,12 +626,12 @@ function afficheSideBarNormale(){
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Mot de passe</label>
 						<div class=\"controls docs-input-sizes\">
-						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						  <input type=\"password\" name=\"mdp\" value=\"\" class=\"span4\">
 						</div>
 					  </div>					  <div class=\"control-group\">
 						<label class=\"control-label\">Confirmez le mot de passe</label>
 						<div class=\"controls docs-input-sizes\">
-						  <input type=\"text\" placeholder=\"\" class=\"span4\">
+						  <input type=\"password\" name=\"mdpConfirm\" placeholder=\"\" class=\"span4\">
 						</div>
 					  </div>
 					</div>
@@ -657,25 +684,25 @@ function afficheSideBarNormale(){
 			<div class=\"span5 well\">
 				<h2>Nouveaux utilisateurs</h2>
 				<p>En créant un nouveau compte vous pourrez consulter les produits</p><br />
-				<a href=\"Blog.php?action=register\" class=\"btn btn-primary pull-right\">Create an account</a>
+				<a href=\"Blog.php?action=afficheRegister\" class=\"btn btn-primary pull-right\">Créer un compte</a>
 			</div>	 		
 			
 			<div class=\"span5 well pull-right\">
 				<h2>Utilisateurs enregistrés</h2>
 				<p>Si vous avez déjà un compte, connectez vous !</p>
 
-				<form class=\"\">
+				<form class=\"\" action=\"Blog.php?action=login\" method=\"post\">
 					<fieldset>
 						<div class=\"control-group\">
 							<label for=\"focusedInput\" class=\"control-label\">Login</label>
 							<div class=\"controls\">
-							<input type=\"text\" placeholder=\"Entrez votre login\" id=\"login\" class=\"input-xlarge focused\">
+							<input type=\"text\" name=\"login\" placeholder=\"Entrez votre login\" id=\"login\" class=\"input-xlarge focused\">
 							</div>
 						</div>
 						<div class=\"control-group\">
 							<label class=\"control-label\">Mot de passe</label>
 							<div class=\"controls\">
-							<input type=\"password\" placeholder=\"Entrez votre mot de passe\" id=\"mdp\" class=\"input-xlarge\">
+							<input type=\"password\" name=\"mdp\"placeholder=\"Entrez votre mot de passe\" id=\"mdp\" class=\"input-xlarge\">
 							</div>
 						</div>
 

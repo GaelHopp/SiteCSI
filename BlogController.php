@@ -16,7 +16,7 @@ class BlogController{
 	
 
 	public function afficheAccueil(){
-		
+
 		if(isset($_SESSION)){
 
 			$this->vue->AffichePage("",$this->vue->afficheAccueilGuest());
@@ -74,6 +74,60 @@ class BlogController{
 
 	
 }
+
+
+
+public function registerAction(){
+
+		
+
+		if((!empty($_POST['nomU'])) && (!empty($_POST['prenomU'])) && (!empty($_POST['melU'])) 
+			&& (!empty($_POST['adresseU'])) && (!empty($_POST['login'])) && (!empty($_POST['mdp'])) 
+			&& (!empty($_POST['mdpConfirm']))){
+			
+			
+			
+			if($_POST['mdp'] == $_POST['mdpConfirm']){
+
+				
+				
+				$u = new Users();
+
+				$u->setAttr('nomU', $_POST['nomU']);
+				$u->setAttr('prenomU', $_POST['prenomU']);
+				$u->setAttr('melU', $_POST['melU']);
+				$u->setAttr('adresseU', $_POST['adresseU']);
+				$u->setAttr('login', $_POST['login']);
+				$u->setAttr('mdp', $_POST['mdp']);
+
+				$u->insert();
+
+				
+				$_SESSION['idU'] = $u->getAttr('idU');
+				$_SESSION['login'] = $u->getAttr('login');
+				$_SESSION['mdp'] = $u->getAttr('mdp');
+				$_SESSION['mail'] = $u->getAttr('melU');
+				$_SESSION['nomU'] = $u->getAttr('nomU');
+				$_SESSION['prenomU'] = $u->getAttr('prenomU');
+				$_SESSION['adresseU'] = $u->getAttr('adresseU');
+				$_SESSION['idL'] = $u->getAttr('idL');
+
+
+				$this->vue->AffichePage($this->vue->afficheSideBarNormale(), "");
+
+		}
+
+		$this->vue->AffichePage("", $this->vue->afficheRegister());
+
+	}
+
+	$this->vue->AffichePage("", $this->$ue->afficheRegister());
+
+	
+}
+
+
+
 	
 	public function afficheRegister(){
 		
@@ -98,7 +152,7 @@ class BlogController{
 					$this->afficheListeProduit($sousCat);
 					break;
 					
-				case 'register':
+				case 'afficheRegister':
 					
 					$this->afficheRegister();
 					break;
@@ -111,6 +165,11 @@ class BlogController{
 				case 'login':
 					
 					$this->loginAction();
+					break;
+
+				case 'register':
+					
+					$this->registerAction();
 					break;
 
 				
