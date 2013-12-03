@@ -127,6 +127,17 @@ public function registerAction(){
 }
 
 
+	public function logoutAction(){
+		
+		
+		session_unset();
+		session_destroy();
+
+		$this->vue->AffichePage("",$this->vue->afficheAccueilGuest());
+
+	}
+
+
 
 	
 	public function afficheRegister(){
@@ -171,6 +182,10 @@ public function registerAction(){
 					
 					$this->registerAction();
 					break;
+
+				case 'logout':
+
+					$this->logoutAction();
 
 				
 				

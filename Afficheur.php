@@ -131,6 +131,7 @@ $(document).ready(function(){
 						<a href=\"cart.html\">Mes demandes (2)</a> |
 						<a href=\"two-column.html\">A propos</a> |
 						<a href=\"contact.html\">Contact</a> | 
+						<a href=\"Blog.php?action=logout\">Déconnexion</a> |
 					</div>";
 				
 			
