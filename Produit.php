@@ -28,6 +28,8 @@ class Produit {
 	
 	private $descriptionP;
 
+	private $imageP;
+
 	
 
 	
@@ -123,28 +125,29 @@ class Produit {
 		
 
 		
-		$query = "INSERT INTO produit VALUES('', '$this->typeP', '$this->idSC', '$this->visible')";
+		$query = "INSERT INTO produit VALUES('$this->typeP', $this->idSC, '$this->visible')";
 		
 		$c = Base::getConnection();
 		
 		$dbres = odbc_exec($c, $query);
 
-		$idP = odbc_exec($c, "SELECT @@IDENTITY");
+		$res = odbc_exec($c, "SELECT @@IDENTITY as nb");
+		$idP = odbc_fetch_object($res);
 
-		$this->idP = $idP; 
+		$this->idP = $idP->nb; 
 
 		$query2 = "INSERT INTO actif VALUES($this->idP)";
 
 		$dbres2 = odbc_exec($c, $query2);
 
+		$image = "C:\Users\Richard\Desktop\clef.jpg";
+		$data = bin2hex(fread(fopen($image,"r"), filesize($image))); 
 
-		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, $this->dateDeb, $this->dateFin, $this->etatP, $this->modeEchange, $this->libelleP, $this->descriptionP)";
+		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$this->dateDeb', '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', (0x".$data."))";
 		
 		$dbres3 = odbc_exec($c, $query3);
 
 		return $dbres3;
-		
-		
 		
 	}
 	
@@ -225,7 +228,7 @@ class Produit {
 					$dbres2 = odbc_exec($c2, $query2);
 					
 
-				/*if(!$dbres2){
+				if(!$dbres2){
 					throw new Exception('ODBC error : '.$query.' : '.odbc_error());
 
 				}
@@ -237,7 +240,7 @@ class Produit {
 				$produit->setAttr('idSC', $obj2->idSC);
 				$produit->setAttr('visible', $obj2->visible);
 
-				*/
+				
 
 				array_push($res, $produit);
 			
@@ -291,11 +294,10 @@ class Produit {
 
 
 
-	public function findActif(){
+	public static function findActif(){
 
-	$query = "SELECT possession.idP, possession.idU, possession.date_debut, possession.date_fin, 
-	possession.etatP, possession.mode_echangeP, possession.libelleP, possession.descriptionP,   
-	FROM possession, actif WHERE actif.idP = possession.idP ";
+	$query = "SELECT possession.* 
+	FROM possession, actif WHERE actif.idActif = possession.idP";
 
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
@@ -342,11 +344,10 @@ class Produit {
 	}
 
 
-	public function findPassif(){
+	public static function findPassif(){
 
-	$query = "SELECT possession.idP, possession.idU, possession.date_debut, possession.date_fin, 
-	possession.etatP, possession.mode_echangeP, possession.libelleP, possession.descriptionP,   
-	FROM possession, passif WHERE passif.idP = possession.idP ";
+	$query = "SELECT possession.* 
+	FROM possession, passif WHERE passif.idPassif = possession.idP";
 	
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
