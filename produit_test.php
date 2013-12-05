@@ -1,104 +1,134 @@
-<?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+	<?php
+	/* 
+	 * To change this template, choose Tools | Templates
+	 * and open the template in the editor.
+	 */
 
 
-include_once 'Produit.php';
+	include_once 'Produit.php';
 
 
-echo "<h1>Site test ....</h1>";
+	echo "<h1>Site test ....</h1>";
 
-echo "<b>Test 1 : parcours des produit : </b><br/>" ;
-
-
-$lp = Produit::findAll();
-
-foreach ($lp as $p) {
-    echo "idp : " . $p->getAttr('idP') . "<br/>" ;
-    echo "typeP : " . $p->getAttr('typeP') . "<br/>" ;
-    echo "idsC : " . $p->getAttr('idSC') . "<br/>" ;
-
-  
-
-}
-
-/*
-
-echo "<b>Test 2 : trouver une sous categorie par son ID : </b><br/><br/>" ;
-
-echo "Recherche de la sous categorie d'ID 2<br/><br/>";
-
-$scat = SousCategorie::findByidSC(2);
-
-	if($scat){
-   		echo "idSC : " . $scat->getAttr('idSC') . "<br/>" ;
-    echo "nom : " . $scat->getAttr('libelleSC') . "<br/>" ;
-    echo "idC : " . $scat->getAttr('idC') . "<br/>" ;
-	}
-	else{
-		echo "pas de sous categorie de cet ID";
-	}
-
-echo "Recherche d'une catégorie d'ID incorrect<br/><br/>";
+	echo "<b>Test 1 : parcours des produit : </b><br/>" ;
 
 
-$scat = SousCategorie::findByidSC(1337);
+	$lp = Produit::findAll();
 
-	if($scat){
-    	echo "idSC : " . $scat->getAttr('idSC') . "<br/>" ;
-    echo "nom : " . $scat->getAttr('libelleSC') . "<br/>" ;
-    echo "idC : " . $scat->getAttr('idC') . "<br/>" ;
-	}
-	else{
-		echo "pas de sous categorie de cet ID<br/><br/>";
-	}
+	foreach ($lp as $p) {
+	    echo "idp : " . $p->getAttr('idP') . "<br/>" ;
+	    echo "typeP : " . $p->getAttr('typeP') . "<br/>" ;
+	    echo "idsC : " . $p->getAttr('idSC') . "<br/>" ;
+	    echo "descriptionP : " . $p->getAttr('descriptionP') . "<br/>" ;
+	    echo "libelleP : " . $p->getAttr('libelleP') . "<br/>" ;
 
-	echo "<b>Test 3 : trouver une sous categorie par son libelle</b><br/><br/>" ;
-
-	echo "Recherche de la sous categorie de libelle Ordinateurs portables <br/><br/>";
-
-
-	$scat = SousCategorie::findBylibelleSC("Ordinateurs portable");
-
-	if($scat){
-    	echo "idSC : " . $scat->getAttr('idSC') . "<br/>" ;
-    echo "nom : " . $scat->getAttr('libelleSC') . "<br/>" ;
-    echo "idC : " . $scat->getAttr('idC') . "<br/>" ;
-	}
-	else{
-		echo "pas de catégorie de ce libelle<br/>";
-	}
-
-	echo "Recherche d'une catégorie de libelle incorrect<br/><br/>";
-
-
-	$scat2 = SousCategorie::findBylibelleSC("Informatica");
-
-	if($scat2){
-    echo "idSC : " . $scat->getAttr('idSC') . "<br/>" ;
-    echo "nom : " . $scat->getAttr('libelleSC') . "<br/>" ;
-    echo "idC : " . $scat->getAttr('idC') . "<br/>" ;
-	}
-	else{
-		echo "pas de catégorie de ce libelle<br/>";
 	}
 
 
 
-	echo "<b>Test 4 : Affichage de toutes la categorie correspondant a une sous categorie</b><br/><br/>" ;
+	echo "<br/><b>Test 2 : trouver un produit par son libellé : </b><br/><br/>" ;
 
+	echo "Recherche de produit avec le libelle Macbook air <br/><br/>";
+
+	$lp = Produit::findBylibelle("Macbook air");
+
+	if($lp){
+		 echo "idp : " . $lp->getAttr('idP') . "<br/>" ;
+	    echo "typeP : " . $lp->getAttr('typeP') . "<br/>" ;
+	    echo "idsC : " . $lp->getAttr('idSC') . "<br/>" ;
+	    echo "descriptionP : " . $lp->getAttr('descriptionP') . "<br/>" ;
+	}else{
+		echo "Pas de produit correspond au libelle demandé" . "<br/><br/>";
+	}
+
+	echo "<br/>Recherche de produit avec un faux libelle <br/><br/>";
+
+	$lp = Produit::findBylibelle("Fake lib");
+
+	if($lp){
+		 echo "idp : " . $lp->getAttr('idP') . "<br/>" ;
+	    echo "typeP : " . $lp->getAttr('typeP') . "<br/>" ;
+	    echo "idsC : " . $lp->getAttr('idSC') . "<br/>" ;
+	    echo "descriptionP : " . $lp->getAttr('descriptionP') . "<br/>" ;
+	}else{
+		echo "Pas de produit correspond au libelle demandé" . "<br/><br/>";
+	}
+
+
+	echo "<br/><b>Test 3 : trouver un produit par son ID produit : </b><br/><br/>" ;
+
+	echo "Recherche de produit avec l'id 4 <br/><br/>";
+
+	$lp = Produit::findByidP(4);
+
+	if($lp){
+		echo "idp : " . $lp->getAttr('idP') . "<br/>" ;
+	    echo "typeP : " . $lp->getAttr('typeP') . "<br/>" ;
+	    echo "idsC : " . $lp->getAttr('idSC') . "<br/>" ;
+	    echo "descriptionP : " . $lp->getAttr('descriptionP') . "<br/>" ;
+	}else{
+		echo "Pas de produit correspond au libelle demandé" . "<br/><br/>";
+	}
+
+	echo "<br/>Recherche de produit avec un id non existant <br/><br/>";
+
+	$lp = Produit::findByidP(8);
+
+	if($lp){
+		 echo "idp : " . $lp->getAttr('idP') . "<br/>" ;
+	    echo "typeP : " . $lp->getAttr('typeP') . "<br/>" ;
+	    echo "idsC : " . $lp->getAttr('idSC') . "<br/>" ;
+	    echo "descriptionP : " . $lp->getAttr('descriptionP') . "<br/>" ;
+	}else{
+		echo "Pas de produit correspond à l'id demandé" . "<br/><br/>";
+	}
+
+	echo "<br/><b>Test 4 : trouver les produits actifs: </b><br/><br/>" ;
+
+	$lp = Produit::findActif();
+
+	foreach ($lp as $p) {
+	    echo "idp : " . $p->getAttr('idP') . "<br/>" ;
+	    echo "typeP : " . $p->getAttr('typeP') . "<br/>" ;
+	    echo "idsC : " . $p->getAttr('idSC') . "<br/>" ;
+	    echo "descriptionP : " . $p->getAttr('descriptionP') . "<br/>" ;
+	    echo "libelleP : " . $p->getAttr('libelleP') . "<br/>" ;
+
+	}
+
+	echo "<br/><b>Test 5 : trouver les produits passifs: </b><br/><br/>" ;
+
+	$lp = Produit::findPassif();
+
+	foreach ($lp as $p) {
+	    echo "idp : " . $p->getAttr('idP') . "<br/>" ;
+	    echo "typeP : " . $p->getAttr('typeP') . "<br/>" ;
+	    echo "idsC : " . $p->getAttr('idSC') . "<br/>" ;
+	    echo "descriptionP : " . $p->getAttr('descriptionP') . "<br/>" ;
+	    echo "libelleP : " . $p->getAttr('libelleP') . "<br/>" ;
+
+	}
+
+	echo "<b>Test 6 : insertion d'un produit : </b><br/><br/>" ;
+
+	echo "Insertion d'un produit non existant<br/><br/>";
+
+
+	$prod = new Produit();
+
+	$prod->setAttr('typeP', "Actif");
+	$prod->setAttr('idSC', 3);
+	$prod->setAttr('visible', "Vrai");
+	$prod->setAttr('idU', 1);
+	$prod->setAttr('dateDeb', '2013-11-26 00:00:00');
+	$prod->setAttr('dateFin', NULL);
+	$prod->setAttr('etatP', "Neuf");
+	$prod->setAttr('modeEchange', "A son domicile");
+	$prod->setAttr('libelleP', "Ipad Air");
+	$prod->setAttr('descriptionP', "Ipad Air de 2013 32go");
+	$prod->setAttr('imageP', '0x00');
 	
-	$cat = Categorie::findByidC($scat->getAttr('idC'));
-
-    
-    echo "id : " . $cat->getAttr('idC') . "<br/>" ;
-    echo "nom : " . $cat->getAttr('libelleC') . "<br/>" ;
-	
-	
-*/
 
 
-
+	$prod->insert();
 
