@@ -140,7 +140,7 @@ class Produit {
 
 		$dbres2 = odbc_exec($c, $query2);
 
-		$image = "C:\Users\Richard\Desktop\clef.jpg";
+		$image = $this->imageP;
 		$data = bin2hex(fread(fopen($image,"r"), filesize($image))); 
 
 		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$this->dateDeb', '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', (0x".$data."))";

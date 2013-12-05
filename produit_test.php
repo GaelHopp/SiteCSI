@@ -126,7 +126,7 @@
 	$prod->setAttr('modeEchange', "A son domicile");
 	$prod->setAttr('libelleP', "Ipad Air");
 	$prod->setAttr('descriptionP', "Ipad Air de 2013 32go");
-	$prod->setAttr('imageP', '0x00');
+	$prod->setAttr('imageP', 'C:\Users\Richard\Desktop\Ipadair.jpg');
 	
 
 
