@@ -28,7 +28,7 @@ class Produit {
 	
 	private $descriptionP;
 
-	private $imageP;
+	private $photo;
 
 	
 
@@ -140,15 +140,26 @@ class Produit {
 
 		$dbres2 = odbc_exec($c, $query2);
 
-		$image = $this->imageP;
-		$data = bin2hex(fread(fopen($image,"r"), filesize($image))); 
+/*		$image = $this->photo;
 
-		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$this->dateDeb', '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', (0x".$data."))";
+		$data = bin2hex(fread(fopen($image,"r"), filesize($image))); */
+
+		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$this->dateDeb', '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', 'Vrai')";
 		
 		$dbres3 = odbc_exec($c, $query3);
 
 		return $dbres3;
 		
+	}
+
+	public static function recupImage($idProd){        /* permet de récup le nom de l'image*/
+		$dos = opendir('images/'.$idProd);
+		while($nom = readdir($dos)){
+			if ($nom != "." && $nom != "..") {
+        		return ($nom);
+    		}
+    	}
+		closedir($dos);
 	}
 	
 
@@ -175,6 +186,7 @@ class Produit {
 				$produit->setAttr('modeEchange', $obj->mode_echangeP);
 				$produit->setAttr('libelleP', $obj->libelleP);
 				$produit->setAttr('descriptionP', $obj->descriptionP);
+				$produit->setAttr('photo', $obj->photo);
 
 
 				$query2 = "SELECT * FROM produit WHERE idP = $produit->idP";
@@ -197,7 +209,7 @@ class Produit {
 	
 	public static function findAll() {
 		
-		$query = "SELECT * FROM possession ";
+		$query = "SELECT possession.* FROM possession, produit where possession.idP = produit.idP and produit.visible = 'Vrai'";
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
 		
@@ -252,7 +264,7 @@ class Produit {
 	
 	public static function findBylibelle($libelle){
 		
-		$query = "SELECT * FROM possession WHERE libelleP = '$libelle'";
+		$query = "SELECT possession.* FROM possession, produit WHERE libelleP = '$libelle' and possession.idP = produit.idP and produit.visible = 'Vrai'";
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
 		$obj = odbc_fetch_object($dbres);
