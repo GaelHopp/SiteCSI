@@ -57,22 +57,23 @@
 
 	echo "<br/><b>Test 3 : trouver un produit par son ID produit : </b><br/><br/>" ;
 
-	echo "Recherche de produit avec l'id 4 <br/><br/>";
+	echo "Recherche de produit avec l'id 8 <br/><br/>";
 
-	$lp = Produit::findByidP(4);
+	$lp = Produit::findByidP(8);
 
 	if($lp){
 		echo "idp : " . $lp->getAttr('idP') . "<br/>" ;
 	    echo "typeP : " . $lp->getAttr('typeP') . "<br/>" ;
 	    echo "idsC : " . $lp->getAttr('idSC') . "<br/>" ;
 	    echo "descriptionP : " . $lp->getAttr('descriptionP') . "<br/>" ;
+	    print("<img src=images/". $lp->getAttr('idP')."/".Produit::recupImage( $lp->getAttr('idP')).">" );
 	}else{
 		echo "Pas de produit correspond au libelle demandé" . "<br/><br/>";
 	}
 
 	echo "<br/>Recherche de produit avec un id non existant <br/><br/>";
 
-	$lp = Produit::findByidP(8);
+	$lp = Produit::findByidP(32);
 
 	if($lp){
 		 echo "idp : " . $lp->getAttr('idP') . "<br/>" ;
@@ -109,9 +110,9 @@
 
 	}
 
-	echo "<b>Test 6 : insertion d'un produit : </b><br/><br/>" ;
+	/*echo "<b>Test 6 : insertion d'un produit : </b><br/><br/>" ;
 
-	echo "Insertion d'un produit non existant<br/><br/>";
+	echo "Insertion d'un produit non existant<br/><br/>";*/
 
 
 	$prod = new Produit();
@@ -126,9 +127,16 @@
 	$prod->setAttr('modeEchange', "A son domicile");
 	$prod->setAttr('libelleP', "Ipad Air");
 	$prod->setAttr('descriptionP', "Ipad Air de 2013 32go");
-	$prod->setAttr('imageP', 'C:\Users\Richard\Desktop\Ipadair.jpg');
 	
 
+/*	$prod->insert();
+*/
+/*	$idproduit = $prod->getAttr('idP');           A réactiver pour l'insertion d'image
 
-	$prod->insert();
+/*	echo"<form method='POST' action = 'upload.php' enctype='multipart/form-data' >              A réactiver pour l'insertion d'image
+	     <input type='hidden' name='MAX_FILE_SIZE' value='10000000'>
+	     <input type='hidden' name='idProd' value= $idproduit >
+	     Fichier : <input type='file' name='avatar'>
+	     <input type='submit' name='envoyer' value='Valider le formulaire'>
+	</form>";*/
 
