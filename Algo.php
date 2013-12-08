@@ -384,7 +384,6 @@ for($i=1; $i < sizeof($tableauValeur)+1; $i++){
 
 		while(!empty($listeAttente) && !$trouve){
 
-					// echo "BOUCLE EMPTY";
 
 
 			$noeudEtudie = $listeAttente[0];
@@ -431,7 +430,7 @@ for($i=1; $i < sizeof($tableauValeur)+1; $i++){
 $tableauValeur = array();
 
 
-$tableauValeur[1][2] = 27;
+/*$tableauValeur[1][2] = 27;
 $tableauValeur[1][3] = 34;
 $tableauValeur[1][4] = 67;
 $tableauValeur[1][5] = 8;
@@ -493,7 +492,31 @@ $tableauValeur[10][11] = 14;
 
 $soluce = Algo::algorithme($tableauValeur, 11);
 
+$soluce->affiche();*/
+
+
+$tableauValeur[1][2] = 34;
+$tableauValeur[1][3] = 7;
+$tableauValeur[1][4] = 64;
+$tableauValeur[1][5] = 82;
+$tableauValeur[1][6] = 20;
+$tableauValeur[2][3] = 60;
+$tableauValeur[2][4] = 31;
+$tableauValeur[2][5] = 27;
+$tableauValeur[2][6] = 36;
+$tableauValeur[3][4] = 2;
+$tableauValeur[3][5] = 1;
+$tableauValeur[3][6] = 47;
+$tableauValeur[4][5] = 74;
+$tableauValeur[4][6] = 89;
+$tableauValeur[5][6] = 61;
+
+$soluce = Algo::algorithme($tableauValeur, 6);
+
 $soluce->affiche();
+
+
+
 
 
 
