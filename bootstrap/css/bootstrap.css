@@ -1025,8 +1025,21 @@ legend + .control-group {
   padding-top: 5px;
   text-align: right;
 }
+
+.control-label2 {
+  float: left;
+  width: 200px;
+  padding-top: 5px;
+  
+}
+
+
 .form-horizontal .controls {
   margin-left: 160px;
+}
+
+ .controls2 {
+  margin-left: 200px;
 }
 .form-horizontal .form-actions {
   padding-left: 160px;

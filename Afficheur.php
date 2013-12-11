@@ -14,7 +14,7 @@ class Vue{
 
 		echo "<!DOCTYPE html>
 <html lang=\"fr\"><head>
-<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-15\" /> 
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> 
     <title>Site de troc</title>
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <meta name=\"description\" content=\"\">
@@ -752,17 +752,16 @@ function afficheSideBarNormale(){
 					<fieldset>
 					<div class=\"span6 no_margin_left\">
 					  <div class=\"control-group\">
-						<label class=\"control-label\">Nom du produit</label>
-						<div class=\"controls docs-input-sizes\">
+						<label class=\"control-label2\">Nom du produit</label>
+						<div class=\"controls2 docs-input-sizes\">
 						  <input type=\"text\" placeholder=\"\" class=\"span4\" name=\"nomProduit\">
 						</div>
 					  </div>
-					  <div class=\"control-group\">
-						<label class=\"control-label\">Catégorie du produit</label>
-						<div class=\"controls docs-input-sizes\">
-						  <select id=\"categorie\" placeholder=\"\" class=\"span4\" name=\"categorie\">";
-
-
+					  <div id=\"after\" class=\"control-group\">
+						<label class=\"control-label2\">Catégorie du produit</label>
+						<div class=\"controls2 docs-input-sizes\">
+						  <select id=\"categorie\" placeholder=\"\" class=\"span4\" name=\"categorie\">
+						  <option value=\"\"></option>";
 							
 						  $listeCategories = Categorie::findAll();
 
@@ -775,22 +774,28 @@ function afficheSideBarNormale(){
 						</select>
 						</div>
 					  </div>
+
 						<script src=\"http://code.jquery.com/jquery-1.10.2.min.js\"></script>
-						<script language=\"Javascript\">
+						<script>
 							
-						 	if($(\"#categorie\").length > 0){ 
+
+							$(document).ready(function(){
+			
+						 		
+
 						 		$(\"#categorie\").change(function (event){ 
-						 		event.preventDefault;
+						
+								$( \"#remove\" ).remove();
 						 		$.ajax({
 							 		type: \"GET\",
 							 		url: \"Blog.php\",
-							 		data: \"?action=afficheSousCat&idCat=\"+$(\"#categorie\").val(),
-							 		function(msg){ 
-							 			$(\"#categorie\").after(msg);
+							 		data: \"action=afficheSousCat&idCat=\"+$(\"#categorie\").val(),
+							 		success: function(msg){ 
+							 			$(\"#after\").after(msg);
 							 		} 
 						 		}); 
 								return false; 
-							}); }
+							}); });
 						 </script>";
 						 
 	
@@ -801,8 +806,8 @@ function afficheSideBarNormale(){
 					 
 					  
 					 $html .= "<div class=\"control-group\">
-						<label class=\"control-label\">Etat de votre produit</label>
-						<div class=\"controls docs-input-sizes\">
+						<label class=\"control-label2\">Etat de votre produit</label>
+						<div class=\"controls2 docs-input-sizes\">
 						  <select placeholder=\"\" class=\"span4\" name=\"etatProduit\">
 							<option value=\"Neuf\">Neuf</option>
 							<option value=\"Bon etat\">Bon état</option>
@@ -814,14 +819,14 @@ function afficheSideBarNormale(){
 						</div>
 					  </div>
 					  <div class=\"control-group\">
-						<label class=\"control-label\">Description du produit</label>
-						<div class=\"controls docs-input-sizes\">
-						  <textarea rows=\"4\" cols=\"50\" placeholder=\"\" class=\"span4\" name=\"descriptionProduit\"> Ici la description de votre produit</textarea>
+						<label class=\"control-label2\">Description du produit</label>
+						<div class=\"controls2 docs-input-sizes\">
+						  <textarea rows=\"4\" cols=\"50\" placeholder=\"\" class=\"span4\" name=\"descriptionProduit\"></textarea>
 						</div>
 					  </div>
 					  <div class=\"control-group\">
-						<label class=\"control-label\">Année d'achat du produit</label>
-						<div class=\"controls docs-input-sizes\">
+						<label class=\"control-label2\">Année d'achat du produit</label>
+						<div class=\"controls2 docs-input-sizes\">
 						  <select placeholder=\"\" class=\"span4\" name=\"anneeProduit\">
 							<option value=\"2013\">2013</option>
 							<option value=\"2012\">2012</option>
@@ -841,8 +846,8 @@ function afficheSideBarNormale(){
 						</div>
 					  </div>
 					  <div class=\"control-group\">
-						<label class=\"control-label\">Choisissez un mode d'échange</label>
-						<div class=\"controls docs-input-sizes\">
+						<label class=\"control-label2\">Choisissez un mode d'échange</label>
+						<div class=\"controls2 docs-input-sizes\">
 						  <select placeholder=\"\" class=\"span4\" name=\"modeEchangeProduit\">
 							<option value=\"A mon domicile\">A mon domicile</option>
 							<option value=\"A son domicile\">A son domicile</option>
@@ -852,18 +857,18 @@ function afficheSideBarNormale(){
 					  </div>	
 
 					  <div class=\"control-group\">
-						<label class=\"control-label\">Photo du produit</label>
-						<div class=\"controls docs-input-sizes\">
+						<label class=\"control-label2\">Photo du produit</label>
+						<div class=\"controls2 docs-input-sizes\">
 						  <input type=\"file\" placeholder=\"\" class=\"span4\" name=\"photoProduit\">
 						</div>
 					  </div>				 
 					</div>	
 					
-					<div class=\"span8\">
-						<input type=\"checkbox\" value=\"option1\" name=\"optionsCheckboxList1\"> Vous acceptez les CGU de notre site<br /><br />											
-					 </div>
-					 <div class=\"span3\"><button class=\"btn btn-primary btn-large pull-right\" type=\"submit\">Ajouter le produit</button></div>
 					 
+					 <div class=\"span5\"><button class=\"btn btn-primary btn-large pull-right\" type=\"submit\">Ajouter le produit</button>
+					 </div>
+
+					
 				</fieldset>
 				  </form>
 	  
@@ -875,17 +880,20 @@ function afficheSideBarNormale(){
 	}
 
 
-	function afficheSousCatSelect($id){
+	function afficheSousCat($id){
 
+		$html = "";
+
+		if(!empty($id)){ 
 
 		$categorie = new Categorie();
 
-		$categorie->setAtrr('idC', $id);
+		$categorie->setAttr('idC', $id);
 		
 
-		$html = "<div class=\"control-group\">
-						<label class=\"control-label\">Sous-catégorie du produit</label>
-						<div class=\"controls docs-input-sizes\">
+		$html = "<div id=\"remove\" class=\"control-group\">
+						<label class=\"control-label2\">Sous-catégorie du produit</label>
+						<div class=\"controls2 docs-input-sizes\">
 						  <select placeholder=\"\" class=\"span4\" name=\"sousCategorie\">";
 
 						  
@@ -904,6 +912,12 @@ function afficheSideBarNormale(){
 						 $html .= "</select>
 						</div>
 					  </div>";
+
+					 
+					}
+
+
+					return($html);
 	}
 
 

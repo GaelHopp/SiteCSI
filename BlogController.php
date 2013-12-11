@@ -200,7 +200,7 @@ public function registerAction(){
 
 public function afficheSousCat($id){
 
-	$this->vue->afficheSousCat($id);
+	return $this->vue->afficheSousCat($id);
 }
 	
 	public function analyse(){
@@ -249,7 +249,7 @@ public function afficheSousCat($id){
 					break;
 
 				case 'afficheSousCat':
-					$this->afficheSousCat($_GET['idCat']);
+					echo $this->afficheSousCat($_GET['idCat']);
 					break;
 
 				
