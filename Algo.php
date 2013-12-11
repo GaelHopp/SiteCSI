@@ -1,6 +1,9 @@
 <?php
 
 
+include_once "Produit.php";
+
+
 class Appariement{
 
 	public $objet1;
@@ -341,6 +344,116 @@ for($i=1; $i < sizeof($tab)+1; $i++){
 
 
 
+
+public static function initialisation(){
+
+	$tableauValeur = array();
+
+	$listeProduit = Produit::findAll();
+
+	$coeffTranchePrix = 20;
+	$coeffEtat = 29;
+	$coeffCategorie = 40;
+	$coeffdateAchat = 10;
+
+
+	for($i=1; $i < sizeof($listeProduit)+1; $i++){
+
+		for($j=$i+1; $j < sizeof($listeProduit[$i])+$i+1; $j++){
+
+			$produit1 = $listeProduit[$i];
+			$produit2 = $listeProduit[$j];
+
+			$diffTranche = abs($produit1->getAttr('tranche_prix_achat') - $produit2->getAttr('tranche_prix_achat'));
+			$diffTranche = $diffTranche/100;
+
+			if($diffTranche < 4){
+				$coeffTranchePrix = $coeffTranchePrix - (5*$diffTranche);
+			}
+
+
+			if($produit1->getAttr('etatP') == "Neuf"){
+
+				if($produit2->getAttr('etatP') == "Bon etat"){
+
+					$coeffEtat = 15;
+				}
+			}
+
+
+			if($produit1->getAttr('etatP') == "Bon etat"){
+
+				if($produit2->getAttr('etatP') == "Neuf" || $produit2->getAttr('etatP') == "Etat moyen"){
+
+					$coeffEtat = 15;
+				}
+			}
+
+			if($produit1->getAttr('etatP') == "Etat moyen"){
+
+				if($produit2->getAttr('etatP') == "Bon etat" || $produit2->getAttr('etatP') == "Mauvais etat"){
+
+					$coeffEtat = 15;
+				}
+			}
+
+			if($produit1->getAttr('etatP') == "Mauvais etat"){
+
+				if($produit2->getAttr('etatP') == "Etat moyen" || $produit2->getAttr('etatP') == "Très mauvais etat"){
+
+					$coeffEtat = 15;
+				}
+			}
+
+
+			if($produit1->getAttr('etatP') == "Très mauvais etat"){
+
+				if($produit2->getAttr('etatP') == "Mauvais etat" || $produit2->getAttr('etatP') == "Pour pieces"){
+
+					$coeffEtat = 15;
+				}
+			}
+
+			if($produit1->getAttr('etatP') == "Pour pieces"){
+
+				if($produit2->getAttr('etatP') == "Très mauvais etat"){
+
+					$coeffEtat = 15;
+				}
+			}
+
+
+			if($produit1->getAttr('idSC') != $produit2->getAttr('idSC')){
+
+				$coeffCategorie = 0;
+
+			}
+
+
+			$diffDate = abs($produit1->getAttr('date_achat') - $produit2->getAttr('date_achat'));
+			
+
+			if($diffDate < 4){
+				$coeffTranchePrix = $coeffTranchePrix - (2*$diffTranche);
+			}
+
+
+
+			$coeffTotal = 100 - $coeffTranchePrix - $coeffEtat - $coeffCategorie - $coeffdateAchat;
+
+
+			$tableauValeur[$i][$j] = $coeffTotal;
+
+		}
+	}
+
+
+	return($tableauValeur);
+}
+
+
+
+
 public static function algorithme($tableauValeur, $nbObjets){
 
 $trouve = false;
@@ -430,7 +543,7 @@ for($i=1; $i < sizeof($tableauValeur)+1; $i++){
 $tableauValeur = array();
 
 
-/*$tableauValeur[1][2] = 27;
+$tableauValeur[1][2] = 27;
 $tableauValeur[1][3] = 34;
 $tableauValeur[1][4] = 67;
 $tableauValeur[1][5] = 8;
@@ -462,7 +575,7 @@ $tableauValeur[4][6] = 61;
 $tableauValeur[4][7] = 58;
 $tableauValeur[4][8] = 31;
 $tableauValeur[4][9] = 72;
-$tableauValeur[4][10] = 41;
+$tableauValeur[4][10] = 4;
 $tableauValeur[4][11] = 53;
 $tableauValeur[5][6] = 34;
 $tableauValeur[5][7] = 7;
@@ -492,10 +605,10 @@ $tableauValeur[10][11] = 14;
 
 $soluce = Algo::algorithme($tableauValeur, 11);
 
-$soluce->affiche();*/
+$soluce->affiche();
 
 
-$tableauValeur[1][2] = 34;
+/*$tableauValeur[1][2] = 34;
 $tableauValeur[1][3] = 7;
 $tableauValeur[1][4] = 64;
 $tableauValeur[1][5] = 82;
@@ -513,7 +626,7 @@ $tableauValeur[5][6] = 61;
 
 $soluce = Algo::algorithme($tableauValeur, 6);
 
-$soluce->affiche();
+$soluce->affiche();*/
 
 
 

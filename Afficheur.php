@@ -129,9 +129,9 @@ $(document).ready(function(){
 						<a href=\"index.html\">Home</a> |
 						<a href=\"my_account.html\">Mon compte</a> |
 						<a href=\"cart.html\">Mes demandes (2)</a> |
-						<a href=\"two-column.html\">A propos</a> |
-						<a href=\"contact.html\">Contact</a> | 
-						<a href=\"Blog.php?action=logout\">D�connexion</a> |
+						<a href=\"two-column.html\">Propositions (1)</a> |
+						<a href=\"Blog.php?action=afficheAjoutProduit\">Ajouter un produit</a> | 
+						<a href=\"Blog.php?action=logout\">Déconnexion</a> |
 					</div>";
 				
 			
@@ -572,7 +572,7 @@ function afficheSideBarNormale(){
 		</div>
 
 			<div class=\"span12\">
-				<h1>Cr�er un compte</h1>
+				<h1>Créer un compte</h1>
 				
 				<br />				
 				<form class=\"form-horizontal\" action=\"Blog.php?action=register\" method = \"post\">
@@ -586,7 +586,7 @@ function afficheSideBarNormale(){
 						</div>
 					  </div>
 					  <div class=\"control-group\">
-						<label class=\"control-label\">Pr�nom</label>
+						<label class=\"control-label\">Prénom</label>
 						<div class=\"controls docs-input-sizes\">
 						  <input type=\"text\" name=\"prenomU\" value=\"$prenomU\" class=\"span4\">
 						</div>
@@ -674,7 +674,7 @@ function afficheSideBarNormale(){
 
 		<div class=\"row\">
 			<div class=\"span9\">
-				<h1>Se connecter � un compte</h1>
+				<h1>Se connecter à un compte</h1>
 			</div>
 		</div>
 		
@@ -684,13 +684,13 @@ function afficheSideBarNormale(){
 
 			<div class=\"span5 well\">
 				<h2>Nouveaux utilisateurs</h2>
-				<p>En cr�ant un nouveau compte vous pourrez consulter les produits</p><br />
-				<a href=\"Blog.php?action=afficheRegister\" class=\"btn btn-primary pull-right\">Cr�er un compte</a>
+				<p>En créant un nouveau compte vous pourrez consulter les produits</p><br />
+				<a href=\"Blog.php?action=afficheRegister\" class=\"btn btn-primary pull-right\">Créer un compte</a>
 			</div>	 		
 			
 			<div class=\"span5 well pull-right\">
-				<h2>Utilisateurs enregistr�s</h2>
-				<p>Si vous avez d�j� un compte, connectez vous !</p>
+				<h2>Utilisateurs enregistrés</h2>
+				<p>Si vous avez déjà un compte, connectez vous !</p>
 
 				<form class=\"\" action=\"Blog.php?action=login\" method=\"post\">
 					<fieldset>
@@ -719,6 +719,161 @@ function afficheSideBarNormale(){
 
 
 		return($html);
+
+	}
+
+
+
+	function afficheAlgo(){
+
+	$listeAppariements = Algo::algorithme(Algo::initialisation(), Algo::nombreObjet());
+
+	$html = Algo::affiche();
+
+	}
+
+
+
+	function afficheAjoutProduit(){
+
+		$html = "<div class=\"span9\">
+		<ul class=\"breadcrumb\">
+			<li><a href=\"#\">Home</a> <span class=\"divider\">/</span></li>
+			<li><a href=\"#\">Produit</a> <span class=\"divider\">/</span></li>
+			<li class=\"active\"><a href=\"#\">Ajout Produit</a></li>
+		</ul>
+		</div>
+			<div class=\"span9\">
+				<h1>Ajouter un produit</h1>
+				
+				<br />				
+				<form class=\"form-horizontal\" method=\"post\" action=\"Blog.php?action=ajoutProduit\">
+					<fieldset>
+					<div class=\"span6 no_margin_left\">
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Nom du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"text\" placeholder=\"\" class=\"span4\" name=\"nomProduit\">
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Catégorie du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select id=\"categorie\" placeholder=\"\" class=\"span4\" name=\"categorie\">";
+
+
+							
+						  $listeCategories = Categorie::findAll();
+
+						  foreach($listeCategories as $categorie){
+
+						  	$html += "<option value=\"".$categorie->getAttr('libelleC')."\">".$categorie->getAttr('libelleC')."</option>";
+						  }
+						 $libelleC = "
+						
+						<script language=\"Javascript\">
+							var categorie = document.getElementById('categorie').options[document.getElementById('categorie').selectedIndex].value;
+						 	document.write(categorie);
+						 </script>";
+						 
+						 $categorie = Categorie::findBylibelleC($libelleC);
+
+						 $html+= "</select>
+						</div>
+					  </div>					  
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Sous-catégorie du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" name=\"sousCategorie\">";
+
+						  
+							
+						  $listeSCategories = $categorie->findAllSousCat();
+
+
+
+						  foreach($listeSCategories as $scategorie){
+
+						  	echo "a";
+						  	$html += "<option value=\"".$scategorie->getAttr('libelleSC')."\">".$scategorie->getAttr('libelleSC')."</option>";
+						  }
+
+							
+						 
+						 $html+= "</select>
+						</div>
+					  </div>
+					  
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Etat de votre produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" name=\"etatProduit\">
+							<option value=\"Neuf\">Neuf</option>
+							<option value=\"Bon etat\">Bon état</option>
+							<option value=\"Etat moyen\">Etat moyen</option>
+							<option value=\"Mauvais etat\">Mauvais état</option>
+							<option value=\"Très mauvais etat\">très mauvais état</option>
+							<option value=\"Pour pieces\">pour pièces</option>
+						  </select>
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Description du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <textarea rows=\"4\" cols=\"50\" placeholder=\"\" class=\"span4\" name=\"descriptionProduit\"> Ici la description de votre produit</textarea>
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Année d'achat du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" name=\"anneeProduit\">
+							<option value=\"2013\">2013</option>
+							<option value=\"2012\">2012</option>
+							<option value=\"2010\">2010</option>
+							<option value=\"2009\">2009</option>
+							<option value=\"2008\">2008</option>
+							<option value=\"2007\">2007</option>
+							<option value=\"2006\">2006</option>
+							<option value=\"2005\">2005</option>
+							<option value=\"2004\">2004</option>
+							<option value=\"2003\">2003</option>
+							<option value=\"2002\">2002</option>
+							<option value=\"2001\">2001</option>
+							<option value=\"2000\">2000</option>
+							<option value=\"1\">Avant</option>
+						  </select>
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Choisissez un mode d'échange</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" name=\"modeEchangeProduit\">
+							<option value=\"A mon domicile\">A mon domicile</option>
+							<option value=\"A son domicile\">A son domicile</option>
+							<option value=\"A une adresse précise\">A une adresse précise</option>
+						  </select>
+						</div>	
+					  </div>	
+
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Photo du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"file\" placeholder=\"\" class=\"span4\" name=\"photoProduit\">
+						</div>
+					  </div>				 
+					</div>	
+					
+					<div class=\"span8\">
+						<input type=\"checkbox\" value=\"option1\" name=\"optionsCheckboxList1\"> Vous acceptez les CGU de notre site<br /><br />											
+					 </div>
+					 <div class=\"span3\"><button class=\"btn btn-primary btn-large pull-right\" type=\"submit\">Ajouter le produit</button></div>
+					 
+				</fieldset>
+				  </form>
+	  
+			</div>";
+
+			return($html);
 
 	}
 

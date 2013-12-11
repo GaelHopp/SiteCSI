@@ -28,7 +28,7 @@ class Produit {
 	
 	private $descriptionP;
 
-	private $photo;
+	private $annee_achat;
 
 	
 
@@ -70,7 +70,7 @@ class Produit {
 	
 	
 	
-	public function save() {
+	/*public function save() {
 		if (!isset($this->idC)) {
 			return $this->insert();
 		} else {
@@ -118,7 +118,7 @@ class Produit {
 		
 		
 		
-	}
+	}*/
 	
 								
 	public function insert() {
@@ -144,7 +144,7 @@ class Produit {
 
 		$data = bin2hex(fread(fopen($image,"r"), filesize($image))); */
 
-		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$this->dateDeb', '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', 'Vrai')";
+		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, now(), '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', $this->annee_achat)";
 		
 		$dbres3 = odbc_exec($c, $query3);
 
@@ -186,7 +186,7 @@ class Produit {
 				$produit->setAttr('modeEchange', $obj->mode_echangeP);
 				$produit->setAttr('libelleP', $obj->libelleP);
 				$produit->setAttr('descriptionP', $obj->descriptionP);
-				$produit->setAttr('photo', $obj->photo);
+
 
 
 				$query2 = "SELECT * FROM produit WHERE idP = $produit->idP";
@@ -404,6 +404,61 @@ class Produit {
 
 
 	}
+
+	public static function nombreObjet(){
+
+
+
+	$query = "SELECT COUNT(*) AS nb FROM produit";
+	
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
+		
+		if(!$dbres){
+				return(false);		
+			}
+			else{
+			
+			$nb = odbc_fetch_object($dbres);
+
+			 $nbFinal = $nb->nb;	
+
+			 return($nbFinal);
+		}
+
+
+			
+
+	}
+
+
+	public function popularite(){
+
+		$popu = null;
+
+		$query = "SELECT COUNT(*) AS nb WHERE (".$this->idP." = idP1 OR ".$this->idP." = idP2)";
+
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
+		
+		if(!$dbres){
+				return(false);		
+			}
+			else{
+			
+			$nb = odbc_fetch_object($dbres);
+
+			$popu = $nb->nb;
+
+			
+	}
+
+	return($popu);
+
+}
+
+
+
 }
 
 

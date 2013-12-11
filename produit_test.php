@@ -16,6 +16,7 @@
 	$lp = Produit::findAll();
 
 	foreach ($lp as $p) {
+
 	    echo "idp : " . $p->getAttr('idP') . "<br/>" ;
 	    echo "typeP : " . $p->getAttr('typeP') . "<br/>" ;
 	    echo "idsC : " . $p->getAttr('idSC') . "<br/>" ;

@@ -152,6 +152,51 @@ public function registerAction(){
 		$centre = $this->vue->afficheRegisterOuLogin();
 		$this->vue->AffichePage("", $centre);
 	}
+
+	public function afficheAjoutProduit(){
+
+		$centre = $this->vue->afficheAjoutProduit();
+		$this->vue->AffichePage("", $centre);
+
+	}
+
+
+	public function ajoutProduit(){
+
+		if((!empty($_POST['nomProduit'])) && (!empty($_POST['categorie'])) 
+			&& (!empty($_POST['sousCategorie'])) && (!empty($_POST['etatProduit']))
+			 && (!empty($_POST['descriptionProduit'])) && (!empty($_POST['anneeProduit']))
+			  && (!empty($_POST['modeEchangeProduit'])) && (!empty($_POST['photoProduit']))){
+			
+			$produit = new Produit();
+
+			$produit->setAttr('typeP', "Actif");
+			
+			$sc = SousCategorie::findBylibelleSC($_POST['sousCategorie']);
+
+			$produit->setAttr('idSC', $sc->getAttr('idSC'));
+			$produit->setAttr('visible', "Vrai");
+			$produit->setAttr('idU', $SESSION['idU']);
+			$produit->setAttr('etatP', $_POST['etatProduit']);
+			$produit->setAttr('modeEchange', $_POST['modeEchangeProduit']);
+			$produit->setAttr('libelleP', $_POST['descriptionProduit']);
+			$produit->setAttr('annee_achat', $_POST['anneeProduit']);
+
+			$produit->insert();
+
+
+			$centre = $this->vue->afficheAccueilGuest();
+			$this->vue->AffichePage("", $centre);
+
+	}else{
+
+		$centre = $this->vue->afficheAjoutProduit();
+			$this->vue->AffichePage("", $centre);
+
+		}
+
+	
+}
 	
 	public function analyse(){
 		
@@ -186,6 +231,16 @@ public function registerAction(){
 				case 'logout':
 
 					$this->logoutAction();
+
+				case 'afficheAjoutProduit':
+
+					$this->afficheAjoutProduit();
+					break;
+
+				case 'ajoutProduit':
+
+					$this->ajoutProduit();
+					break;
 
 				
 				
