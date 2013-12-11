@@ -767,18 +767,32 @@ function afficheSideBarNormale(){
 
 						  foreach($listeCategories as $categorie){
 
-						  	$html += "<option value=\"".$categorie->getAttr('libelleC')."\">".$categorie->getAttr('libelleC')."</option>";
+						  	$html += "<option value=\"".$categorie->getAttr('idC')."\">".$categorie->getAttr('libelleC')."</option>";
 						  }
 						 $libelleC = "
-						
+						</select>
+						<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 						<script language=\"Javascript\">
-							var categorie = document.getElementById('categorie').options[document.getElementById('categorie').selectedIndex].value;
-						 	document.write(categorie);
+							/*var categorie = document.getElementById('categorie').options[document.getElementById('categorie').selectedIndex].value;
+						 	document.write(categorie);*/
+						 	if($("#categorie").length > 0){ 
+						 		$("#categorie").change(function (event){ 
+						 		event.preventDefault;
+						 		$.ajax({
+							 		type: "GET",
+							 		url: "index.php",
+							 		data: "?action=getsouscate&idcate="+$("#categorie").val(),
+							 		function(msg){ 
+							 			$("#categorie").after(msg);
+							 		} 
+						 		}); 
+								return false; 
+							}); }
 						 </script>";
 						 
 						 $categorie = Categorie::findBylibelleC($libelleC);
 
-						 $html+= "</select>
+						 $html+= "
 						</div>
 					  </div>					  
 					  <div class=\"control-group\">
