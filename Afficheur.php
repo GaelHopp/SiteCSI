@@ -771,54 +771,34 @@ function afficheSideBarNormale(){
 						  }
 						 $libelleC = "
 						</select>
-						<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+						</div>
+					  </div>
+						<script src=\"http://code.jquery.com/jquery-1.10.2.min.js\"></script>
 						<script language=\"Javascript\">
-							/*var categorie = document.getElementById('categorie').options[document.getElementById('categorie').selectedIndex].value;
-						 	document.write(categorie);*/
-						 	if($("#categorie").length > 0){ 
-						 		$("#categorie").change(function (event){ 
+							
+						 	if($(\"#categorie\").length > 0){ 
+						 		$(\"#categorie\").change(function (event){ 
 						 		event.preventDefault;
 						 		$.ajax({
-							 		type: "GET",
-							 		url: "index.php",
-							 		data: "?action=getsouscate&idcate="+$("#categorie").val(),
+							 		type: \"GET\",
+							 		url: \"Blog.php\",
+							 		data: \"?action=afficheSousCat&idcat=\"+$(\"#categorie\").val(),
 							 		function(msg){ 
-							 			$("#categorie").after(msg);
+							 			$(\"#categorie\").after(msg);
 							 		} 
 						 		}); 
 								return false; 
 							}); }
 						 </script>";
 						 
-						 $categorie = Categorie::findBylibelleC($libelleC);
+	
 
-						 $html+= "
-						</div>
-					  </div>					  
-					  <div class=\"control-group\">
-						<label class=\"control-label\">Sous-catégorie du produit</label>
-						<div class=\"controls docs-input-sizes\">
-						  <select placeholder=\"\" class=\"span4\" name=\"sousCategorie\">";
-
-						  
-							
-						  $listeSCategories = $categorie->findAllSousCat();
+						
 
 
-
-						  foreach($listeSCategories as $scategorie){
-
-						  	echo "a";
-						  	$html += "<option value=\"".$scategorie->getAttr('libelleSC')."\">".$scategorie->getAttr('libelleSC')."</option>";
-						  }
-
-							
-						 
-						 $html+= "</select>
-						</div>
-					  </div>
+					 
 					  
-					  <div class=\"control-group\">
+					 $html+= "<div class=\"control-group\">
 						<label class=\"control-label\">Etat de votre produit</label>
 						<div class=\"controls docs-input-sizes\">
 						  <select placeholder=\"\" class=\"span4\" name=\"etatProduit\">
@@ -889,6 +869,39 @@ function afficheSideBarNormale(){
 
 			return($html);
 
+	}
+
+
+	function afficheSousCatSelect($id){
+
+
+		$categorie = new Categorie();
+
+		$categorie->setAtrr('idC', $id);
+		
+
+		$html = "<div class=\"control-group\">
+						<label class=\"control-label\">Sous-catégorie du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" name=\"sousCategorie\">";
+
+						  
+							
+						  $listeSCategories = $categorie->findAllSousCat();
+
+
+
+						  foreach($listeSCategories as $scategorie){
+
+						  	echo "a";
+						  	$html += "<option value=\"".$scategorie->getAttr('libelleSC')."\">".$scategorie->getAttr('libelleSC')."</option>";
+						  }
+
+							
+						 
+						 $html+= "</select>
+						</div>
+					  </div>";
 	}
 
 

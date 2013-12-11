@@ -182,7 +182,7 @@ public function registerAction(){
 			$produit->setAttr('libelleP', $_POST['descriptionProduit']);
 			$produit->setAttr('annee_achat', $_POST['anneeProduit']);
 
-			$produit->insert();
+			//$produit->insert();
 
 
 			$centre = $this->vue->afficheAccueilGuest();
@@ -196,6 +196,14 @@ public function registerAction(){
 		}
 
 	
+}
+
+
+public function afficheSousCat(){
+
+	$id = $_GET['idCat'];
+
+	$this->vue->afficheSousCat();
 }
 	
 	public function analyse(){
@@ -240,6 +248,10 @@ public function registerAction(){
 				case 'ajoutProduit':
 
 					$this->ajoutProduit();
+					break;
+
+				case 'afficheSousCat':
+					$this->afficheSousCat();
 					break;
 
 				
