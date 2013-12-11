@@ -736,6 +736,7 @@ function afficheSideBarNormale(){
 
 	function afficheAjoutProduit(){
 
+
 		$html = "<div class=\"span9\">
 		<ul class=\"breadcrumb\">
 			<li><a href=\"#\">Home</a> <span class=\"divider\">/</span></li>
@@ -767,9 +768,10 @@ function afficheSideBarNormale(){
 
 						  foreach($listeCategories as $categorie){
 
-						  	$html += "<option value=\"".$categorie->getAttr('idC')."\">".$categorie->getAttr('libelleC')."</option>";
+						  	$html .= "<option value=\"".$categorie->getAttr('idC')."\">".$categorie->getAttr('libelleC')."</option>";
 						  }
-						 $libelleC = "
+						
+						$html .="
 						</select>
 						</div>
 					  </div>
@@ -782,7 +784,7 @@ function afficheSideBarNormale(){
 						 		$.ajax({
 							 		type: \"GET\",
 							 		url: \"Blog.php\",
-							 		data: \"?action=afficheSousCat&idcat=\"+$(\"#categorie\").val(),
+							 		data: \"?action=afficheSousCat&idCat=\"+$(\"#categorie\").val(),
 							 		function(msg){ 
 							 			$(\"#categorie\").after(msg);
 							 		} 
@@ -798,7 +800,7 @@ function afficheSideBarNormale(){
 
 					 
 					  
-					 $html+= "<div class=\"control-group\">
+					 $html .= "<div class=\"control-group\">
 						<label class=\"control-label\">Etat de votre produit</label>
 						<div class=\"controls docs-input-sizes\">
 						  <select placeholder=\"\" class=\"span4\" name=\"etatProduit\">
@@ -867,6 +869,7 @@ function afficheSideBarNormale(){
 	  
 			</div>";
 
+
 			return($html);
 
 	}
@@ -893,13 +896,12 @@ function afficheSideBarNormale(){
 
 						  foreach($listeSCategories as $scategorie){
 
-						  	echo "a";
-						  	$html += "<option value=\"".$scategorie->getAttr('libelleSC')."\">".$scategorie->getAttr('libelleSC')."</option>";
+						  	$html .= "<option value=\"".$scategorie->getAttr('libelleSC')."\">".$scategorie->getAttr('libelleSC')."</option>";
 						  }
 
 							
 						 
-						 $html+= "</select>
+						 $html .= "</select>
 						</div>
 					  </div>";
 	}

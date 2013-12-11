@@ -154,9 +154,8 @@ public function registerAction(){
 	}
 
 	public function afficheAjoutProduit(){
-
 		$centre = $this->vue->afficheAjoutProduit();
-		$this->vue->AffichePage("", $centre);
+		$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
 
 	}
 
@@ -185,13 +184,13 @@ public function registerAction(){
 			//$produit->insert();
 
 
-			$centre = $this->vue->afficheAccueilGuest();
-			$this->vue->AffichePage("", $centre);
+			$this->vue->afficheAccueil();
+
 
 	}else{
 
-		$centre = $this->vue->afficheAjoutProduit();
-			$this->vue->AffichePage("", $centre);
+		$this->vue->afficheAjoutProduit();
+			
 
 		}
 
@@ -199,11 +198,9 @@ public function registerAction(){
 }
 
 
-public function afficheSousCat(){
+public function afficheSousCat($id){
 
-	$id = $_GET['idCat'];
-
-	$this->vue->afficheSousCat();
+	$this->vue->afficheSousCat($id);
 }
 	
 	public function analyse(){
@@ -243,6 +240,7 @@ public function afficheSousCat(){
 				case 'afficheAjoutProduit':
 
 					$this->afficheAjoutProduit();
+					
 					break;
 
 				case 'ajoutProduit':
@@ -251,7 +249,7 @@ public function afficheSousCat(){
 					break;
 
 				case 'afficheSousCat':
-					$this->afficheSousCat();
+					$this->afficheSousCat($_GET['idCat']);
 					break;
 
 				
