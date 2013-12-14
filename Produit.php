@@ -298,7 +298,7 @@ class Produit {
 
 				
 
-				$res[$obj->idP] = $produit;
+				array_push($res, $produit);
 			
 		}
 	}

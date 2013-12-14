@@ -356,9 +356,9 @@ public static function initialisation(){
 	$coeffdateAchat = 10;
 
 
-	for($i=1; $i < sizeof($listeProduit)+1; $i++){
+	for($i=1; $i < sizeof($listeProduit); $i++){
 
-		for($j=$i+1; $j < sizeof($listeProduit[$i])+$i+1; $j++){
+		for($j=$i+1; $j < sizeof($listeProduit)+1; $j++){
 
 			$produit1 = $listeProduit[$i];
 			$produit2 = $listeProduit[$j];
@@ -424,16 +424,16 @@ public static function initialisation(){
 			}
 
 
-			$diffDate = abs($produit1->getAttr('date_achat') - $produit2->getAttr('date_achat'));
+			$diffDate = abs($produit1->getAttr('annee_achat') - $produit2->getAttr('annee_achat'));
 			
 
 			if($diffDate < 4){
-				$coeffTranchePrix = $coeffTranchePrix - (2*$diffTranche);
+				$coeffdateAchat = $coeffdateAchat - (2*$diffDate);
 			}
 
 
 
-			$coeffTotal = 100 - $coeffTranchePrix - $coeffEtat - $coeffCategorie - $coeffdateAchat;
+			$coeffTotal = 100 - $coeffEtat - $coeffCategorie - $coeffdateAchat;
 
 
 			$tableauValeur[$i][$j] = $coeffTotal;
@@ -465,7 +465,7 @@ for($i=1; $i < sizeof($tableauValeur)+1; $i++){
 
 		$app = new Appariement();
 
-		$app->paire($i, $j);
+		$app->paire($tableauValeur[$i]->getAttr('idP'), $tableauValeur[$j]->getAttr('idP'));
 
 
 		$noeud = new NoeudListeAttente();
