@@ -162,10 +162,14 @@ public function registerAction(){
 
 	public function ajoutProduit(){
 
+
+
 		if((!empty($_POST['nomProduit'])) && (!empty($_POST['categorie'])) 
 			&& (!empty($_POST['sousCategorie'])) && (!empty($_POST['etatProduit']))
 			 && (!empty($_POST['descriptionProduit'])) && (!empty($_POST['anneeProduit']))
-			  && (!empty($_POST['modeEchangeProduit'])) && (!empty($_POST['photoProduit']))){
+			  && (!empty($_POST['modeEchangeProduit'])) ){
+
+			echo($_POST['sousCategorie']);
 			
 			$produit = new Produit();
 
@@ -173,15 +177,20 @@ public function registerAction(){
 			
 			$sc = SousCategorie::findBylibelleSC($_POST['sousCategorie']);
 
+			
+
 			$produit->setAttr('idSC', $sc->getAttr('idSC'));
 			$produit->setAttr('visible', "Vrai");
-			$produit->setAttr('idU', $SESSION['idU']);
+			$produit->setAttr('idU', $_SESSION['idU']);
 			$produit->setAttr('etatP', $_POST['etatProduit']);
 			$produit->setAttr('modeEchange', $_POST['modeEchangeProduit']);
 			$produit->setAttr('libelleP', $_POST['descriptionProduit']);
 			$produit->setAttr('annee_achat', $_POST['anneeProduit']);
 
-			//$produit->insert();
+			$produit->insert();
+
+			$produit->uploadImage($nom);
+		
 
 
 			$this->vue->afficheAccueil();
@@ -230,7 +239,7 @@ public function afficheSousCat($id){
 
 				case 'register':
 					
-					$this->registerAction();
+					$this->registerAction(); 
 					break;
 
 				case 'logout':
@@ -244,7 +253,7 @@ public function afficheSousCat($id){
 					break;
 
 				case 'ajoutProduit':
-
+					
 					$this->ajoutProduit();
 					break;
 

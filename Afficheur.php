@@ -3,6 +3,7 @@
 include_once "SousCategorie.php";
 include_once "Categorie.php";
 include_once "Users.php";
+include_once "Produit.php";
 
 
 class Vue{ 
@@ -859,6 +860,8 @@ function afficheSideBarNormale(){
 					  <div class=\"control-group\">
 						<label class=\"control-label2\">Photo du produit</label>
 						<div class=\"controls2 docs-input-sizes\">
+						  <input type='hidden' name='MAX_FILE_SIZE' value='10000000'>
+	     				
 						  <input type=\"file\" placeholder=\"\" class=\"span4\" name=\"photoProduit\">
 						</div>
 					  </div>				 
