@@ -184,7 +184,8 @@ public function registerAction(){
 			$produit->setAttr('idU', $_SESSION['idU']);
 			$produit->setAttr('etatP', $_POST['etatProduit']);
 			$produit->setAttr('modeEchange', $_POST['modeEchangeProduit']);
-			$produit->setAttr('libelleP', $_POST['descriptionProduit']);
+			$produit->setAttr('libelleP', $_POST['nomProduit']);
+			$produit->setAttr('descriptionP', $_POST['descriptionProduit']);
 			$produit->setAttr('annee_achat', $_POST['anneeProduit']);
 
 			$produit->insert();
@@ -193,7 +194,7 @@ public function registerAction(){
 		
 
 
-			$this->vue->afficheAccueil();
+			$this->vue->afficheAccueilGuest();
 
 
 	}else{

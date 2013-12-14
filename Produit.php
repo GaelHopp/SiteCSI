@@ -140,16 +140,20 @@ class Produit {
 
 		$dbres2 = odbc_exec($c, $query2);
 
-/*		$image = $this->photo;
+	$queryD = "SELECT getdate() as d";
 
-		$data = bin2hex(fread(fopen($image,"r"), filesize($image))); */
+		$dbresD = odbc_exec($c, $queryD);
 
-		$dateDeb = date('Y-m-d H:i:s');
+		$d = odbc_fetch_object($dbresD);
 
-		echo $dateDeb;
+		$dateDeb = $d->d;
+
+		// $dateDeb = date('Y-m-d H:i:s');
+
+		 echo $dateDeb;
 
 
-		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, $dateDeb, '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', $this->annee_achat)";
+		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$dateDeb', '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', $this->annee_achat)";
 		
 		$dbres3 = odbc_exec($c, $query3);
 
