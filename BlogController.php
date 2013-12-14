@@ -214,6 +214,15 @@ public function afficheSousCat($id){
 
 	return $this->vue->afficheSousCat($id);
 }
+
+
+
+
+public function afficheAlgo(){
+		$centre = $this->vue->afficheAlgo();
+		$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
+
+	}
 	
 	public function analyse(){
 		
@@ -262,6 +271,10 @@ public function afficheSousCat($id){
 
 				case 'afficheSousCat':
 					echo $this->afficheSousCat($_GET['idCat']);
+					break;
+
+				case 'afficheAlgo':
+					$this->afficheAlgo();
 					break;
 
 				

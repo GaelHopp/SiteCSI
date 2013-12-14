@@ -534,72 +534,72 @@ for($i=1; $i < sizeof($tableauValeur)+1; $i++){
 
 
 
-$tableauValeur = array();
+// $tableauValeur = array();
 
 
-$tableauValeur[1][2] = 27;
-$tableauValeur[1][3] = 34;
-$tableauValeur[1][4] = 67;
-$tableauValeur[1][5] = 8;
-$tableauValeur[1][6] = 89;
-$tableauValeur[1][7] = 90;
-$tableauValeur[1][8] = 12;
-$tableauValeur[1][9] = 49;
-$tableauValeur[1][10] = 22;
-$tableauValeur[1][11] = 45;
-$tableauValeur[2][3] = 71;
-$tableauValeur[2][4] = 53;
-$tableauValeur[2][5] = 33;
-$tableauValeur[2][6] = 67;
-$tableauValeur[2][7] = 95;
-$tableauValeur[2][8] = 47;
-$tableauValeur[2][9] = 39;
-$tableauValeur[2][10] = 12;
-$tableauValeur[2][11] = 25;
-$tableauValeur[3][4] = 83;
-$tableauValeur[3][5] = 17;
-$tableauValeur[3][6] = 32;
-$tableauValeur[3][7] = 69;
-$tableauValeur[3][8] = 21;
-$tableauValeur[3][9] = 18;
-$tableauValeur[3][10] = 1;
-$tableauValeur[3][11] = 78;
-$tableauValeur[4][5] = 91;
-$tableauValeur[4][6] = 61;
-$tableauValeur[4][7] = 58;
-$tableauValeur[4][8] = 31;
-$tableauValeur[4][9] = 72;
-$tableauValeur[4][10] = 4;
-$tableauValeur[4][11] = 53;
-$tableauValeur[5][6] = 34;
-$tableauValeur[5][7] = 7;
-$tableauValeur[5][8] = 64;
-$tableauValeur[5][9] = 82;
-$tableauValeur[5][10] = 20;
-$tableauValeur[5][11] = 44;
-$tableauValeur[6][7] = 60;
-$tableauValeur[6][8] = 31;
-$tableauValeur[6][9] = 27;
-$tableauValeur[6][10] = 36;
-$tableauValeur[6][11] = 95;
-$tableauValeur[7][8] = 2;
-$tableauValeur[7][9] = 1;
-$tableauValeur[7][10] = 47;
-$tableauValeur[7][11] = 48;
-$tableauValeur[8][9] = 74;
-$tableauValeur[8][10] = 89;
-$tableauValeur[8][11] = 88;
-$tableauValeur[9][10] = 61;
-$tableauValeur[9][11] = 66;
-$tableauValeur[10][11] = 14;
+// $tableauValeur[1][2] = 27;
+// $tableauValeur[1][3] = 34;
+// $tableauValeur[1][4] = 67;
+// $tableauValeur[1][5] = 8;
+// $tableauValeur[1][6] = 89;
+// $tableauValeur[1][7] = 90;
+// $tableauValeur[1][8] = 12;
+// $tableauValeur[1][9] = 49;
+// $tableauValeur[1][10] = 22;
+// $tableauValeur[1][11] = 45;
+// $tableauValeur[2][3] = 71;
+// $tableauValeur[2][4] = 53;
+// $tableauValeur[2][5] = 33;
+// $tableauValeur[2][6] = 67;
+// $tableauValeur[2][7] = 95;
+// $tableauValeur[2][8] = 47;
+// $tableauValeur[2][9] = 39;
+// $tableauValeur[2][10] = 12;
+// $tableauValeur[2][11] = 25;
+// $tableauValeur[3][4] = 83;
+// $tableauValeur[3][5] = 17;
+// $tableauValeur[3][6] = 32;
+// $tableauValeur[3][7] = 69;
+// $tableauValeur[3][8] = 21;
+// $tableauValeur[3][9] = 18;
+// $tableauValeur[3][10] = 1;
+// $tableauValeur[3][11] = 78;
+// $tableauValeur[4][5] = 91;
+// $tableauValeur[4][6] = 61;
+// $tableauValeur[4][7] = 58;
+// $tableauValeur[4][8] = 31;
+// $tableauValeur[4][9] = 72;
+// $tableauValeur[4][10] = 4;
+// $tableauValeur[4][11] = 53;
+// $tableauValeur[5][6] = 34;
+// $tableauValeur[5][7] = 7;
+// $tableauValeur[5][8] = 64;
+// $tableauValeur[5][9] = 82;
+// $tableauValeur[5][10] = 20;
+// $tableauValeur[5][11] = 44;
+// $tableauValeur[6][7] = 60;
+// $tableauValeur[6][8] = 31;
+// $tableauValeur[6][9] = 27;
+// $tableauValeur[6][10] = 36;
+// $tableauValeur[6][11] = 95;
+// $tableauValeur[7][8] = 2;
+// $tableauValeur[7][9] = 1;
+// $tableauValeur[7][10] = 47;
+// $tableauValeur[7][11] = 48;
+// $tableauValeur[8][9] = 74;
+// $tableauValeur[8][10] = 89;
+// $tableauValeur[8][11] = 88;
+// $tableauValeur[9][10] = 61;
+// $tableauValeur[9][11] = 66;
+// $tableauValeur[10][11] = 14;
 
 
 
 
 
-$soluce = Algo::algorithme($tableauValeur, 11);
+// $soluce = Algo::algorithme($tableauValeur, 11);
 
-$soluce->affiche();
+// $soluce->affiche();
 
 
 /*$tableauValeur[1][2] = 34;

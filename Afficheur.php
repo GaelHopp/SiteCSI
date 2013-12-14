@@ -4,6 +4,7 @@ include_once "SousCategorie.php";
 include_once "Categorie.php";
 include_once "Users.php";
 include_once "Produit.php";
+include_once "Algo.php";
 
 
 class Vue{ 
@@ -129,6 +130,7 @@ $(document).ready(function(){
 					<div class=\"links pull-right\">
 						<a href=\"index.html\">Home</a> |
 						<a href=\"my_account.html\">Mon compte</a> |
+						<a href=\"Blog.php?action=afficheAlgo\">Algo</a> |
 						<a href=\"cart.html\">Mes demandes (2)</a> |
 						<a href=\"two-column.html\">Propositions (1)</a> |
 						<a href=\"Blog.php?action=afficheAjoutProduit\">Ajouter un produit</a> | 
@@ -725,13 +727,7 @@ function afficheSideBarNormale(){
 
 
 
-	function afficheAlgo(){
 
-	$listeAppariements = Algo::algorithme(Algo::initialisation(), Algo::nombreObjet());
-
-	$html = Algo::affiche();
-
-	}
 
 
 
@@ -923,6 +919,68 @@ function afficheSideBarNormale(){
 					return($html);
 	}
 
+
+
+function afficheAlgo(){
+
+		
+
+		$noeud = Algo::algorithme(Algo::initialisation(), Produit::nombreObjet());
+
+		$html = "<div class=\"span9\">
+		<ul class=\"breadcrumb\">
+			<li><a href=\"#\">Home</a> <span class=\"divider\">/</span></li>
+			<li><a href=\"#\">Produit</a> <span class=\"divider\">/</span></li>
+			<li class=\"active\"><a href=\"#\">Paire de produit</a></li>
+		</ul>
+		</div>
+			<div class=\"span9\">
+				<h1>Appariement des produits</h1>
+				
+				<br />				
+			<table style=\"width:100%\">
+				<thead>
+					<tr>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px; width:50%;height:30px;border-right:2px solid #333333;\">Ce produit ...</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:50%;width:50%;height:30px;border-left:2px solid #333333;\">est de paire avec ...</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style=\"width:50%\"></td>
+						<td style=\"width:50%\"></td>
+					</tr>";
+
+
+					
+					
+
+			
+		foreach ($noeud->listeAppariements as $value) {
+			
+			$produit1 = Produit::findByidP($value->objet1);
+			$produit2 = Produit::findByidP($value->objet2);
+
+			$html .= "<tr style=\"padding:4px 4px 4px 4px;border-top:1px solid #333333;\">
+						<td style=\"width:50%;border-right:2px solid #333333;\">Nom produit : ".$produit1->libelleP."<br /></td>
+						<td style=\"width:50%;border-left:2px solid #333333;\">Nom produit : .".$produit2->libelleP."</td>
+					</tr>
+					<tr style=\"padding:4px 4px 4px 4px;border-bottom:1px solid #333333;\">
+						<td style=\"width:50%;border-right:2px solid #333333;\">Photo produit 1 <br /></td>
+						<td style=\"width:50%;border-left:2px solid #333333;\">Photo produit 2</td>
+					</tr>";
+
+
+		}
+
+
+		$html .= "	</tbody>
+			</table>
+	  
+			</div>";
+
+			return $html;
+	}
 
 
 
