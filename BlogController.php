@@ -17,7 +17,7 @@ class BlogController{
 
 	public function afficheAccueil(){
 
-		if(isset($_SESSION)){
+		if(!isset($_SESSION)){
 
 			$this->vue->AffichePage("",$this->vue->afficheAccueilGuest());
 			
@@ -169,7 +169,7 @@ public function registerAction(){
 			 && (!empty($_POST['descriptionProduit'])) && (!empty($_POST['anneeProduit']))
 			  && (!empty($_POST['modeEchangeProduit'])) ){
 
-			echo($_POST['sousCategorie']);
+			
 			
 			$produit = new Produit();
 
@@ -190,11 +190,11 @@ public function registerAction(){
 
 			$produit->insert();
 
-			$produit->uploadImage($nom);
+			$produit->uploadImage();
 		
 
 
-			$this->vue->afficheAccueilGuest();
+			$this->afficheAccueil();
 
 
 	}else{

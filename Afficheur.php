@@ -749,7 +749,7 @@ function afficheSideBarNormale(){
 				<h1>Ajouter un produit</h1>
 				
 				<br />				
-				<form class=\"form-horizontal\" method=\"post\" action=\"Blog.php?action=ajoutProduit\">
+				<form class=\"form-horizontal\" method=\"post\" action=\"Blog.php?action=ajoutProduit\" enctype='multipart/form-data'>
 					<fieldset>
 					<div class=\"span6 no_margin_left\">
 					  <div class=\"control-group\">

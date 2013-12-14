@@ -148,9 +148,9 @@ class Produit {
 
 		$dateDeb = $d->d;
 
-		// $dateDeb = date('Y-m-d H:i:s');
+	
 
-		 echo $dateDeb;
+		
 
 
 		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$dateDeb', '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', $this->annee_achat)";
@@ -172,15 +172,15 @@ class Produit {
 	}
 
 
-	public function uploadImage($nom){
+	public function uploadImage(){
 		$nb = $this->idP;
      $dossier = 'images/'.$nb.'/';
      mkdir($dossier);
-     $fichier = basename($_FILES['$nom']['name']);
+     $fichier = basename($_FILES['photoProduit']['name']);
      $taille_maxi = 100000;
-     $taille = filesize($_FILES['$nom']['tmp_name']);
+     $taille = filesize($_FILES['photoProduit']['tmp_name']);
      $extensions = array('.png', '.jpg', '.jpeg');
-     $extension = strrchr($_FILES['$nom']['name'], '.'); 
+     $extension = strrchr($_FILES['photoProduit']['name'], '.'); 
      //Début des vérifications de sécurité...
      if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
      {
@@ -197,18 +197,18 @@ class Produit {
                'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
                'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
           $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
-          if(move_uploaded_file($_FILES['$nom']['tmp_name'], $dossier . $fichier)) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
+          if(move_uploaded_file($_FILES['photoProduit']['tmp_name'], $dossier . $fichier)) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
           {
-               echo 'Upload effectué avec succès !';
+              
           }
           else //Sinon (la fonction renvoie FALSE).
           {
-               echo 'Echec de l\'upload !';
+             
           }
      }
      else
      {
-          echo $erreur;
+        
      }
 	}
 	
