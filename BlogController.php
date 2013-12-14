@@ -175,14 +175,16 @@ public function registerAction(){
 
 			$produit->setAttr('typeP', "Actif");
 			
-			$sc = SousCategorie::findBylibelleSC($_POST['sousCategorie']);
+			$sc = SousCategorie::findByidSC($_POST['sousCategorie']);
 
-			
+			$dateDeb = date("Y-m-d H:i:s");
 
 			$produit->setAttr('idSC', $sc->getAttr('idSC'));
 			$produit->setAttr('visible', "Vrai");
 			$produit->setAttr('idU', $_SESSION['idU']);
 			$produit->setAttr('etatP', $_POST['etatProduit']);
+			$produit->setAttr('dateDeb', $dateDeb);
+			$produit->setAttr('dateFin', NULL);
 			$produit->setAttr('modeEchange', $_POST['modeEchangeProduit']);
 			$produit->setAttr('libelleP', $_POST['nomProduit']);
 			$produit->setAttr('descriptionP', $_POST['descriptionProduit']);

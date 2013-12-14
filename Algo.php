@@ -351,9 +351,8 @@ public static function initialisation(){
 
 	$listeProduit = Produit::findAll();
 
-	$coeffTranchePrix = 20;
 	$coeffEtat = 29;
-	$coeffCategorie = 40;
+	$coeffCategorie = 20;
 	$coeffdateAchat = 10;
 
 
@@ -364,12 +363,7 @@ public static function initialisation(){
 			$produit1 = $listeProduit[$i];
 			$produit2 = $listeProduit[$j];
 
-			$diffTranche = abs($produit1->getAttr('tranche_prix_achat') - $produit2->getAttr('tranche_prix_achat'));
-			$diffTranche = $diffTranche/100;
-
-			if($diffTranche < 4){
-				$coeffTranchePrix = $coeffTranchePrix - (5*$diffTranche);
-			}
+			
 
 
 			if($produit1->getAttr('etatP') == "Neuf"){

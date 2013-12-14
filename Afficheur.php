@@ -907,7 +907,7 @@ function afficheSideBarNormale(){
 
 						  foreach($listeSCategories as $scategorie){
 
-						  	$html .= "<option value=\"".$scategorie->getAttr('libelleSC')."\">".$scategorie->getAttr('libelleSC')."</option>";
+						  	$html .= "<option value=\"".$scategorie->getAttr('idSC')."\">".$scategorie->getAttr('libelleSC')."</option>";
 						  }
 
 							

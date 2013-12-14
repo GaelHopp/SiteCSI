@@ -140,20 +140,14 @@ class Produit {
 
 		$dbres2 = odbc_exec($c, $query2);
 
-	// $queryD = "SELECT getdate() as d";
+	
 
-	// 	$dbresD = odbc_exec($c, $queryD);
-
-	// 	$d = odbc_fetch_object($dbresD);
-
-	// 	$dateDeb = $d->d;
-
-		$dateTest = date("Y-m-d H:i:s");
+		
 
 		
 
 
-		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$dateTest', '$this->dateFin', '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', $this->annee_achat)";
+		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$this->dateDeb', NULL, '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', $this->annee_achat)";
 		
 		$dbres3 = odbc_exec($c, $query3);
 
