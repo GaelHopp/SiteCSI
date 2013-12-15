@@ -283,8 +283,10 @@ $min = 100;
 $obj1 = null;
 $obj2 = null;
 
+$listeProduit = Produit::findAll();
 
-for($i=1; $i < sizeof($tab)+1; $i++){
+
+for($i=0; $i < sizeof($tab); $i++){
 
 
 	for($j=$i+1; $j < sizeof($tab[$i])+$i+1; $j++){
@@ -293,12 +295,12 @@ for($i=1; $i < sizeof($tab)+1; $i++){
 
 
 
-		if(!$noeud->coupleExiste($i, $j) && $tab[$i][$j] < $min){
+		if(!$noeud->coupleExiste($listeProduit[$i], $listeProduit[$j]) && $tab[$i][$j] < $min){
 
 
 
 			$appTemp = new Appariement();
-			$appTemp->paire($i, $j);
+			$appTemp->paire($listeProduit[$i], $listeProduit[$i]);
 
 			$noeud->ajouterAppariement($appTemp);
 
@@ -309,8 +311,8 @@ for($i=1; $i < sizeof($tab)+1; $i++){
 			if(!$test){
 
 			$min = $tab[$i][$j];
-			$obj1 = $i;
-			$obj2 = $j;
+			$obj1 = $listeProduit[$i]->getAttr('idP');
+			$obj2 = $listeProduit[$j]->getAttr('idP');
 
 		}
 
@@ -356,9 +358,9 @@ public static function initialisation(){
 	$coeffdateAchat = 10;
 
 
-	for($i=1; $i < sizeof($listeProduit); $i++){
+	for($i=0; $i < sizeof($listeProduit)-1; $i++){
 
-		for($j=$i+1; $j < sizeof($listeProduit)+1; $j++){
+		for($j=$i+1; $j < sizeof($listeProduit); $j++){
 
 			$produit1 = $listeProduit[$i];
 			$produit2 = $listeProduit[$j];
@@ -456,7 +458,9 @@ $solution = null;
 
 $listeAttente = array();
 
-for($i=1; $i < sizeof($tableauValeur)+1; $i++){
+$listeProduit = Produit::findAll();
+
+for($i=0; $i < sizeof($tableauValeur)-1; $i++){
 
 
 
@@ -465,7 +469,7 @@ for($i=1; $i < sizeof($tableauValeur)+1; $i++){
 
 		$app = new Appariement();
 
-		$app->paire($tableauValeur[$i]->getAttr('idP'), $tableauValeur[$j]->getAttr('idP'));
+		$app->paire($listeProduit[$i]->getAttr('idP'), $listeProduit[$j]->getAttr('idP'));
 
 
 		$noeud = new NoeudListeAttente();
