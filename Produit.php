@@ -43,8 +43,8 @@ class Produit {
 	
 	
 	public function __toString() {
-		return "[". __CLASS__ . "] idC : ". $this->idC . ":
-		libelleC  ". $this->libelleC;
+		return "[". __CLASS__ . "] idP : ". $this->idP . ":
+		libelleP  ". $this->libelleP;
 	}
 
 	
@@ -230,6 +230,7 @@ class Produit {
 				$produit->setAttr('modeEchange', $obj->mode_echangeP);
 				$produit->setAttr('libelleP', $obj->libelleP);
 				$produit->setAttr('descriptionP', $obj->descriptionP);
+				$produit->setAttr('annee_achat', $obj->annee_achat);
 
 
 
@@ -276,6 +277,7 @@ class Produit {
 				$produit->setAttr('modeEchange', $obj->mode_echangeP);
 				$produit->setAttr('libelleP', $obj->libelleP);
 				$produit->setAttr('descriptionP', $obj->descriptionP);
+				$produit->setAttr('annee_achat', $obj->annee_achat);
 				
 
 			$query2 = "SELECT * FROM produit WHERE idP = $obj->idP";
@@ -330,6 +332,7 @@ class Produit {
 				$produit->setAttr('modeEchange', $obj->mode_echangeP);
 				$produit->setAttr('libelleP', $obj->libelleP);
 				$produit->setAttr('descriptionP', $obj->descriptionP);
+				$produit->setAttr('annee_achat', $obj->annee_achat);
 
 
 				$query2 = "SELECT * FROM produit WHERE idP = $produit->idP";
@@ -379,6 +382,7 @@ class Produit {
 				$produit->setAttr('modeEchange', $obj->mode_echangeP);
 				$produit->setAttr('libelleP', $obj->libelleP);
 				$produit->setAttr('descriptionP', $obj->descriptionP);
+				$produit->setAttr('annee_achat', $obj->annee_achat);
 
 				$query2 = "SELECT * FROM produit WHERE idP = $produit->idP";
 				$dbres2 = odbc_exec($c, $query2);
@@ -429,6 +433,7 @@ class Produit {
 				$produit->setAttr('modeEchange', $obj->mode_echangeP);
 				$produit->setAttr('libelleP', $obj->libelleP);
 				$produit->setAttr('descriptionP', $obj->descriptionP);
+				$produit->setAttr('annee_achat', $obj->annee_achat);
 
 				$query2 = "SELECT * FROM produit WHERE idP = $produit->idP";
 				$dbres2 = odbc_exec($c, $query2);
@@ -453,7 +458,7 @@ class Produit {
 
 
 
-	$query = "SELECT COUNT(*) AS nb FROM produit";
+	$query = "SELECT COUNT(*) AS nb FROM produit WHERE visible = 'Vrai'";
 	
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);

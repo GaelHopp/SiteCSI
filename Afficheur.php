@@ -962,8 +962,8 @@ function afficheAlgo(){
 			$produit2 = Produit::findByidP($value->objet2);
 
 			$html .= "<tr style=\"padding:4px 4px 4px 4px;border-top:1px solid #333333;\">
-						<td style=\"width:50%;border-right:2px solid #333333;\">Nom produit : ".$produit1->libelleP."<br /></td>
-						<td style=\"width:50%;border-left:2px solid #333333;\">Nom produit : .".$produit2->libelleP."</td>
+						<td style=\"width:50%;border-right:2px solid #333333;\">Nom produit : ".$produit1->getAttr('libelleP')."<br /></td>
+						<td style=\"width:50%;border-left:2px solid #333333;\">Nom produit : .".$produit2->getAttr('libelleP')."</td>
 					</tr>
 					<tr style=\"padding:4px 4px 4px 4px;border-bottom:1px solid #333333;\">
 						<td style=\"width:50%;border-right:2px solid #333333;\">Photo produit 1 <br /></td>

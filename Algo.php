@@ -295,7 +295,7 @@ for($i=0; $i < sizeof($tab); $i++){
 
 
 
-		if(!$noeud->coupleExiste($listeProduit[$i], $listeProduit[$j]) && $tab[$i][$j] < $min){
+		if(!$noeud->coupleExiste($listeProduit[$i]->getAttr('idP'), $listeProduit[$j]->getAttr('idP')) && $tab[$i][$j] < $min){
 
 
 
@@ -353,19 +353,27 @@ public static function initialisation(){
 
 	$listeProduit = Produit::findAll();
 
-	$coeffEtat = 29;
-	$coeffCategorie = 20;
-	$coeffdateAchat = 10;
+	
 
 
 	for($i=0; $i < sizeof($listeProduit)-1; $i++){
 
 		for($j=$i+1; $j < sizeof($listeProduit); $j++){
 
+			$coeffEtat = 0;
+		$coeffCategorie = 20;
+		$coeffdateAchat = 10;
+
 			$produit1 = $listeProduit[$i];
 			$produit2 = $listeProduit[$j];
 
 			
+
+			if($produit1->getAttr('etatP') == $produit2->getAttr('etatP')){
+
+				$coeffEtat = 29;
+			}
+
 
 
 			if($produit1->getAttr('etatP') == "Neuf"){
@@ -429,8 +437,12 @@ public static function initialisation(){
 			$diffDate = abs($produit1->getAttr('annee_achat') - $produit2->getAttr('annee_achat'));
 			
 
-			if($diffDate < 4){
+			if($diffDate < 5){
 				$coeffdateAchat = $coeffdateAchat - (2*$diffDate);
+			}
+
+			if($diffDate >= 5){
+				$coeffdateAchat = 0;
 			}
 
 
