@@ -984,6 +984,88 @@ function afficheAlgo(){
 
 
 
+function afficheListeProduit($id){
+
+		$html = "";
+
+		if(!empty($id) && $id != 0){ 
+
+		$listeProduit = Produit::listeProduitSousCat();
+
+		$sousCategorie = SousCategorie::findByidSC($id);
+
+		$categorie = Categorie::findByIdC($sousCategorie->getAttr('idC'));
+		
+
+		$html .= "<div class=\"span9\">
+		     <ul class=\"breadcrumb\">
+    <li>
+    <a href=\"#\">Home</a> <span class=\"divider\">/</span>
+    </li>
+    <li>
+    <a href=\"listings.html\">".$categorie->getAttr('libelleC')."</a> <span class=\"divider\">/</span>
+    </li>
+    <li class=\"active\">
+    <a href=\"category.html\">".$sousCategorie->getAttr('libelleSC')."</a>
+    </li>
+    </ul>
+
+     <div class=\"row\">";
+
+
+	
+	
+	  
+		
+
+		foreach ($listeProduit as $value) {
+			
+
+			$html .= "
+	 <div class=\"span1\">
+	  <a href=\"product.html\"><img alt=\"\"  id=\"tmp\" src=\"css/images/ipodtouch_image2_20080909.jpg\"></a>
+	  </div>	 
+	  
+	  <div class=\"span6\">
+	   <a href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."\"><h5>".$value->getAttr('libelleP')."</h5></a>
+              <p>".$value->getAttr('descriptionP')."</p>
+	  </div>	
+ 
+	  
+	  <div class=\"span2\">
+	   <p><a class=\"btn btn-primary\" href=\"#\">Je troque</a></p>
+	   <p><a class=\"\" href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."\">Voir la fiche produit</a></p>
+	  </div>
+  </div>
+  <hr />	  
+	  
+	      <div class=\"pagination\">
+    <ul>
+    <li><a href=\"#\">Prev</a></li>
+    <li class=\"active\">
+    <a href=\"#\">1</a>
+    </li>
+    <li><a href=\"#\">2</a></li>
+    <li><a href=\"#\">3</a></li>
+    <li><a href=\"#\">4</a></li>
+    <li><a href=\"#\">Next</a></li>
+    </ul>
+    ";
+
+		}
+
+
+		$html .= "</div>
+				</div>";
+	}
+
+		
+
+
+					return($html);
+	}
+
+
 
 	
 	

@@ -507,6 +507,51 @@ class Produit {
 }
 
 
+public function listeProduitSousCat($id){
+
+		
+		$listeProduit = array();
+
+		$query = "SELECT * FROM possession, produit WHERE possession.idP = produit.idP and produit.visible = 'Vrai' and produit.idSC = $id";
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
+		$obj = odbc_fetch_object($dbres);
+
+		if(!$dbres){
+			return(false);
+		}
+		else{
+			
+				while($obj = odbc_fetch_object($dbres)){
+				
+				$produit = new Produit();
+				
+				$produit->setAttr('idP', $obj->idP);
+				$produit->setAttr('idU', $obj->idU);
+				$produit->setAttr('dateDeb', $obj->date_debut);
+				$produit->setAttr('dateFin', $obj->date_finP);
+				$produit->setAttr('etatP', $obj->etatP);
+				$produit->setAttr('modeEchange', $obj->mode_echangeP);
+				$produit->setAttr('libelleP', $obj->libelleP);
+				$produit->setAttr('descriptionP', $obj->descriptionP);
+				$produit->setAttr('annee_achat', $obj->annee_achat);
+
+				$produit->setAttr('typeP', $obj->typeP);
+				$produit->setAttr('idSC', $obj->idSC);
+				$produit->setAttr('visible', $obj->visible);
+
+				array_push($listeProduit, $produit);
+
+			}
+		
+		
+		return($listeProduit);
+		}
+
+
+}
+
+
 
 }
 

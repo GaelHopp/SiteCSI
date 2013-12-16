@@ -33,6 +33,7 @@ class BlogController{
 
 	public function afficheListeProduit($sousCat){
 		$menuleft = $this->vue->afficheSideBar($sousCat);
+		$centre = $this->vue->afficheListeProduit();
 		$this->vue->AffichePage($menuleft, "");
 	}
 	
