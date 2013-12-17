@@ -130,9 +130,10 @@ $(document).ready(function(){
 					<div class=\"links pull-right\">
 						<a href=\"index.html\">Home</a> |
 						<a href=\"my_account.html\">Mon compte</a> |
-						<a href=\"Blog.php?action=afficheAlgo\">Algo</a> |
+						<!--<a href=\"Blog.php?action=afficheAlgo\">Algo</a> |-->
 						<a href=\"cart.html\">Mes demandes (2)</a> |
-						<a href=\"two-column.html\">Propositions (1)</a> |
+						<!--<a href=\"two-column.html\">Propositions (1)</a> |-->
+						<a href=\"Blog.php?action=listeProduitUser\">Mes produits</a> | 
 						<a href=\"Blog.php?action=afficheAjoutProduit\">Ajouter un produit</a> | 
 						<a href=\"Blog.php?action=logout\">Déconnexion</a> |
 					</div>";
@@ -461,7 +462,7 @@ function afficheSideBarNormale(){
           <div class=\"thumbnail\">
             <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/ps-vita-150cx123.jpg\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=registerOuLogin\"> <h5>PS Vita</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>PS Vita</h5></a><br /><br />
             </div>
           </div>
         </li>
@@ -470,7 +471,7 @@ function afficheSideBarNormale(){
           <div class=\"thumbnail\">
             <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/nexus-one-3-150x123.jpg\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Nexus one</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Nexus one</h5></a><br /><br />
             </div>
           </div>
         </li>
@@ -479,7 +480,7 @@ function afficheSideBarNormale(){
           <div class=\"thumbnail\">
             <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/thumb_sam_3d.jpg\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Samsung 3D TV</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Samsung 3D TV</h5></a><br /><br />
             </div>
           </div>
         </li>
@@ -488,7 +489,7 @@ function afficheSideBarNormale(){
           <div class=\"thumbnail\">
             <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/ipad_case.jpg\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=registerOuLogin\"> <h5>iPod Case</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>iPod Case</h5></a><br /><br />
             </div>
           </div>
         </li>
@@ -497,7 +498,7 @@ function afficheSideBarNormale(){
           <div class=\"thumbnail\">
             <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/HMX-H104.JPG\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=registerOuLogin\"> <h5>HMX Camcorder</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>HMX Camcorder</h5></a><br /><br />
             </div>
           </div>
         </li>
@@ -506,27 +507,12 @@ function afficheSideBarNormale(){
           <div class=\"thumbnail\">
             <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/expic.png\" /></a>
             <div class=\"caption\">
-              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Kindle Fire</h5></a>  Price: &#36;50.00<br /><br />
+              <a href=\"Blog.php?action=registerOuLogin\"> <h5>Kindle Fire</h5></a><br /><br />
             </div>
           </div>
         </li>
 
       </ul>
-		</div>
-        <div class=\"span2\">
-		
-		 <div class=\"roe\">
-		<h4>Newsletter</h4><br />
-		<p>Sign up for our weekly newsletter and stay up-to-date with the latest offers, and newest products.</p>
-		
-		    <form class=\"form-search\">
-    <input type=\"text\" class=\"span2\" placeholder=\"Enter your email\" /><br /><br />
-    <button type=\"submit\" class=\"btn pull-right\">Subscribe</button>
-    </form>
-		</div><br /><br />
-            <a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" title=\"\" src=\"css/images/paypal_mc_visa_amex_disc_150x139.gif\" /></a>
-			<a href=\"Blog.php?action=registerOuLogin\"><img alt=\"\" src=\"css/images/bnr_nowAccepting_150x60.gif\" /></a>
-
 		</div>";
 
 		return($html);
@@ -984,50 +970,45 @@ function afficheAlgo(){
 
 
 
-function afficheListeProduit($id){
+ function afficheListeProduit($sousCat){
 
 		$html = "";
 
-		if(!empty($id) && $id != 0){ 
+		if(!empty($sousCat) && $sousCat->getAttr('idSC') != 0){ 
 
-		$listeProduit = Produit::listeProduitSousCat();
+		$listeProduit = Produit::listeProduitSousCat($sousCat->getAttr('idSC'));
 
-		$sousCategorie = SousCategorie::findByidSC($id);
+		$sousCategorie = SousCategorie::findByidSC($sousCat->getAttr('idSC'));
 
 		$categorie = Categorie::findByIdC($sousCategorie->getAttr('idC'));
 		
 
 		$html .= "<div class=\"span9\">
-		     <ul class=\"breadcrumb\">
-    <li>
-    <a href=\"#\">Home</a> <span class=\"divider\">/</span>
-    </li>
-    <li>
-    <a href=\"listings.html\">".$categorie->getAttr('libelleC')."</a> <span class=\"divider\">/</span>
-    </li>
-    <li class=\"active\">
-    <a href=\"category.html\">".$sousCategorie->getAttr('libelleSC')."</a>
+		    		 <ul class=\"breadcrumb\">
+   						 <li>
+   							 <a href=\"#\">Home</a> <span class=\"divider\">/</span>
+    					</li>
+    					<li>
+   							 <a href=\"listings.html\">".$categorie->getAttr('libelleC')."</a> <span class=\"divider\">/</span>
+   						 </li>
+   						 <li class=\"active\">
+    						<a href=\"category.html\">".$sousCategorie->getAttr('libelleSC')."</a>
     </li>
     </ul>
 
-     <div class=\"row\">";
+     ";
 
-
-	
-	
-	  
-		
 
 		foreach ($listeProduit as $value) {
 			
 
-			$html .= "
+			$html .= "<div class=\"row\">
 	 <div class=\"span1\">
-	  <a href=\"product.html\"><img alt=\"\"  id=\"tmp\" src=\"css/images/ipodtouch_image2_20080909.jpg\"></a>
+	  <a href=\"product.html\"><img alt=\"\"  id=\"tmp\" src=images/". $value->getAttr('idP')."/".Produit::recupImage( $value->getAttr('idP'))."></a>
 	  </div>	 
 	  
 	  <div class=\"span6\">
-	   <a href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."\"><h5>".$value->getAttr('libelleP')."</h5></a>
+	   <a href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."&amp;idsc=".$value->getAttr('idSC')."\"><h5>".$value->getAttr('libelleP')."</h5></a>
               <p>".$value->getAttr('descriptionP')."</p>
 	  </div>	
  
@@ -1037,9 +1018,15 @@ function afficheListeProduit($id){
 	   <p><a class=\"\" href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."\">Voir la fiche produit</a></p>
 	  </div>
   </div>
-  <hr />	  
+  <hr/>	  
 	  
-	      <div class=\"pagination\">
+	      
+    ";
+
+		}
+
+
+		$html .= "<div class=\"pagination\">
     <ul>
     <li><a href=\"#\">Prev</a></li>
     <li class=\"active\">
@@ -1050,13 +1037,8 @@ function afficheListeProduit($id){
     <li><a href=\"#\">4</a></li>
     <li><a href=\"#\">Next</a></li>
     </ul>
-    ";
-
-		}
-
-
-		$html .= "</div>
-				</div>";
+    </div>
+    				</div>";
 	}
 
 		
@@ -1067,8 +1049,250 @@ function afficheListeProduit($id){
 
 
 
+
+
+
+	function afficheProduit($idP, $sousCat){
+
+		$html = "";
+
+		if(!empty($idP) && $idP != 0){ 
+
+		$produit = Produit::findByidP($idP);
+
+		$sousCategorie = SousCategorie::findByidSC($sousCat->getAttr('idSC'));
+
+		$categorie = Categorie::findByIdC($sousCategorie->getAttr('idC'));
+
+			 $html.="<div class=\"span9\">
+		     <ul class=\"breadcrumb\">
+    <li>
+    <a href=\"#\">Home</a> <span class=\"divider\">/</span>
+    </li>
+    <li>
+    <a href=\"#\">".$categorie->getAttr('libelleC')."</a> <span class=\"divider\">/</span>
+    </li>
+    <li class=\"active\">
+    <a href=\"#\">".$sousCategorie->getAttr('libelleSC')."</a>
+    </li>
+    </ul>
 	
 	
+	 <div class=\"row\">
+		 <div class=\"span9\">
+			<h1>".$produit->getAttr('libelleP')."</h1>
+		 </div>
+	</div>
+	 <hr>
+	
+	 <div class=\"row\">
+		 <div class=\"span3\">
+			<img alt=\"\" src=images/". $produit->getAttr('idP')."/".Produit::recupImage( $produit->getAttr('idP'))." />
+			
+
+		</div>	 
+	  
+	  <div class=\"span6\">
+	  
+		<div class=\"span6\">
+			<address>
+				<strong>Nom du produit : </strong> <span>".$produit->getAttr('libelleP')."</span><br />
+				<strong>Année du produit:</strong> <span>".$produit->getAttr('annee_achat')."</span><br />
+				<strong>Etat du produit:</strong> <span>".$produit->getAttr('etatP')."</span><br />
+			</address>
+		</div>	
+			
+		
+		<div class=\"span6\">
+				<div class=\"span3 no_margin_left\">
+					<button class=\"btn btn-primary\" type=\"submit\">Je troque</button>
+				</div>	
+		</div>		
+		<div class=\"span6\">
+		<br/>	<br/>	
+			<p>
+			<input name=\"star1\" type=\"radio\" class=\"star\"/>
+<input name=\"star1\" type=\"radio\" class=\"star\"/>
+<input name=\"star1\" type=\"radio\" class=\"star\"/>
+<input name=\"star1\" type=\"radio\" class=\"star\"/>
+<input name=\"star1\" type=\"radio\" class=\"star\"/>&nbsp;&nbsp;
+			
+			<a href=\"#\">Noter le produit</a></p>
+		</div>	
+		
+		
+	  </div>	
+
+
+  </div>
+   <hr>
+		<div class=\"row\">
+	  <div class=\"span9\">
+    <div class=\"tabbable\">
+    <ul class=\"nav nav-tabs\">
+    <li class=\"active\"><a href=\"#1\" data-toggle=\"tab\">Description</a></li>
+    <li><a href=\"#2\" data-toggle=\"tab\">Historique</a></li>
+    </ul>
+    <div class=\"tab-content\">
+    <div class=\"tab-pane active\" id=\"1\">
+    <p>".$produit->getAttr('descriptionP')."</p>
+    </div>
+    <div class=\"tab-pane\" id=\"2\">
+		<p>utilisateur1 say \"Oh my god\"</p><hr>
+		<p>utilisateur2 say \"Oh my god\"</p>
+    </div>    
+
+    </div>
+    </div>
+
+		</div>
+		</div>
+	 
+	 
+	 
+		</div>";
+
+	}
+
+	return($html);
+}
+
+	
+		function listeProduitUser($idU){
+
+		$html = "";
+
+		if(!empty($idU) && $idU != 0){ 
+
+		$produitUser = Produit::listeProduitUser($idU);
+
+		$html .=" <div class=\"span9\">
+		     <ul class=\"breadcrumb\">
+    <li>
+    <a href=\"#\">Home</a> <span class=\"divider\">/</span>
+    </li>
+    <li>
+    <a href=\"listings.html\">Produit</a> <span class=\"divider\">/</span>
+    </li>
+    <li class=\"active\">
+    <a href=\"category.html\">Mes produits</a>
+    </li>
+    </ul>";
+
+		foreach ($produitUser as $value) {
+			
+			$html.="<div class=\"row\">
+						<div class=\"span1\">
+							<a href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."&amp;idsc=".$value->getAttr('idSC')."\"><img alt=\"\"  id=\"tmp\" src=images/". $value->getAttr('idP')."/".Produit::recupImage( $value->getAttr('idP'))."></a>
+						</div>	 
+		  
+						<div class=\"span6\">
+							<a href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."&amp;idsc=".$value->getAttr('idSC')."\"><h5>".$value->getAttr('libelleP')."</h5></a>
+						</div>	 
+
+						<div class=\"span2\">
+							<p><a class=\"btn btn-primary\" href=\"Blog.php?action=afficheUpdateProduit&amp;id=".$value->getAttr('idP')."\">Modifier produit</a></p>
+							<p><a class=\"\" href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."&amp;idsc=".$value->getAttr('idSC')."\">Voir la fiche produit</a></p>
+						</div>
+					</div>
+		 <hr />";
+  		}
+	  
+	      $html .="<div class=\"pagination\">
+    				<ul>
+    					<li><a href=\"#\">Prev</a></li>
+    					<li class=\"active\">
+   							 <a href=\"#\">1</a>
+   						</li>
+    					<li><a href=\"#\">2</a></li>
+   						<li><a href=\"#\">3</a></li>
+    					<li><a href=\"#\">4</a></li>
+    					<li><a href=\"#\">Next</a></li>
+    				</ul>
+    			</div>
+    			</div>";
+			}
+
+			return($html);
+	}
+
+
+	function afficheUpdateProduit($id){
+
+		$html ="<div class=\"span9\">
+				<h1>Modifier le produit</h1>
+				
+				<br />				
+				<form class=\"form-horizontal\">
+					<fieldset>
+					<div class=\"span6 no_margin_left\">
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Nom du produit</label>
+						<div class=\"controls docs-input-sizes\">
+							<!-- Si actif faire 
+							<button class=\"btn btn-primary\" type=\"submit\">Actif</button>
+							sinon faire -->
+							<button class=\"btn btn-primary\" type=\"submit\">Inactif</button>
+							<!-- fsi -->
+						</div>	
+					  </div>					  
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Photo du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <input type=\"file\" placeholder=\"\" class=\"span4\" id=\"photoproduct\">
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Etat de votre produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" id=\"etatproduct\">
+							<option value=\"Neuf\">Neuf</option>
+							<option value=\"Bon etat\">Bon état</option>
+							<option value=\"Etat moyen\">Etat moyen</option>
+							<option value=\"Mauvais etat\">Mauvais état</option>
+							<option value=\"Très mauvais etat\">très mauvais état</option>
+							<option value=\"Pour pieces\">pour pièces</option>
+						  </select>
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Description du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <textarea rows=\"4\" cols=\"50\" placeholder=\"\" class=\"span4\" id=\"descproduct\"> Ici la description de votre produit</textarea>
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Année d'achat du produit</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" id=\"anneeproduct\">
+							<option value=\"2013\">2013</option>
+							<option value=\"2012\">2012</option>
+							<option value=\"2011\">2011</option>
+						  </select>
+						</div>
+					  </div>
+					  <div class=\"control-group\">
+						<label class=\"control-label\">Choisissez un mode d'échange</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" id=\"modeechangeproduct\">
+							<option value=\"A mon domicile\">A mon domicile</option>
+							<option value=\"Par voie postale\">Par voie postale</option>
+						  </select>
+						</div>	
+					  </div>					 
+					</div></div>	
+					 <div class=\"span6\"><button class=\"btn btn-primary btn-large pull-right\" type=\"submit\">Modifier le produit</button></div>
+
+				</fieldset>
+				  </form>
+	  
+			";
+
+		
+
+			return($html);
+	}
+
 
 	
 }

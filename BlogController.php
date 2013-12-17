@@ -33,9 +33,28 @@ class BlogController{
 
 	public function afficheListeProduit($sousCat){
 		$menuleft = $this->vue->afficheSideBar($sousCat);
-		$centre = $this->vue->afficheListeProduit();
-		$this->vue->AffichePage($menuleft, "");
+		$centre = $this->vue->afficheListeProduit($sousCat);
+		$this->vue->AffichePage($menuleft, $centre);
 	}
+
+	public function afficheProduit($id, $sousCat){
+		$menuleft = $this->vue->afficheSideBar($sousCat);
+		$centre = $this->vue->afficheProduit($id, $sousCat);
+		$this->vue->AffichePage($menuleft, $centre);
+	}
+
+	public function afficheUpdateProduit($id){
+		$menuleft = $this->vue->afficheSideBarNormale();
+		$centre = $this->vue->afficheUpdateProduit($id);
+		$this->vue->AffichePage($menuleft, $centre);
+	}
+
+	public function listeProduitUser($id){
+		$menuleft = $this->vue->afficheSideBarNormale();
+		$centre = $this->vue->listeProduitUser($id);
+		$this->vue->AffichePage($menuleft,$centre);
+	}
+
 	
 	public function loginAction(){
 
@@ -149,9 +168,13 @@ public function registerAction(){
 
 
 	public function afficheRegisterOuLogin(){
-
-		$centre = $this->vue->afficheRegisterOuLogin();
-		$this->vue->AffichePage("", $centre);
+		if (empty($_SESSION)) {
+			$centre = $this->vue->afficheRegisterOuLogin();
+			$this->vue->AffichePage("", $centre);
+		}
+		else {
+			$this->afficheAccueil();
+		}
 	}
 
 	public function afficheAjoutProduit(){
@@ -159,7 +182,6 @@ public function registerAction(){
 		$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
 
 	}
-
 
 	public function ajoutProduit(){
 
@@ -210,6 +232,8 @@ public function registerAction(){
 	
 }
 
+
+	
 
 public function afficheSousCat($id){
 
@@ -278,7 +302,18 @@ public function afficheAlgo(){
 					$this->afficheAlgo();
 					break;
 
-				
+				case 'afficheProduit':
+					$sousCat = SousCategorie::findByIdSC($_GET['idsc']);
+					$this->afficheProduit($_GET['id'], $sousCat);
+					break;
+
+				case 'listeProduitUser':
+					$this->listeProduitUser($_SESSION['idU']);
+					break;
+
+				case 'afficheUpdateProduit':
+					$this->afficheUpdateProduit($_GET['id']);
+					break;
 				
 			}
 		}

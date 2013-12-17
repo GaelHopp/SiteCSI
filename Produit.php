@@ -76,31 +76,24 @@ class Produit {
 		} else {
 			return $this->update();
 		}
-	}
+	}*/
 	
 
-	public function update() {
+	/*public function update($idProduit) {
 		
-		if (!isset($this->idP)) {
-			throw new Exception(__CLASS__ . ": Primary Key undefined : cannot update");
-		} 
+		if (isset($idProduit)) {		
 		
-		
-		$save_query = "UPDATE categorie SET libelleC= :libelleC WHERE idC= :idC";
+		$query = "UPDATE possession SET etatP=".$_POST['etatP']." , mode_echange=".$_POST['mode_echange'].", descriptionP=".$_POST['descriptionP']." , annee_achat=".$_POST['annee_achat']." WHERE idP= $idP";
 		$pdo = Base::getConnection();
 		
-		$nb = $pdo->prepare($save_query);
-		$nb->bindparam(':libelleC', $this->libelleC);
-		$nb->bindparam(':description', $this->description);
-		$nb->bindparam(':idC', $this->idC);
-		$nb->execute();
+		$dbres = odbc_exec($c, $query);
 		
-		return $nb;
+		return $dbres;
 		
-	}
+	}*/
 	
 
-	public function delete() {
+	/*public function delete() {
 		
 		if (!isset($this->idP)) {
 			throw new Exception(__CLASS__ . ": Primary Key undefined : cannot delete");
@@ -124,7 +117,6 @@ class Produit {
 	public function insert() {
 		
 
-		
 		$query = "INSERT INTO produit VALUES('$this->typeP', $this->idSC, '$this->visible')";
 		
 		$c = Base::getConnection();
@@ -139,13 +131,6 @@ class Produit {
 		$query2 = "INSERT INTO actif VALUES($this->idP)";
 
 		$dbres2 = odbc_exec($c, $query2);
-
-	
-
-		
-
-		
-
 
 		$query3 = "INSERT INTO possession VALUES($this->idP, $this->idU, '$this->dateDeb', NULL, '$this->etatP', '$this->modeEchange', '$this->libelleP', '$this->descriptionP', $this->annee_achat)";
 		
@@ -168,42 +153,42 @@ class Produit {
 
 	public function uploadImage(){
 		$nb = $this->idP;
-     $dossier = 'images/'.$nb.'/';
-     mkdir($dossier);
-     $fichier = basename($_FILES['photoProduit']['name']);
-     $taille_maxi = 100000;
-     $taille = filesize($_FILES['photoProduit']['tmp_name']);
-     $extensions = array('.png', '.jpg', '.jpeg');
-     $extension = strrchr($_FILES['photoProduit']['name'], '.'); 
-     //Début des vérifications de sécurité...
-     if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
-     {
-          $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg, txt ou doc...';
-     }
-     if($taille>$taille_maxi)
-     {
-          $erreur = 'Le fichier est trop gros...';
-     }
-     if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
-     {
-          //On formate le nom du fichier ici...
-          $fichier = strtr($fichier, 
-               'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
-               'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-          $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
-          if(move_uploaded_file($_FILES['photoProduit']['tmp_name'], $dossier . $fichier)) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
-          {
-              
-          }
-          else //Sinon (la fonction renvoie FALSE).
-          {
-             
-          }
-     }
-     else
-     {
+    	$dossier = 'images/'.$nb.'/';
+    	mkdir($dossier);
+    	$fichier = basename($_FILES['photoProduit']['name']);
+	    $taille_maxi = 100000;
+	    $taille = filesize($_FILES['photoProduit']['tmp_name']);
+	    $extensions = array('.png', '.jpg', '.jpeg');
+	    $extension = strrchr($_FILES['photoProduit']['name'], '.'); 
+	    //Début des vérifications de sécurité...
+	    if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
+	    {
+	         $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg, txt ou doc...';
+	    }
+	    if($taille>$taille_maxi)
+	    {
+	         $erreur = 'Le fichier est trop gros...';
+	    }
+	    if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
+	    {
+	        //On formate le nom du fichier ici...
+	        $fichier = strtr($fichier, 
+	           'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
+	           'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+	        $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
+	        if(move_uploaded_file($_FILES['photoProduit']['tmp_name'], $dossier . $fichier)) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
+	        {
+	             
+	        }
+	        else //Sinon (la fonction renvoie FALSE).
+	        {
+	             
+	        }
+	    }
+    	else
+    	{
         
-     }
+    	}
 	}
 	
 
@@ -507,15 +492,15 @@ class Produit {
 }
 
 
-public function listeProduitSousCat($id){
+public static function listeProduitSousCat($id){
 
 		
 		$listeProduit = array();
 
-		$query = "SELECT * FROM possession, produit WHERE possession.idP = produit.idP and produit.visible = 'Vrai' and produit.idSC = $id";
+		$query = "SELECT * FROM possession, produit WHERE possession.idP = produit.idP and produit.visible = 'Vrai' and produit.idSC = $id and possession.idU <> ".$_SESSION['idU'];
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
-		$obj = odbc_fetch_object($dbres);
+		
 
 		if(!$dbres){
 			return(false);
@@ -523,7 +508,7 @@ public function listeProduitSousCat($id){
 		else{
 			
 				while($obj = odbc_fetch_object($dbres)){
-				
+
 				$produit = new Produit();
 				
 				$produit->setAttr('idP', $obj->idP);
@@ -551,6 +536,46 @@ public function listeProduitSousCat($id){
 
 }
 
+public static function listeProduitUser($id){
+
+		
+		$listeProduitUser = array();
+
+		$query = "SELECT possession.*, produit.idSC FROM possession, produit WHERE possession.idU = $id and produit.idP = possession.idP";
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
+		
+
+		if(!$dbres){
+			return(false);
+		}
+		else{
+			
+				while($obj = odbc_fetch_object($dbres)){
+
+				$produit = new Produit();
+				
+				$produit->setAttr('idP', $obj->idP);
+				$produit->setAttr('idU', $obj->idU);
+				$produit->setAttr('dateDeb', $obj->date_debut);
+				$produit->setAttr('dateFin', $obj->date_finP);
+				$produit->setAttr('etatP', $obj->etatP);
+				$produit->setAttr('modeEchange', $obj->mode_echangeP);
+				$produit->setAttr('libelleP', $obj->libelleP);
+				$produit->setAttr('descriptionP', $obj->descriptionP);
+				$produit->setAttr('annee_achat', $obj->annee_achat);
+				$produit->setAttr('idSC', $obj->idSC);
+
+				array_push($listeProduitUser, $produit);
+
+			}
+		
+		
+		return($listeProduitUser);
+		}
+
+
+}
 
 
 }

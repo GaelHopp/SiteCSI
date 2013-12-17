@@ -17,10 +17,35 @@
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
+	<script>
+		
+		function fTroc(id) {
+			if(document.getElementById("choixTroc").style.visibility=="hidden")
+			{	
+				document.getElementById("refProduct").value = id;
+				document.getElementById("choixTroc").style.visibility="visible";
+				
+			}
+			else
+			{	
+				document.getElementById("refProduct").value = "";
+				document.getElementById("choixTroc").style.visibility="hidden";
+			}
+			return true;
+		}
+		function libere() {
+			if(document.getElementById("liberer").checked){
+				document.getElementById('listeproduit').disabled = false;
+			}else{
+				document.getElementById('listeproduit').disabled = true;
+			}
+			return true;
+		}
+		
+	</script>
   </head>
 
-  <body>
+  <body onload="javascript:document.getElementById('choixTroc').style.visibility='hidden';document.getElementById('listeproduit').disabled = true;">
 
  
 
@@ -176,6 +201,31 @@
 	 <hr>
 	
 	 <div class="row">
+		<div id="choixTroc">
+			<div class="choixTroc">
+
+				<p style="text-align: right;" onclick="fTroc('refProduct')">Fermer</p><br />
+				<input type="hidden" id="refProduct" class="input-xlarge focused">
+				Je souhaite échanger ce produit par : <br /><br/>
+				
+				<input type= "radio" name="options" value="option1" onclick="libere()"> Je laisse l'utilisateur choisir un de mes produits <br />
+				<input type= "radio" name="options" id="liberer" value="option2" onclick="libere()"> Je propose un de mes produits <br />
+				<div class="control-group">
+						<label class="control-label">Merci de choisir votre produit à échanger :</label>
+						<div class="controls docs-input-sizes">
+						  <select placeholder="" class="span4" id="listeproduit">
+							<option value="prod1">prod1</option>
+							<option value="prod2">prod2</option>
+						  </select>
+						</div>
+					  </div>
+				<div class="span6">
+					<div class="span3 no_margin_left">
+						<button class="btn btn-primary" type="submit">Valider</button>
+					</div>	
+				</div>
+			</div>
+		</div>
 		 <div class="span3">
 			<img alt="" src="css/images/ipod_touch.jpg" />
 			
@@ -194,9 +244,9 @@
 		
 		<div class="span6">
 				<div class="span3 no_margin_left">
-					<button class="btn btn-primary" type="submit">Je troc</button>
+					<button class="btn btn-primary" type="submit" onclick="fTroc('refProduct')">Je troque</button>
 				</div>	
-		</div>		
+		</div>
 		<div class="span6">
 		<br/>	<br/>	
 			<p>
@@ -230,49 +280,7 @@
 		<p>utilisateur1 say "Oh my god"</p><hr>
 		<p>utilisateur2 say "Oh my god"</p>
     </div>    
-	<div class="tab-pane" id="3">
-				<ul class="thumbnails related_products">
-       
-	   <li class="span2">
-          <div class="thumbnail">
-            <a href="product.html"><img alt="" src="http://placehold.it/220x180" /></a>
-            <div class="caption">
-              <a href="product.html"> <h5>iPod Touch</h5></a>  Price: &#36;50.00<br /><br />
-            </div>
-          </div>
-        </li>
-       
-	   <li class="span2">
-          <div class="thumbnail">
-            <a href="product.html"><img alt="" src="http://placehold.it/220x180" /></a>
-            <div class="caption">
-              <a href="product.html"> <h5>iPod Touch</h5></a>  Price: &#36;50.00<br /><br />
-            </div>
-          </div>
-        </li>
-       
-	   <li class="span2">
-          <div class="thumbnail">
-            <a href="product.html"><img alt="" src="http://placehold.it/220x180" /></a>
-            <div class="caption">
-              <a href="product.html"> <h5>iPod Touch</h5></a>  Price: &#36;50.00<br /><br />
-            </div>
-          </div>
-        </li>
-       
-	   <li class="span2">
-          <div class="thumbnail">
-            <a href="product.html"><img alt="" src="http://placehold.it/220x180" /></a>
-            <div class="caption">
-              <a href="product.html"> <h5>iPod Touch</h5></a>  Price: &#36;50.00<br /><br />
-            </div>
-          </div>
-        </li>
-
-
-      </ul>
-    </div>
-    </div>
+	</div>
     </div>
 
 		</div>
@@ -282,9 +290,7 @@
 	 
 		</div>
 
-      </div>
-
-      <footer>
+      </div><footer>
 	<hr />
 	<div class="row well no_margin_left">
 
