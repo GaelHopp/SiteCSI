@@ -1183,16 +1183,15 @@ function afficheAlgo(){
 			
 			$html.="<div class=\"row\">
 						<div class=\"span1\">
-							<a href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."&amp;idsc=".$value->getAttr('idSC')."\"><img alt=\"\"  id=\"tmp\" src=images/". $value->getAttr('idP')."/".Produit::recupImage( $value->getAttr('idP'))."></a>
+							<img alt=\"\"  id=\"tmp\" src=images/". $value->getAttr('idP')."/".Produit::recupImage( $value->getAttr('idP')).">
 						</div>	 
 		  
 						<div class=\"span6\">
-							<a href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."&amp;idsc=".$value->getAttr('idSC')."\"><h5>".$value->getAttr('libelleP')."</h5></a>
+							<h5>".$value->getAttr('libelleP')."</h5>
 						</div>	 
 
 						<div class=\"span2\">
 							<p><a class=\"btn btn-primary\" href=\"Blog.php?action=afficheUpdateProduit&amp;id=".$value->getAttr('idP')."\">Modifier produit</a></p>
-							<p><a class=\"\" href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."&amp;idsc=".$value->getAttr('idSC')."\">Voir la fiche produit</a></p>
 						</div>
 					</div>
 		 <hr />";
@@ -1223,68 +1222,86 @@ function afficheAlgo(){
 				<h1>Modifier le produit</h1>
 				
 				<br />				
-				<form class=\"form-horizontal\">
-					<fieldset>
-					<div class=\"span6 no_margin_left\">
+				<form class=\"form-horizontal\" action=Blog.php?action=updateProduit&amp;id=$id method=\"post\" enctype='multipart/form-data'>
+					  <div class=\"control-group\">
+					  <div class=\"control-label\">
+							<fieldset>
+								&nbsp; Actif &nbsp;  <input type=\"radio\" value=\"Actif\" name=\"typeP\" checked > 
+								&nbsp;&nbsp; Inactif &nbsp;<input type=\"radio\" value=\"Passif\" name=\"typeP\"> <br/>
+					  		</fieldset>
+					  		</div>
+					  		</div>
+						
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Nom du produit</label>
 						<div class=\"controls docs-input-sizes\">
-							<!-- Si actif faire 
-							<button class=\"btn btn-primary\" type=\"submit\">Actif</button>
-							sinon faire -->
-							<button class=\"btn btn-primary\" type=\"submit\">Inactif</button>
-							<!-- fsi -->
+							 <input type=\"text\" placeholder=\"\" class=\"span4\" name=\"libelleP\">
 						</div>	
-					  </div>					  
+					  </div>				  
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Photo du produit</label>
 						<div class=\"controls docs-input-sizes\">
-						  <input type=\"file\" placeholder=\"\" class=\"span4\" id=\"photoproduct\">
+						  <input type='hidden' name='MAX_FILE_SIZE' value='10000000'>
+	     				
+						  <input type=\"file\" placeholder=\"\" class=\"span4\" name=\"photoProduit\">
 						</div>
 					  </div>
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Etat de votre produit</label>
 						<div class=\"controls docs-input-sizes\">
-						  <select placeholder=\"\" class=\"span4\" id=\"etatproduct\">
+						  <select placeholder=\"\" class=\"span4\" name=\"etatP\">
 							<option value=\"Neuf\">Neuf</option>
 							<option value=\"Bon etat\">Bon état</option>
 							<option value=\"Etat moyen\">Etat moyen</option>
 							<option value=\"Mauvais etat\">Mauvais état</option>
-							<option value=\"Très mauvais etat\">très mauvais état</option>
-							<option value=\"Pour pieces\">pour pièces</option>
+							<option value=\"Très mauvais etat\">Très mauvais état</option>
+							<option value=\"Pour pieces\">Pour pièces</option>
 						  </select>
 						</div>
 					  </div>
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Description du produit</label>
 						<div class=\"controls docs-input-sizes\">
-						  <textarea rows=\"4\" cols=\"50\" placeholder=\"\" class=\"span4\" id=\"descproduct\"> Ici la description de votre produit</textarea>
+						  <textarea rows=\"4\" cols=\"50\" placeholder=\"\" class=\"span4\" name=\"descriptionP\"> Ici la description de votre produit</textarea>
 						</div>
 					  </div>
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Année d'achat du produit</label>
 						<div class=\"controls docs-input-sizes\">
-						  <select placeholder=\"\" class=\"span4\" id=\"anneeproduct\">
+						  <select placeholder=\"\" class=\"span4\" name=\"annee_achat\">
 							<option value=\"2013\">2013</option>
 							<option value=\"2012\">2012</option>
 							<option value=\"2011\">2011</option>
+							<option value=\"2010\">2010</option>
+							<option value=\"2009\">2009</option>
+							<option value=\"2008\">2008</option>
+							<option value=\"2007\">2007</option>
+							<option value=\"2006\">2006</option>
+							<option value=\"2005\">2005</option>
+							<option value=\"2004\">2004</option>
+							<option value=\"2003\">2003</option>
+							<option value=\"2002\">2002</option>
+							<option value=\"2001\">2001</option>
+							<option value=\"2000\">2000</option>
 						  </select>
 						</div>
 					  </div>
 					  <div class=\"control-group\">
 						<label class=\"control-label\">Choisissez un mode d'échange</label>
 						<div class=\"controls docs-input-sizes\">
-						  <select placeholder=\"\" class=\"span4\" id=\"modeechangeproduct\">
+						  <select placeholder=\"\" class=\"span4\" name=\"modeEchange\">
 							<option value=\"A mon domicile\">A mon domicile</option>
-							<option value=\"Par voie postale\">Par voie postale</option>
+							<option value=\"A son domicile\">A son domicile</option>
+							<option value=\"A une adresse précise\">A une adresse précise</option>
 						  </select>
 						</div>	
 					  </div>					 
-					</div></div>	
+					</div>	
 					 <div class=\"span6\"><button class=\"btn btn-primary btn-large pull-right\" type=\"submit\">Modifier le produit</button></div>
 
 				</fieldset>
 				  </form>
+
 	  
 			";
 

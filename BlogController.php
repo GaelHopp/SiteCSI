@@ -248,6 +248,41 @@ public function afficheAlgo(){
 		$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
 
 	}
+
+
+
+
+
+public function updateProduit($id){
+
+
+		if((!empty($_POST['libelleP'])) && (!empty($_POST['etatP'])) 
+			&& (!empty($_POST['descriptionP'])) && (!empty($_POST['annee_achat']))
+			 && (!empty($_POST['modeEchange']))){
+
+			$produit = Produit::findByidP($id);
+
+			$produit->setAttr('libelleP', $_POST['libelleP']);
+			$produit->setAttr('descriptionP', $_POST['descriptionP']);
+			$produit->setAttr('annee_achat', $_POST['annee_achat']);
+			$produit->setAttr('modeEchange', $_POST['modeEchange']);
+			$produit->setAttr('etatP', $_POST['etatP']);
+			$ex = $produit->getAttr('typeP');
+			$produit->setAttr('typeP', $_POST['typeP']);
+
+			$produit->update($ex);
+
+			
+			$produit->uploadImage();
+
+
+		}
+
+		$centre = $this->vue->listeProduitUser($id);
+		$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
+
+
+}
 	
 	public function analyse(){
 		
@@ -313,6 +348,10 @@ public function afficheAlgo(){
 
 				case 'afficheUpdateProduit':
 					$this->afficheUpdateProduit($_GET['id']);
+					break;
+
+				case 'updateProduit':
+					$this->updateProduit($_GET['id']);
 					break;
 				
 			}

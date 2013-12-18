@@ -79,18 +79,43 @@ class Produit {
 	}*/
 	
 
-	/*public function update($idProduit) {
+	public function update($ex) {
 		
-		if (isset($idProduit)) {		
 		
-		$query = "UPDATE possession SET etatP=".$_POST['etatP']." , mode_echange=".$_POST['mode_echange'].", descriptionP=".$_POST['descriptionP']." , annee_achat=".$_POST['annee_achat']." WHERE idP= $idP";
-		$pdo = Base::getConnection();
+		
+		$query = "UPDATE produit SET typeP = '$this->typeP' WHERE idP = $this->idP";
+
+		$query2 = "UPDATE possession SET libelleP = '$this->libelleP', etatP = '$this->etatP', mode_echangeP = '$this->modeEchange', descriptionP = '$this->descriptionP', annee_achat = $this->annee_achat WHERE idP = $this->idP";
+
+		
+		$c = Base::getConnection();
 		
 		$dbres = odbc_exec($c, $query);
+		$dbres2 = odbc_exec($c, $query2);
+
+		if($this->typeP == "Actif" && $ex == "Passif"){
+			$query3 = "DELETE FROM passif WHERE idPassif = $this->idP";
+
+			$query4 = "INSERT INTO actif VALUES($this->idP)";
+
+			$dbres3 = odbc_exec($c, $query3);
+			$dbres4 = odbc_exec($c, $query4);
+		}
+
+		if($this->typeP == "Passif" && $ex == "Actif"){
+			$query3 = "DELETE FROM actif WHERE idActif = $this->idP";
+
+			$query4 = "INSERT INTO passif VALUES($this->idP)";
+
+			$dbres3 = odbc_exec($c, $query3);
+			$dbres4 = odbc_exec($c, $query4);
+		}
+
+
 		
 		return $dbres;
 		
-	}*/
+	}
 	
 
 	/*public function delete() {
@@ -151,10 +176,35 @@ class Produit {
 	}
 
 
+public function clearDir($dossier) {
+	$ouverture=opendir($dossier);
+	if (!$ouverture) return false;
+	while($fichier=readdir($ouverture)) {
+		if ($fichier == '.' || $fichier == '..') continue;
+			if (is_dir($dossier.$fichier)) {
+				$r=clearDir($dossier.$fichier);
+				if (!$r) return false;
+			}
+			else {
+
+				$r=unlink($dossier.$fichier);
+				if (!$r) return false;
+			}
+	}
+	closedir($ouverture);
+	$r=rmdir($dossier);
+	rename($dossier,"trash");
+	return true;
+	}
+
 	public function uploadImage(){
 		$nb = $this->idP;
     	$dossier = 'images/'.$nb.'/';
-    	mkdir($dossier);
+    	if(is_dir($dossier)){
+    		$this->clearDir($dossier);
+    	}
+    		mkdir($dossier);
+    	
     	$fichier = basename($_FILES['photoProduit']['name']);
 	    $taille_maxi = 100000;
 	    $taille = filesize($_FILES['photoProduit']['tmp_name']);
