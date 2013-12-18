@@ -796,8 +796,8 @@ function afficheSideBarNormale(){
 							<option value=\"Bon etat\">Bon état</option>
 							<option value=\"Etat moyen\">Etat moyen</option>
 							<option value=\"Mauvais etat\">Mauvais état</option>
-							<option value=\"Très mauvais etat\">très mauvais état</option>
-							<option value=\"Pour pieces\">pour pièces</option>
+							<option value=\"Tres mauvais etat\">Tres mauvais état</option>
+							<option value=\"Pour pieces\">Pour pièces</option>
 						  </select>
 						</div>
 					  </div>
@@ -834,7 +834,7 @@ function afficheSideBarNormale(){
 						  <select placeholder=\"\" class=\"span4\" name=\"modeEchangeProduit\">
 							<option value=\"A mon domicile\">A mon domicile</option>
 							<option value=\"A son domicile\">A son domicile</option>
-							<option value=\"A une adresse précise\">A une adresse précise</option>
+							<option value=\"A une adresse postale\">A une adresse postale</option>
 						  </select>
 						</div>	
 					  </div>	
@@ -1254,7 +1254,7 @@ function afficheAlgo(){
 							<option value=\"Bon etat\">Bon état</option>
 							<option value=\"Etat moyen\">Etat moyen</option>
 							<option value=\"Mauvais etat\">Mauvais état</option>
-							<option value=\"Très mauvais etat\">Très mauvais état</option>
+							<option value=\"Tres mauvais etat\">Très mauvais état</option>
 							<option value=\"Pour pieces\">Pour pièces</option>
 						  </select>
 						</div>
@@ -1283,6 +1283,7 @@ function afficheAlgo(){
 							<option value=\"2002\">2002</option>
 							<option value=\"2001\">2001</option>
 							<option value=\"2000\">2000</option>
+							<option value=\"1\">Avant</option>
 						  </select>
 						</div>
 					  </div>
@@ -1292,7 +1293,7 @@ function afficheAlgo(){
 						  <select placeholder=\"\" class=\"span4\" name=\"modeEchange\">
 							<option value=\"A mon domicile\">A mon domicile</option>
 							<option value=\"A son domicile\">A son domicile</option>
-							<option value=\"A une adresse précise\">A une adresse précise</option>
+							<option value=\"A une adresse postale\">A une adresse postale</option>
 						  </select>
 						</div>	
 					  </div>					 

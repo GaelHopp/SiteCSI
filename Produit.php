@@ -193,7 +193,7 @@ public function clearDir($dossier) {
 	}
 	closedir($ouverture);
 	$r=rmdir($dossier);
-	rename($dossier,"trash");
+
 	return true;
 	}
 
