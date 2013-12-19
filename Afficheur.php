@@ -225,38 +225,38 @@ $(document).ready(function(){
 	<div class=\"row well no_margin_left\">
 
 	<div class=\"span3\">
-		<h4>Information</h4>
+		<h4>Informations</h4>
 		<ul>
-			<li><a href=\"two-column.html\">About Us</a></li>
-			<li><a href=\"typography.html\">Delivery Information</a></li>
-			<li><a href=\"typography.html\">Privacy Policy</a></li>
-			<li><a href=\"typography.html\">Terms &amp; Conditions</a></li>
+			<li><a href=\"#\">A propos de nous</a></li>
+			<li><a href=\"#\">Information de livraison</a></li>
+			<li><a href=\"#\">Confidentialitéy</a></li>
+			<li><a href=\"#\">Termes et conditions</a></li>
 		</ul>
 	</div>
 	<div class=\"span3\">
-		<h4>Customer Service</h4>
+		<h4>Service Consommateur</h4>
 		<ul>
-			<li><a href=\"contact.html\">Contact Us</a></li>
-			<li><a href=\"typography.html\">Returns</a></li>
-			<li><a href=\"typography.html\">Site Map</a></li>
+			<li><a href=\"#\">Nous contacter</a></li>
+			<li><a href=\"#\">Retours</a></li>
+			<li><a href=\"#\">Index du site</a></li>
 		</ul>
 	</div>
 	<div class=\"span3\">
 		<h4>Extras</h4>
 		<ul>
-			<li><a href=\"typography.html\">Brands</a></li>
-			<li><a href=\"typography.html\">Gift Vouchers</a></li>
-			<li><a href=\"typography.html\">Affiliates</a></li>
-			<li><a href=\"typography.html\">Specials</a></li>
+			<li><a href=\"#\">Marques</a></li>
+			<!--<li><a href=\"#\">Gift Vouchers</a></li>-->
+			<li><a href=\"#\">Affiliés</a></li>
+			<!--<li><a href=\"#\">Specials</a></li>-->
 		</ul>
 	</div>
 	<div class=\"span2\">
-		<h4>My Account</h4>
+		<h4>Mon compte</h4>
 		<ul>
-			<li><a href=\"my_account.html\">My Account</a></li>
-			<li><a href=\"typography.html\">Order History</a></li>
-			<li><a href=\"typography.html\">Wish List</a></li>
-			<li><a href=\"typography.html\">Newsletter</a></li>
+			<li><a href=\"#\">Mon compte</a></li>
+			<li><a href=\"#\">Historique</a></li>
+			<!--<li><a href=\"#\">Wish List</a></li>-->
+			<li><a href=\"#\">Newsletter</a></li>
 		</ul>
 	</div>
 
