@@ -278,7 +278,7 @@ public function updateProduit($id){
 
 		}
 
-		$centre = $this->vue->listeProduitUser($id);
+		$centre = $this->vue->listeProduitUser($_SESSION['idU']);
 		$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
 
 
@@ -353,6 +353,10 @@ public function updateProduit($id){
 				case 'updateProduit':
 					$this->updateProduit($_GET['id']);
 					break;
+
+				case 'faireSouhait':
+				$this->faireSouhait();
+				break;
 				
 			}
 		}
