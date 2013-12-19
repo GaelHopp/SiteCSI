@@ -132,7 +132,7 @@ $(document).ready(function(){
 						<a href=\"index.html\">Home</a> |
 						<a href=\"my_account.html\">Mon compte</a> |
 						<a href=\"Blog.php?action=afficheAlgo\">Algo</a> |
-						<a href=\"cart.html\">Mes demandes (2)</a> |
+						<a href=\"Blog.php?action=afficheSouhait\">Souhaits/Demandes</a> |
 						<a href=\"Blog.php?action=listeProduitUser\">Mes produits</a> | 
 						<a href=\"Blog.php?action=afficheAjoutProduit\">Ajouter un produit</a> | 
 						<a href=\"Blog.php?action=logout\">Déconnexion</a> |
@@ -1092,7 +1092,7 @@ function libere() {
 	     <div id=\"choixTroc\">
 			<div class=\"choixTroc\">
 
-			<form action=\"action=\"Blog.php?action=faireSouhait\" method= \"post\">
+			<form action=\"action=\"Blog.php?action=faireSouhait&amp;id=".$value->getAttr('idP')."\" method= \"post\">
 				<input type=\"hidden\" id=\"refProduct\" class=\"input-xlarge focused\">
 				Je souhaite échanger ce produit par : <br /><br/>
 				
@@ -1106,7 +1106,7 @@ function libere() {
 						  $listeProduit = Produit::listeProduitUser($_SESSION['idU']);
 
 						  foreach ($listeProduit as $value) {
-						  	$html .="<option name=".$value->getAttr('idP')." value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
+						  	$html .="<option name=produit value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
 						  }
 
 		
@@ -1326,7 +1326,7 @@ function libere() {
 	     <div id=\"choixTroc\">
 			<div class=\"choixTroc\">
 
-			<form action=\"Blog.php?action=faireSouhait\" method= \"post\">
+			<form action=\"Blog.php?action=faireSouhait&amp;id=".$idP."\" method= \"post\">
 				<input type=\"hidden\" id=\"refProduct\" class=\"input-xlarge focused\">
 				Je souhaite échanger ce produit par : <br /><br/>
 				
@@ -1340,7 +1340,7 @@ function libere() {
 						  $listeProduit = Produit::listeProduitUser($_SESSION['idU']);
 
 						  foreach ($listeProduit as $value) {
-						  	$html .="<option name=".$value->getAttr('idP')."value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
+						  	$html .="<option name=produit value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
 						  }
 
 		
@@ -1521,6 +1521,118 @@ function libere() {
 		
 
 			return($html);
+	}
+
+
+	function afficheSouhait($idU){
+
+		$html = "<div class=\"span9\">
+		<ul class=\"breadcrumb\">
+			<li><a href=\"#\">Home</a> <span class=\"divider\">/</span></li>
+			<li><a href=\"#\">Produit</a> <span class=\"divider\">/</span></li>
+			<li class=\"active\">Souhaits</li>
+		</ul>
+		</div>
+			<div class=\"span9\">
+				<h1>Mes souhaits</h1>
+				
+				<br />		
+<!-- boucle -->		
+		<div class=\"row\">
+	  <div class=\"span9\">
+    <div class=\"tabbable\">
+    <ul class=\"nav nav-tabs\">
+    <li class=\"active\"><a href=\"#1\" data-toggle=\"tab\">Souhaits émis</a></li>
+    <li><a href=\"#2\" data-toggle=\"tab\">Souhaits reçus</a></li>
+    </ul>
+    <div class=\"tab-content\">
+    <div class=\"tab-pane active\" id=\"1\">
+		<p><!-- Mes souhaits -->
+		
+		<!-- BOUCLE -->
+		<table style=\"width:100%\">
+				<thead>
+					<tr>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:10%;height:30px;border-right:2px solid #333333;\">Statut</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px; width:45%;height:30px;border-right:2px solid #333333;\">Je souhaite échanger ce produit...</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:45%;height:30px;border-left:2px solid #333333;\">contre...</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style=\"padding:4px 4px 4px 4px;border-top:1px solid #333333;\">
+						<td style=\"width:10%;border-right:2px solid #333333;\"><center>En attente</center></td>
+						<td style=\"width:45%;border-right:2px solid #333333;\">
+						<center>Photo produit</center>
+						Nom produit : <br />
+						
+						</td>
+						<td style=\"width:45%;border-left:2px solid #333333;\">Photo produit proposé <br /></td>
+					</tr>
+
+				</tbody>
+			</table>
+			<br />
+			<table style=\"width:100%\">
+				<thead>
+					<tr>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:10%;height:30px;border-right:2px solid #333333;\">Statut</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px; width:45%;height:30px;border-right:2px solid #333333;\">Je souhaite échanger ce produit...</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:45%;height:30px;border-left:2px solid #333333;\">contre...</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style=\"padding:4px 4px 4px 4px;border-top:1px solid #333333;\">
+						<td style=\"width:10%;border-right:2px solid #333333;\"><center>Refusé</center></td>
+						<td style=\"width:45%;border-right:2px solid #333333;\">
+						<center>Photo produit</center>
+						Nom produit : <br />
+						
+						</td>
+						<td style=\"width:45%;border-left:2px solid #333333;\">Photo produit proposé <br /></td>
+					</tr>
+
+				</tbody>
+			</table>
+		
+		</p>
+    </div>
+    <div class=\"tab-pane\" id=\"2\">
+		<p><!-- Mes échanges -->
+		
+		<!-- BOUCLE -->
+		<table style=\"width:100%\">
+				<thead>
+					<tr>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:10%;height:30px;border-right:2px solid #333333;\">Statut</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px; width:45%;height:30px;border-right:2px solid #333333;\">J'ai échanger ce produit...</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:45%;height:30px;border-left:2px solid #333333;\">contre...</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style=\"padding:4px 4px 4px 4px;border-top:1px solid #333333;\">
+						<td style=\"width:10%;border-right:2px solid #333333;\"><center>Validé</center></td>
+						<td style=\"width:45%;border-right:2px solid #333333;\">
+						<center>Photo produit</center>
+						Nom produit : <br />
+						
+						</td>
+						<td style=\"width:45%;border-left:2px solid #333333;\"><center>Photo produit</center>
+						Nom produit : <br /></td>
+					</tr>
+
+				</tbody>
+			</table>
+		
+		</p>
+    </div>    
+    </div>
+    </div>
+
+		</div>
+		</div>	  
+			</div>";
+
+		return($html);
 	}
 
 
