@@ -1092,21 +1092,21 @@ function libere() {
 	     <div id=\"choixTroc\">
 			<div class=\"choixTroc\">
 
-			<form action=\"action=\"Blog.php?action=faireSouhait&amp;id=".$value->getAttr('idP')."\" method= \"post\">
+			<form action=\"Blog.php?action=faireSouhait&amp;id=".$value->getAttr('idP')."\" method= \"post\">
 				<input type=\"hidden\" id=\"refProduct\" class=\"input-xlarge focused\">
-				Je souhaite échanger ce produit par : <br /><br/>
+				Je souhaite échanger ce produit par : ".$value->getAttr('idP')."<br /><br/>
 				
 				<input type= \"radio\" name=\"options\" value=\"option1\" onclick=\"libere()\" checked> Je laisse l'utilisateur choisir un de mes produits <br />
 				<input type= \"radio\" name=\"options\" id=\"liberer\" value=\"option2\" onclick=\"libere()\"> Je propose un de mes produits <br />
 				<div class=\"control-group\">
 						<label class=\"control-label\">Merci de choisir votre produit à échanger :</label>
 						<div class=\"controls docs-input-sizes\">
-						  <select placeholder=\"\" class=\"span4\" id=\"listeproduit\" >";
+						  <select placeholder=\"\" name=\"produit\" class=\"span4\" id=\"listeproduit\" >";
 
 						  $listeProduit = Produit::listeProduitUser($_SESSION['idU']);
 
 						  foreach ($listeProduit as $value) {
-						  	$html .="<option name=produit value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
+						  	$html .="<option value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
 						  }
 
 		
@@ -1268,7 +1268,7 @@ function libere() {
 		
 		<div class=\"span6\">
 				<div class=\"span3 no_margin_left\">
-					<a class=\"btn btn-primary poplight\" href=\"#\" data-width=\"500\" data-rel=\"popup1\">Je troque</button></a>
+					<a class=\"btn btn-primary poplight\" href=\"Blog.php?action=faireSouhait&amp;id=".$produit->getAttr('idP')."\" data-width=\"500\" data-rel=\"popup1\">Je troque</button></a>
 
 				</div>	
 		</div>	
@@ -1335,12 +1335,12 @@ function libere() {
 				<div class=\"control-group\">
 						<label class=\"control-label\">Merci de choisir votre produit à échanger :</label>
 						<div class=\"controls docs-input-sizes\">
-						  <select placeholder=\"\" class=\"span4\" id=\"listeproduit\" >";
+						  <select placeholder=\"\" class=\"span4\" name=\"produit\" id=\"listeproduit\" >";
 
 						  $listeProduit = Produit::listeProduitUser($_SESSION['idU']);
 
 						  foreach ($listeProduit as $value) {
-						  	$html .="<option name=produit value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
+						  	$html .="<option value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
 						  }
 
 		
