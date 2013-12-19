@@ -206,7 +206,7 @@ public function clearDir($dossier) {
     		mkdir($dossier);
     	
     	$fichier = basename($_FILES['photoProduit']['name']);
-	    $taille_maxi = 100000;
+	    $taille_maxi = 10000000;
 	    $taille = filesize($_FILES['photoProduit']['tmp_name']);
 	    $extensions = array('.png', '.jpg', '.jpeg');
 	    $extension = strrchr($_FILES['photoProduit']['name'], '.'); 

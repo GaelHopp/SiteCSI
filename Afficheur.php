@@ -956,8 +956,15 @@ function afficheAlgo(){
 						<td style=\"width:50%;border-left:2px solid #333333;\">Nom produit : .".$produit2->getAttr('libelleP')."</td>
 					</tr>
 					<tr style=\"padding:4px 4px 4px 4px;border-bottom:1px solid #333333;\">
-						<td style=\"width:50%;border-right:2px solid #333333;\">Photo produit 1 <br /></td>
-						<td style=\"width:50%;border-left:2px solid #333333;\">Photo produit 2</td>
+						<td style=\"width:50%;border-right:2px solid #333333;\">
+							<div class=\"span1\"> 	
+						 		<img alt=\"\"  id=\"tmp\" src=images/". $produit1->getAttr('idP')."/".Produit::recupImage( $produit1->getAttr('idP'))."> <br />
+							</div>
+						</td>
+						<td style=\"width:50%;border-left:2px solid #333333;\"> 
+							<div class=\"span1\">
+								<img alt=\"\"  id=\"tmp\" src=images/". $produit2->getAttr('idP')."/".Produit::recupImage( $produit2->getAttr('idP'))."></td>
+							</div>
 					</tr>";
 
 

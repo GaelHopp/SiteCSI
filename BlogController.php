@@ -153,7 +153,7 @@ public function registerAction(){
 		session_unset();
 		session_destroy();
 
-		$this->vue->AffichePage("",$this->vue->afficheAccueilGuest());
+		$this->afficheAccueil();
 
 	}
 
@@ -317,6 +317,7 @@ public function updateProduit($id){
 				case 'logout':
 
 					$this->logoutAction();
+					break;
 
 				case 'afficheAjoutProduit':
 
