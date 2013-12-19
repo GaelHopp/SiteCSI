@@ -55,6 +55,11 @@ class BlogController{
 		$this->vue->AffichePage($menuleft,$centre);
 	}
 
+	public function listeProduitUserTroc($id){
+		$menuleft = $this->vue->afficheSideBarNormale();
+		$centre = $this->vue->listeProduitUserTroc($id);
+		$this->vue->AffichePage($menuleft,$centre);
+	}
 	
 	public function loginAction(){
 
@@ -402,7 +407,10 @@ public function afficheSouhait($idU){
 				case 'afficheSouhait':
 				$this->afficheSouhait($_SESSION['idU']);
 				break;
-				
+
+				case 'listeProduitUserTroc':
+					$this->listeProduitUserTroc($_SESSION['idU']);
+					break;
 			}
 		}
 		else{

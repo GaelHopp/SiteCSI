@@ -1434,6 +1434,63 @@ function libere() {
 			return($html);
 	}
 
+function listeProduitUserTroc($idU){
+
+		$html = "";
+
+		if(!empty($idU) && $idU != 0){ 
+
+		$produitUser = Produit::listeProduitUser($idU);
+
+		$html .=" <div class=\"span9\">
+		     <ul class=\"breadcrumb\">
+    <li>
+    <a href=\"#\">Home</a> <span class=\"divider\">/</span>
+    </li>
+    <li>
+    <a href=\"listings.html\">Produit</a> <span class=\"divider\">/</span>
+    </li>
+    <li class=\"active\">
+    <a href=\"category.html\">Mes produits</a>
+    </li>
+    </ul>";
+
+		foreach ($produitUser as $value) {
+			
+			$html.="<div class=\"row\">
+						<div class=\"span1\">
+							<img alt=\"\"  id=\"tmp\" src=images/". $value->getAttr('idP')."/".Produit::recupImage( $value->getAttr('idP')).">
+						</div>	 
+		  
+						<div class=\"span6\">
+							<h5>".$value->getAttr('libelleP')."</h5>
+						</div>	 
+
+						<div class=\"span2\">
+							<p><a class=\"btn btn-primary\" href=\"Blog.php?action=RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\">Choisir ce produit</a></p>
+							 <p><a class=\"\" href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."\">Voir la fiche produit</a></p>
+						</div>
+					</div>
+		 <hr />";
+  		}
+	  
+	      $html .="<div class=\"pagination\">
+    				<ul>
+    					<li><a href=\"#\">Prev</a></li>
+    					<li class=\"active\">
+   							 <a href=\"#\">1</a>
+   						</li>
+    					<li><a href=\"#\">2</a></li>
+   						<li><a href=\"#\">3</a></li>
+    					<li><a href=\"#\">4</a></li>
+    					<li><a href=\"#\">Next</a></li>
+    				</ul>
+    			</div>
+    			</div>";
+			}
+
+			return($html);
+	}
 
 	function afficheUpdateProduit($id){
 
