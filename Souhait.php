@@ -94,9 +94,15 @@ class Souhait {
 		
 		$c = Base::getConnection();
 		
-		$dbres = odbc_exec($c, $query);
+		$souhait = Souhait::findByPK($this->idP, $this->idU);
+		echo $souhait->getAttr('idP');
 
-		return $dbres;
+		if(is_null($souhait)){ 
+
+
+
+		$dbres = odbc_exec($c, $query);
+	}
 
 	
 		
@@ -107,6 +113,38 @@ class Souhait {
 
 	public static function findByidP($idP) {
 		$query = "SELECT * FROM souhait_echange WHERE idP = ".$idP;
+		$c = Base::getConnection();
+		$dbres = odbc_exec($c, $query);
+		$obj = odbc_fetch_object($dbres);
+
+		if(!$obj){
+			return(false);
+		}
+		else{
+			
+			
+				
+				$souhait = new Souhait();
+				
+				$souhait->setAttr('idP', $obj->idP);
+				$souhait->setAttr('idU', $obj->idU);
+				$souhait->setAttr('idP2', $obj->idP2);
+				$souhait->setAttr('date_souhait', $obj->date_souhait);
+				
+
+
+
+			
+		
+		
+		return($souhait);
+		}
+	
+		
+	}
+
+	public static function findByPK($idP, $idU) {
+		$query = "SELECT * FROM souhait_echange WHERE idP = ".$idP." AND idU = ".$idU;
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
 		$obj = odbc_fetch_object($dbres);

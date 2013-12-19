@@ -283,6 +283,46 @@ public function updateProduit($id){
 
 
 }
+
+
+public function faireSouhait($idP){
+
+	$souhait = new Souhait();
+
+	$souhait->setAttr('idP', $idP);
+	$souhait->setAttr('idU', $_SESSION['idU']);
+
+	if($_POST['options'] == "option1"){
+
+		$souhait->setAttr('idP2', NULL);
+
+	}
+	elseif($_POST['options'] == "option2"){
+
+		$idP2 = $_POST['produit'];
+		$souhait->setAttr('idP2', $idP2);
+	}
+
+	$date_souhait = date("Y-m-d H:i:s");
+
+	$souhait->setAttr('date_souhait', $date_souhait);
+
+	$souhait->insert();
+
+
+	$centre = $this->vue->afficheSouhait($_SESSION['idU']);
+	$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
+
+
+}
+
+
+public function afficheSouhait($idU){
+
+	$centre = $this->vue->afficheSouhait($idU);
+	$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
+
+}
 	
 	public function analyse(){
 		
@@ -356,7 +396,11 @@ public function updateProduit($id){
 					break;
 
 				case 'faireSouhait':
-				$this->faireSouhait();
+				$this->faireSouhait($_GET['id']);
+				break;
+
+				case 'afficheSouhait':
+				$this->afficheSouhait($_SESSION['idU']);
 				break;
 				
 			}
