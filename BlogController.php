@@ -333,9 +333,9 @@ public function afficheSouhait($idU){
 
 
 
-public function ajoutTroc($idP1, $idU2){
+public function ajoutTroc($idP1, $idU2, $idP2){
 
-	$souhait = Souhait::findyByPK($idP1, $idU2);
+	$souhait = Souhait::findByPK($idP1, $idU2);
 
 	$produit = Produit::findByidP($idP1);
 
@@ -343,31 +343,84 @@ public function ajoutTroc($idP1, $idU2){
 
 	$troc = new Troc();
 
+
+
 	$troc->setAttr('dateT', $dateT);
 	$troc->setAttr('mode_echange_final', $produit->getAttr('modeEchange'));
 	$troc->setAttr('effectif', "Faux");
 	$troc->setAttr('idU1', $produit->getAttr('idU'));
 	$troc->setAttr('idU2', $idU2);
 	$troc->setAttr('idP1', $idP1);
-	$troc->setAttr('idP2', $souhait->getAttr('idP2'));
+	$troc->setAttr('idP2', $idP2);
 
 	$troc->insert();
 
 	$listeSouhait1 = Souhait::findByidP($idP1);
-	$listeSouhait2 = Souhait::findByidP($troc->getAttr('idP1'));
+	$listeSouhait2 = Souhait::findByidP($idP2);
 
 	foreach ($listeSouhait1 as $souhait) {
 		$souhait->delete();
 	}
 
-	foreach ($listeSouhait1 as $souhait) {
+	foreach ($listeSouhait2 as $souhait) {
 		$souhait->delete();
 	}
 
-
-
+	$this->afficheSouhait($_SESSION['idU']);
 
 }
+
+	public function refusSouhait($idP, $idU){
+
+		$souhait = Souhait::findByPK($idP, $idU);
+
+		$souhait->delete();
+
+		$this->afficheSouhait($_SESSION['idU']);
+
+	}
+
+	public function afficheListeUserTroc($idP, $idU){
+
+		$centre = $this->vue->listeProduitUserTroc($idP, $idU);
+
+		$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
+
+	}
+
+
+	public function afficheProduitTroc($idP, $idU, $idP2){
+
+		$centre = $this->vue->afficheProduitTroc($idP, $idU, $idP2);
+
+		$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
+
+	}
+
+
+
+
+	public function afficheDetailSouhait($idP, $idU){
+
+		$souhait = Souhait::findByPK($idP, $idU);
+
+		if(is_null($souhait->getAttr('idP2')) || empty($souhait->getAttr('idP2'))){
+
+			$this->afficheListeUserTroc($idP, $idU);
+
+		}else{
+
+			$this->afficheProduitTroc($idP, $idU, $souhait->getAttr('idP2'));
+
+		}
+
+
+	}
+
+
+
+
+
 	
 	public function analyse(){
 		
@@ -450,13 +503,21 @@ public function ajoutTroc($idP1, $idU2){
 
 
 				case 'ajoutTroc':
-				$this->ajoutTroc($idP1, $idU2);
+				$this->ajoutTroc($_GET['idP'], $_GET['idU'], $_GET['idP2']);
 				break;
 
 
-				case 'listeProduitUserTroc':
-					$this->listeProduitUserTroc($_SESSION['idU']);
+				case 'detailSouhait':
+					$this->afficheDetailSouhait($_GET['idP'], $_GET['idU']);
 					break;
+
+				case 'refusSouhait':
+				$this->refusSouhait($_GET['idP'], $_GET['idU']);
+				break;
+
+				case 'afficheProduitTroc':
+				$this->afficheProduitTroc($_GET['idP'], $_GET['idU'], $_GET['idP2']);
+				break;
 
 			}
 		}

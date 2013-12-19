@@ -99,16 +99,14 @@ class Troc {
 	
 
 	public static function findByUser($idU) {
-		$query = "SELECT * FROM troc WHERE idU1 = ".$idU;
+		$query = "SELECT * FROM troc WHERE idU1 = ".$idU."OR idU2=".$idU;
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
-		$obj = odbc_fetch_object($dbres);
+		
 
-		if(!$obj){
-			return(false);
-		}
-		else{
-			
+				$res = array();
+
+				while($obj = odbc_fetch_object($dbres)){ 
 			
 				
 				$troc = new Troc();
@@ -122,18 +120,18 @@ class Troc {
 				$troc->setAttr('idP1', $obj->idP1);
 				$troc->setAttr('idP2', $obj->idP2);
 
-				
-
+				array_push($res, $troc);
+			}
 
 
 			
 		
 		
-		return($troc);
+		return($res);
 		}
 	
 		
-	}
+	
 
 	
 

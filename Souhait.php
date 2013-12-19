@@ -121,7 +121,7 @@ class Souhait {
 	
 
 	public static function findByidP($idP) {
-		$query = "SELECT * FROM souhait_echange WHERE idP = ".$idP;
+		$query = "SELECT * FROM souhait_echange WHERE idP = ".$idP."OR idP2 =".$idP;
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
 		if(!$dbres){
@@ -233,12 +233,12 @@ class Souhait {
 			else{
 			$res = array();
 
-			$souhait = new Souhait();
+			
 			
 			while($obj = odbc_fetch_object($dbres)){
 			
 			
-				
+				$souhait = new Souhait();
 				
 				
 				$souhait->setAttr('idP', $obj->idP);
@@ -246,12 +246,12 @@ class Souhait {
 				$souhait->setAttr('idP2', $obj->idP2);
 				$souhait->setAttr('date_souhait', $obj->date_souhait);
 
-
+				array_push($res, $souhait);
 				
 			}
 		
 		
-		return($souhait);
+		return($res);
 		}
 		
 		
@@ -260,7 +260,7 @@ class Souhait {
 
 	public static function findByUserAcheteur($idU){
 		
-		$query = "SELECT * FROM souhait_echange WHERE idU = $idU";
+		$query = "SELECT * FROM souhait_echange WHERE idU = ".$idU;
 		
 
 
@@ -274,12 +274,12 @@ class Souhait {
 			else{
 			$res = array();
 
-			$souhait = new Souhait();
+			
 			
 			while($obj = odbc_fetch_object($dbres)){
 			
 			
-				
+				$souhait = new Souhait();
 				
 				
 				$souhait->setAttr('idP', $obj->idP);
@@ -288,11 +288,11 @@ class Souhait {
 				$souhait->setAttr('date_souhait', $obj->date_souhait);
 
 
-				
+				array_push($res, $souhait);
 			}
 		
 		
-		return($souhait);
+		return($res);
 		}
 		
 		

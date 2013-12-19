@@ -132,7 +132,7 @@ class NoeudListeAttente{
 	}
 
 
-	public static function egal($n1, $n2){
+	public static function egal($n1, $n2){					// Test si la longueur entre 2 liste d'appariements est la même
 
 		$listeEgale = false;
 		$listeEgaleFinale = true;
@@ -196,7 +196,7 @@ class Algo{
 
 
 
-public static function noeudExiste($tabNoeud, $noeud){
+public static function noeudExiste($tabNoeud, $noeud){				// Teste si un noeud existe déjà dans la liste
 
 
 	$existe = false;
@@ -228,7 +228,7 @@ public static function noeudExiste($tabNoeud, $noeud){
 
 
 
-public static function insereTri($tableauNoeud, $noeud){
+public static function insereTri($tableauNoeud, $noeud){		// Insère le noeud dans la liste de façon triée en fonction de son coût 
 
 
 
@@ -274,7 +274,7 @@ public static function insereTri($tableauNoeud, $noeud){
 
 
 
-public static function successeur($noeud, $tab, $listeA){
+public static function successeur($noeud, $tab, $listeA){				// fonction successeur 
 
 
 
@@ -347,7 +347,7 @@ for($i=0; $i < sizeof($tab); $i++){
 
 
 
-public static function initialisation(){
+public static function initialisation(){				// Initialise les coefficients d'appariement en fonction des critères
 
 	$tableauValeur = array();
 
@@ -472,7 +472,7 @@ $listeAttente = array();
 
 $listeProduit = Produit::findAll();
 
-for($i=0; $i < sizeof($tableauValeur)-1; $i++){
+for($i=0; $i < sizeof($tableauValeur)-1; $i++){									// Initialise la liste avec tous les fils de la racine
 
 
 

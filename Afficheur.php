@@ -6,6 +6,7 @@ include_once "Users.php";
 include_once "Produit.php";
 include_once "Souhait.php";
 include_once "Algo.php";
+include_once "Troc.php";
 
 
 class Vue{ 
@@ -98,7 +99,7 @@ $(document).ready(function(){
 						<a href=\"#\" class=\"enreg\">Se connecter</a>
 					</div>
 
-					<!-- Surplus connexion :) -->
+					<!-- Surplus connexion  -->
 				<div class=\"connect_ombre\">
 				<div class=\"connect\">
 				
@@ -123,16 +124,15 @@ $(document).ready(function(){
 				</form>
 				</div>
 				</div>
-				<!-- fin Surplus connexion :) -->";
+				<!-- fin Surplus connexion  -->";
 		}
 		else{
 			
 			echo "<div class=\"row\">
 					<div class=\"links pull-right\">
 						<a href=\"index.html\">Home</a> |
-						<a href=\"my_account.html\">Mon compte</a> |
 						<a href=\"Blog.php?action=afficheAlgo\">Algo</a> |
-						<a href=\"Blog.php?action=afficheSouhait\">Souhaits/Demandes</a> |
+						<a href=\"Blog.php?action=afficheSouhait\">Souhaits/Troc</a> |
 						<a href=\"Blog.php?action=listeProduitUser\">Mes produits</a> | 
 						<a href=\"Blog.php?action=afficheAjoutProduit\">Ajouter un produit</a> | 
 						<a href=\"Blog.php?action=logout\">Déconnexion</a> |
@@ -194,7 +194,7 @@ $(document).ready(function(){
 						echo  "<ul class=\"nav pull-right\">
 						   <li class=\"divider-vertical\"></li>
 							<form class=\"navbar-search\" action=\"\">
-								<input type=\"text\" class=\"search-query span2\" placeholder=\"Search\">
+								<input type=\"text\" class=\"search-query span2\" placeholder=\"Recherche\">
 								<button class=\"btn btn-primary btn-small search_btn\" type=\"submit\">Go</button>
 							</form>
 							
@@ -229,7 +229,7 @@ $(document).ready(function(){
 		<ul>
 			<li><a href=\"#\">A propos de nous</a></li>
 			<li><a href=\"#\">Information de livraison</a></li>
-			<li><a href=\"#\">Confidentialitéy</a></li>
+			<li><a href=\"#\">Confidentialité</a></li>
 			<li><a href=\"#\">Termes et conditions</a></li>
 		</ul>
 	</div>
@@ -428,24 +428,24 @@ function afficheSideBarNormale(){
               <div class=\"item active\">
 		<img src=\"css/images/carousel_1.jpg\" alt=\"\">
                 <div class=\"carousel-caption\">
-                  <h4>First Thumbnail label</h4>
-                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                  <h4>Des dizaines de produits</h4>
+                  <p>Vous pourrez troquer vos produits contre tout et n'importe quoi sur notre site. Vous trouverez aussi bien des produits anciens que des produits dernièrement sortis.</p>
                 </div>
 
               </div>
               <div class=\"item\">
                 <img src=\"css/images/carousel_2.jpg\" alt=\"\">
                 <div class=\"carousel-caption\">
-                  <h4>Second Thumbnail label</h4>
-                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                  <h4>Un site fiable</h4>
+                  <p>D'après une étude 87,6% des utilisateurs de notre site sont satisfait par la qualité de la prestation et par le sérieux des utilisateurs.</p>
                 </div>
               </div>
 
               <div class=\"item\">
 		<img src=\"css/images/carousel_3.jpg\" alt=\"\">
                 <div class=\"carousel-caption\">
-                  <h4>Third Thumbnail label</h4>
-                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                  <h4>Troquer c'est gagner</h4>
+                  <p>En venant sur notre site c'est l'assurance pour vous d'échanger vos objets contre d'autres en faisant des économies non négligables</p>
                 </div>
               </div>
             </div>
@@ -458,7 +458,7 @@ function afficheSideBarNormale(){
 		  
 		  
 		<div class=\"span7 popular_products\">
-		 <h4>Popular products</h4><br />
+		 <h4>Produits populaires</h4><br />
 		<ul class=\"thumbnails\">
        
 	   <li class=\"span2\">
@@ -1434,7 +1434,7 @@ function libere() {
 			return($html);
 	}
 
-function listeProduitUserTroc($idU){
+function listeProduitUserTroc($idP, $idU){
 
 		$html = "";
 
@@ -1467,14 +1467,17 @@ function listeProduitUserTroc($idU){
 						</div>	 
 
 						<div class=\"span2\">
-							<p><a class=\"btn btn-primary\" href=\"Blog.php?action=RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\">Choisir ce produit</a></p>
-							 <p><a class=\"\" href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."\">Voir la fiche produit</a></p>
+							<p><a class=\"btn btn-primary\" href=\"Blog.php?action=ajoutTroc&amp;idP=".$idP."&amp;idU=".$idU."&amp;idP2=".$value->getAttr('idP')."\">Choisir ce produit</a></p>
+							 <p><a class=\"\" href=\"Blog.php?action=afficheProduitTroc&amp;idP=".$idP."&amp;idU=".$idU."&amp;idP2=".$value->getAttr('idP')."\">Voir la fiche produit</a></p>
 						</div>
 					</div>
 		 <hr />";
   		}
 	  
-	      $html .="<div class=\"pagination\">
+	      $html .="<div class=\"span2\">
+	      				<p><a class=\"btn btn-primary\" href=\"Blog.php?action=refusSouhait&amp;idP=".$idP."&amp;idU=".$idU."\">Refuser ce troc</a></p>
+	      			</div><br /><br />
+	      			<div class=\"pagination\">
     				<ul>
     					<li><a href=\"#\">Prev</a></li>
     					<li class=\"active\">
@@ -1491,6 +1494,101 @@ function listeProduitUserTroc($idU){
 
 			return($html);
 	}
+
+
+
+
+	function afficheProduitTroc($idP, $idU, $idP2){
+
+		$html = "";
+
+		if(!empty($idP) && $idP != 0){ 
+
+		$produit = Produit::findByidP($idP);
+
+			 $html.="<div class=\"span9\">	
+	
+	 <div class=\"row\">
+		 <div class=\"span9\">
+			<h1>".$produit->getAttr('libelleP')."</h1>
+		 </div>
+	</div>
+	 <hr>
+	
+	 <div class=\"row\">
+		 <div class=\"span3\">
+			<img alt=\"\" src=images/". $produit->getAttr('idP')."/".Produit::recupImage( $produit->getAttr('idP'))." />
+			
+
+		</div>	 
+
+	  
+	  <div class=\"span6\">
+	  
+		<div class=\"span6\">
+			<address>
+				<strong>Nom du produit : </strong> <span>".$produit->getAttr('libelleP')."</span><br />
+				<strong>Année du produit:</strong> <span>".$produit->getAttr('annee_achat')."</span><br />
+				<strong>Etat du produit:</strong> <span>".$produit->getAttr('etatP')."</span><br />
+			</address>
+		</div>	
+			
+		
+		<div class=\"span6\">
+				<div class=\"span3 no_margin_left\">
+					<a class=\"btn btn-primary poplight\" href=\"Blog.php?action=ajoutTroc&amp;idP=".$produit->getAttr('idP')."&amp;idU=".$idU."&amp;idP2=".$idP2."\" data-width=\"500\" data-rel=\"popup1".$produit->getAttr('idP')."\">Accepter Troc</button></a>
+					<a class=\"btn btn-primary poplight\" href=\"Blog.php?action=refusSouhait&amp;idP=".$produit->getAttr('idP')."&amp;idU=".$idU."\" data-width=\"500\" data-rel=\"popup1".$produit->getAttr('idP')."\">Refuser Troc</button></a>
+
+				</div>	
+		</div>	
+
+		
+		<div class=\"span6\">
+		<br/>	<br/>	
+			<p>
+			<input name=\"star1\" type=\"radio\" class=\"star\"/>
+<input name=\"star1\" type=\"radio\" class=\"star\"/>
+<input name=\"star1\" type=\"radio\" class=\"star\"/>
+<input name=\"star1\" type=\"radio\" class=\"star\"/>
+<input name=\"star1\" type=\"radio\" class=\"star\"/>&nbsp;&nbsp;
+			
+			<a href=\"#\">Noter le produit</a></p>
+		</div>	
+		
+		
+	  </div>	
+
+
+  </div>
+   <hr>
+		<div class=\"row\">
+	  <div class=\"span9\">
+    <div class=\"tabbable\">
+    <ul class=\"nav nav-tabs\">
+    <li class=\"active\"><a href=\"#1\" data-toggle=\"tab\">Description</a></li>
+    <li><a href=\"#2\" data-toggle=\"tab\">Historique</a></li>
+    </ul>
+    <div class=\"tab-content\">
+    <div class=\"tab-pane active\" id=\"1\">
+    <p>".$produit->getAttr('descriptionP')."</p>
+    </div>
+    <div class=\"tab-pane\" id=\"2\">
+		<p>utilisateur1 say \"Oh my god\"</p><hr>
+		<p>utilisateur2 say \"Oh my god\"</p>
+    </div>    
+
+    </div>
+    </div>
+
+		</div>
+		</div>
+		</div>
+";
+
+	}
+
+	return($html);
+}
 
 	function afficheUpdateProduit($id){
 
@@ -1608,6 +1706,7 @@ function listeProduitUserTroc($idU){
     <ul class=\"nav nav-tabs\">
     <li class=\"active\"><a href=\"#1\" data-toggle=\"tab\">Souhaits émis</a></li>
     <li><a href=\"#2\" data-toggle=\"tab\">Souhaits reçus</a></li>
+    <li><a href=\"#3\" data-toggle=\"tab\">Trocs en cours</a></li>
     </ul>
     <div class=\"tab-content\">
     <div class=\"tab-pane active\" id=\"1\">
@@ -1615,22 +1714,31 @@ function listeProduitUserTroc($idU){
 		
 		$listeSouhaitAcheteur = Souhait::findByUserAcheteur($_SESSION['idU']);
 
-		print_r($listeSouhaitAcheteur);
+		
 
 		$listeSouhaitVendeur = Souhait::findByUserVendeur($_SESSION['idU']);
 
-		print_r($listeSouhaitVendeur);
 
 		foreach ($listeSouhaitAcheteur as $souhait) {
 			
-			$produit1 = Produit::findByidP($souhait->getAttr('idP'));
-			$produit2 = Produit::findByidP($souhait->getAttr('idP2'));
+			$valeurP2;
 
-			if(is_null($produit2)){
+			if(empty($souhait->getAttr('idP2')) || is_null($souhait->getAttr('idP2'))){
+
 				$valeurP2 = "Au choix";
+
 			}else{
-				$valeurP2 = $produit2->getAttr('idP');
+
+				$produit2 = Produit::findByidP($souhait->getAttr('idP2'));
+				$valeurP2 = $produit2->getAttr('libelleP');
 			}
+
+			$produit1 = Produit::findByidP($souhait->getAttr('idP'));
+
+
+	
+
+			
 			
 
 
@@ -1644,7 +1752,7 @@ function listeProduitUserTroc($idU){
 				</thead>
 				<tbody>
 					<tr style=\"padding:4px 4px 4px 4px;border-top:1px solid #333333;\">
-						<td style=\"width:10%;border-right:2px solid #333333;\"><center>Voir le détail</center></td>
+						<td style=\"width:10%;border-right:2px solid #333333;\"><center>En attente</center></td>
 						<td style=\"width:45%;border-right:2px solid #333333;\">".
 	
 						$produit1->getAttr('libelleP')."<br />
@@ -1665,14 +1773,19 @@ function listeProduitUserTroc($idU){
 
 		foreach ($listeSouhaitVendeur as $souhait) {
 				
-				$produit1 = Produit::findByidP($souhait->getAttr('idP'));
-			$produit2 = Produit::findByidP($souhait->getAttr('idP2'));
+			$valeurP2;
 
-			if(is_null($produit2)){
+			if(empty($souhait->getAttr('idP2')) || is_null($souhait->getAttr('idP2'))){
+
 				$valeurP2 = "Au choix";
+
 			}else{
-				$valeurP2 = $produit2->getAttr('idP');
+
+				$produit2 = Produit::findByidP($souhait->getAttr('idP2'));
+				$valeurP2 = $produit2->getAttr('libelleP');
 			}
+
+			$produit1 = Produit::findByidP($souhait->getAttr('idP'));
 
 
 				$html .= "
@@ -1689,10 +1802,10 @@ function listeProduitUserTroc($idU){
 				</thead>
 				<tbody>
 					<tr style=\"padding:4px 4px 4px 4px;border-top:1px solid #333333;\">
-						<td style=\"width:10%;border-right:2px solid #333333;\"><center>En attente</center></td>
+						<td style=\"width:10%;border-right:2px solid #333333;\"><center><a href=\"Blog.php?action=detailSouhait&amp;idP=".$souhait->getAttr('idP')."&amp;idU=".$souhait->getAttr('idU')."\">Voir le détail</a></center></td>
 						<td style=\"width:45%;border-right:2px solid #333333;\">"
 					
-						.$produit1->getAttr('idP')."<br />
+						.$produit1->getAttr('libelleP')."<br />
 						
 						</td>
 						<td style=\"width:45%;border-left:2px solid #333333;\"><center></center>
@@ -1702,12 +1815,61 @@ function listeProduitUserTroc($idU){
 				</tbody>
 			</table> <br/>";
 		}
+	
+
+	
+
+		$html .= "</p>
+		</div>
+    <div class=\"tab-pane\" id=\"3\">
+		<p><!-- Mes échanges -->";
+
+		$listeTroc = Troc::findByUser($_SESSION['idU']);
+
+		foreach ($listeTroc as $troc) {
+			
+
+			if($_SESSION['idU'] == $troc->getAttr('idU1')){
+
+				$produit1 = Produit::findByidP($troc->getAttr('idP1'));
+				$produit2 = Produit::findByidP($troc->getAttr('idP2'));
+
+			}else{
+
+				$produit1 = Produit::findByidP($troc->getAttr('idP2'));
+				$produit2 = Produit::findByidP($troc->getAttr('idP1'));
+			}
 
 
-
-
+				$html .= "
+    
 		
-		
+		<!-- BOUCLE -->
+		<table style=\"width:100%\">
+				<thead>
+					<tr>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:10%;height:30px;border-right:2px solid #333333;\">Confirmation</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px; width:45%;height:30px;border-right:2px solid #333333;\">J'échange ce produit</th>
+						<th style=\"color:#ffffff;background:#0088cc;padding:4px 4px 4px 4px;width:45%;height:30px;border-left:2px solid #333333;\">contre</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style=\"padding:4px 4px 4px 4px;border-top:1px solid #333333;\">
+						<td style=\"width:10%;border-right:2px solid #333333;\"><center><a href=\"Blog.php?action=detailSouhait&amp;idP=".$souhait->getAttr('idP')."&amp;idU=".$souhait->getAttr('idU')."\">Confirmer réception</a></center></td>
+						<td style=\"width:45%;border-right:2px solid #333333;\">"
+					
+						.$produit1->getAttr('libelleP')."<br />
+						
+						</td>
+						<td style=\"width:45%;border-left:2px solid #333333;\"><center></center>
+						".$produit2->getAttr('libelleP')."<br /></td>
+					</tr>
+
+				</tbody>
+			</table> <br/>";
+		}
+
+	
 		
 		$html .= "</p>
     </div>    
