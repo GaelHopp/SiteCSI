@@ -4,6 +4,7 @@ include_once "SousCategorie.php";
 include_once "Categorie.php";
 include_once "Users.php";
 include_once "Produit.php";
+include_once "Souhait.php";
 include_once "Algo.php";
 
 
@@ -130,9 +131,8 @@ $(document).ready(function(){
 					<div class=\"links pull-right\">
 						<a href=\"index.html\">Home</a> |
 						<a href=\"my_account.html\">Mon compte</a> |
-						<!--<a href=\"Blog.php?action=afficheAlgo\">Algo</a> |-->
+						<a href=\"Blog.php?action=afficheAlgo\">Algo</a> |
 						<a href=\"cart.html\">Mes demandes (2)</a> |
-						<!--<a href=\"two-column.html\">Propositions (1)</a> |-->
 						<a href=\"Blog.php?action=listeProduitUser\">Mes produits</a> | 
 						<a href=\"Blog.php?action=afficheAjoutProduit\">Ajouter un produit</a> | 
 						<a href=\"Blog.php?action=logout\">Déconnexion</a> |
@@ -176,9 +176,12 @@ $(document).ready(function(){
 							 $listeSousCategories = $categorie->findAllSousCat();
 
 							 		foreach($listeSousCategories as $sousCategorie){
-
+							 			if(!empty($_SESSION)){ 
 							 			echo "<li><a href=\"Blog.php?action=afficheListeProduit&amp;id=". $sousCategorie->getAttr('idSC') ."\">".$sousCategorie->getAttr('libelleSC')."</a></li>";
+							 			}else{
+							 			echo "<li><a href=\"Blog.php?action=registerOuLogin\">".$sousCategorie->getAttr('libelleSC')."</a></li>";
 
+							 			}
 							 		}
 
 							 	echo "</ul>
@@ -813,6 +816,7 @@ function afficheSideBarNormale(){
 						  <select placeholder=\"\" class=\"span4\" name=\"anneeProduit\">
 							<option value=\"2013\">2013</option>
 							<option value=\"2012\">2012</option>
+							<option value=\"2011\">2011</option>
 							<option value=\"2010\">2010</option>
 							<option value=\"2009\">2009</option>
 							<option value=\"2008\">2008</option>
@@ -1012,15 +1016,116 @@ function afficheAlgo(){
               <p>".$value->getAttr('descriptionP')."</p>
 	  </div>	
  
+  <script src=\"http://code.jquery.com/jquery-1.9.1.min.js\"></script>
+						<script>
+							
+
+							jQuery(function($){
+						   		   
+	//Lorsque vous cliquez sur un lien de la classe poplight
+	$('a.poplight').on('click', function() {
+		var popID = $(this).data('rel'); //Trouver la pop-up correspondante
+		var popWidth = $(this).data('width'); //Trouver la largeur
+
+		//Faire apparaitre la pop-up et ajouter le bouton de fermeture
+		$('#' + popID).fadeIn().css({ 'width': popWidth}).prepend('<a href=\"#\" class=\"close\"><img src=\"close_pop.png\" class=\"btn_close\" title=\"Close Window\" alt=\"Close\" /></a>');
+		
+		//Récupération du margin, qui permettra de centrer la fenêtre - on ajuste de 80px en conformité avec le CSS
+		var popMargTop = ($('#' + popID).height() + 80) / 2;
+		var popMargLeft = ($('#' + popID).width() + 80) / 2;
+		
+		//Apply Margin to Popup
+		$('#' + popID).css({ 
+			'margin-top' : -popMargTop,
+			'margin-left' : -popMargLeft
+		});
+		
+		//Apparition du fond - .css({'filter' : 'alpha(opacity=80)'}) pour corriger les bogues d'anciennes versions de IE
+		$('body').append('<div id=\"fade\"></div>');
+		$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();
+		
+		return false;
+	});
+	
+	
+	//Close Popups and Fade Layer
+	$('body').on('click', 'a.close, #fade', function() { //Au clic sur le body...
+		$('#fade , .popup_block').fadeOut(function() {
+			$('#fade, a.close').remove();  
+	}); //...ils disparaissent ensemble
+		
+		return false;
+	});
+
+	
+});
+
+
+function libere() {
+			document.getElementById('listeproduit').disabled = true;
+			if(document.getElementById(\"liberer\").checked){
+				document.getElementById('listeproduit').disabled = false;
+			}else{
+				document.getElementById('listeproduit').disabled = true;
+			}
+			return true;
+		}
+
+
+						 </script>	
 	  
 	  <div class=\"span2\">
-	   <p><a class=\"btn btn-primary\" href=\"#\">Je troque</a></p>
+	   <p><a class=\"btn btn-primary poplight\" href=\"#\" data-width=\"500\" data-rel=\"popup1\">Je troque</a></p>
+
+
+
+
 	   <p><a class=\"\" href=\"Blog.php?action=afficheProduit&amp;id=".$value->getAttr('idP')."\">Voir la fiche produit</a></p>
 	  </div>
   </div>
   <hr/>	  
 	  
-	      
+	     <div id=\"popup1\" class=\"popup_block\">
+
+
+
+	     <div id=\"choixTroc\">
+			<div class=\"choixTroc\">
+
+			<form action=\"action=\"Blog.php?action=faireSouhait\" method= \"post\">
+				<input type=\"hidden\" id=\"refProduct\" class=\"input-xlarge focused\">
+				Je souhaite échanger ce produit par : <br /><br/>
+				
+				<input type= \"radio\" name=\"options\" value=\"option1\" onclick=\"libere()\" checked> Je laisse l'utilisateur choisir un de mes produits <br />
+				<input type= \"radio\" name=\"options\" id=\"liberer\" value=\"option2\" onclick=\"libere()\"> Je propose un de mes produits <br />
+				<div class=\"control-group\">
+						<label class=\"control-label\">Merci de choisir votre produit à échanger :</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" id=\"listeproduit\" >";
+
+						  $listeProduit = Produit::listeProduitUser($_SESSION['idU']);
+
+						  foreach ($listeProduit as $value) {
+						  	$html .="<option value=\"".$value->getAttr('idP')."\">".$value->getAttr('libelleP')."</option>";
+						  }
+
+		
+						 
+						 $html .=" </select>
+						</div>
+					  </div>
+				<div class=\"span6\">
+					<div class=\"span3 no_margin_left\">
+						<button class=\"btn btn-primary\" type=\"submit\">Valider</button>
+						</form>
+					</div>	
+				</div>
+			</div>
+		</div>
+		
+		</div> 
+
+		<body onload = \"javascript:document.getElementById('listeproduit').disabled = true;\">
     ";
 
 		}
@@ -1091,6 +1196,64 @@ function afficheAlgo(){
 			
 
 		</div>	 
+
+		  <script src=\"http://code.jquery.com/jquery-1.9.1.min.js\"></script>
+						<script>
+							
+
+							jQuery(function($){
+						   		   
+	//Lorsque vous cliquez sur un lien de la classe poplight
+	$('a.poplight').on('click', function() {
+		var popID = $(this).data('rel'); //Trouver la pop-up correspondante
+		var popWidth = $(this).data('width'); //Trouver la largeur
+
+		//Faire apparaitre la pop-up et ajouter le bouton de fermeture
+		$('#' + popID).fadeIn().css({ 'width': popWidth}).prepend('<a href=\"#\" class=\"close\"><img src=\"close_pop.png\" class=\"btn_close\" title=\"Close Window\" alt=\"Close\" /></a>');
+		
+		//Récupération du margin, qui permettra de centrer la fenêtre - on ajuste de 80px en conformité avec le CSS
+		var popMargTop = ($('#' + popID).height() + 80) / 2;
+		var popMargLeft = ($('#' + popID).width() + 80) / 2;
+		
+		//Apply Margin to Popup
+		$('#' + popID).css({ 
+			'margin-top' : -popMargTop,
+			'margin-left' : -popMargLeft
+		});
+		
+		//Apparition du fond - .css({'filter' : 'alpha(opacity=80)'}) pour corriger les bogues d'anciennes versions de IE
+		$('body').append('<div id=\"fade\"></div>');
+		$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();
+		
+		return false;
+	});
+	
+	
+	//Close Popups and Fade Layer
+	$('body').on('click', 'a.close, #fade', function() { //Au clic sur le body...
+		$('#fade , .popup_block').fadeOut(function() {
+			$('#fade, a.close').remove();  
+	}); //...ils disparaissent ensemble
+		
+		return false;
+	});
+
+	
+});
+
+
+function libere() {
+			document.getElementById('listeproduit').disabled = true;
+			if(document.getElementById(\"liberer\").checked){
+				document.getElementById('listeproduit').disabled = false;
+			}else{
+				document.getElementById('listeproduit').disabled = true;
+			}
+			return true;
+		}
+
+
+						 </script>
 	  
 	  <div class=\"span6\">
 	  
@@ -1105,9 +1268,12 @@ function afficheAlgo(){
 		
 		<div class=\"span6\">
 				<div class=\"span3 no_margin_left\">
-					<button class=\"btn btn-primary\" type=\"submit\">Je troque</button>
+					<a class=\"btn btn-primary poplight\" href=\"#\" data-width=\"500\" data-rel=\"popup1\">Je troque</button></a>
+
 				</div>	
-		</div>		
+		</div>	
+
+		
 		<div class=\"span6\">
 		<br/>	<br/>	
 			<p>
@@ -1150,7 +1316,53 @@ function afficheAlgo(){
 	 
 	 
 	 
-		</div>";
+		</div>
+
+
+		 <div id=\"popup1\" class=\"popup_block\">
+
+
+
+	     <div id=\"choixTroc\">
+			<div class=\"choixTroc\">
+
+			<form action=\"Blog.php?action=faireSouhait\" method= \"post\">
+				<input type=\"hidden\" id=\"refProduct\" class=\"input-xlarge focused\">
+				Je souhaite échanger ce produit par : <br /><br/>
+				
+				<input type= \"radio\" name=\"options\" value=\"option1\" onclick=\"libere()\" checked> Je laisse l'utilisateur choisir un de mes produits <br />
+				<input type= \"radio\" name=\"options\" id=\"liberer\" value=\"option2\" onclick=\"libere()\"> Je propose un de mes produits <br />
+				<div class=\"control-group\">
+						<label class=\"control-label\">Merci de choisir votre produit à échanger :</label>
+						<div class=\"controls docs-input-sizes\">
+						  <select placeholder=\"\" class=\"span4\" id=\"listeproduit\" >";
+
+						  $listeProduit = Produit::listeProduitUser($_SESSION['idU']);
+
+						  foreach ($listeProduit as $value) {
+						  	$html .="<option value=\"".$value->getAttr('idP')."\">".$value->getAttr('libelleP')."</option>";
+						  }
+
+		
+						 
+						 $html .=" </select>
+						</div>
+					  </div>
+				<div class=\"span6\">
+					<div class=\"span3 no_margin_left\">
+						<button class=\"btn btn-primary\" type=\"submit\">Valider</button>
+						</form>
+					</div>	
+				</div>
+			</div>
+		</div>
+		
+		</div> 
+
+		<body onload = \"javascript:document.getElementById('listeproduit').disabled = true;\">
+
+
+";
 
 	}
 

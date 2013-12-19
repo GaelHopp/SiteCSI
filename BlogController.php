@@ -17,7 +17,7 @@ class BlogController{
 
 	public function afficheAccueil(){
 
-		if(!isset($_SESSION)){
+		if(empty($_SESSION)){
 
 			$this->vue->AffichePage("",$this->vue->afficheAccueilGuest());
 			
@@ -338,7 +338,7 @@ public function updateProduit($id){
 					break;
 
 				case 'afficheProduit':
-					$sousCat = SousCategorie::findByIdSC($_GET['idsc']);
+					$sousCat = SousCategorie::findByIdSC($_GET['id']);
 					$this->afficheProduit($_GET['id'], $sousCat);
 					break;
 
