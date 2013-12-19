@@ -1106,7 +1106,7 @@ function libere() {
 						  $listeProduit = Produit::listeProduitUser($_SESSION['idU']);
 
 						  foreach ($listeProduit as $value) {
-						  	$html .="<option value=\"".$value->getAttr('idP')."\">".$value->getAttr('libelleP')."</option>";
+						  	$html .="<option name=".$value->getAttr('idP')." value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
 						  }
 
 		
@@ -1340,7 +1340,7 @@ function libere() {
 						  $listeProduit = Produit::listeProduitUser($_SESSION['idU']);
 
 						  foreach ($listeProduit as $value) {
-						  	$html .="<option value=\"".$value->getAttr('idP')."\">".$value->getAttr('libelleP')."</option>";
+						  	$html .="<option name=".$value->getAttr('idP')."value=".$value->getAttr('idP').">".$value->getAttr('libelleP')."</option>";
 						  }
 
 		
