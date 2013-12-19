@@ -78,7 +78,7 @@ class Souhait {
 		$delete_query = "DELETE FROM souhait_echange
 			WHERE idP= $this->idP and idU = $this->idU";
 		$c = Base::getConnection();
-		$dbres = odbc_exec($c, delete_query);
+		$dbres = odbc_exec($c, $delete_query);
 		
 		return $dbres;
 		
@@ -89,16 +89,25 @@ class Souhait {
 								
 	public function insert() {
 		
+		if($this->idP2 == 0){
+			$query = "INSERT INTO souhait_echange VALUES($this->idP, $this->idU, NULL, '$this->date_souhait')";
 
-		$query = "INSERT INTO souhait_echange VALUES($this->idP, $this->idU, $this->idP2, '$this->date_souhait')";
+		}else{
+
+				$query = "INSERT INTO souhait_echange VALUES($this->idP, $this->idU, $this->idP2, '$this->date_souhait')";
+		}
+
+
 		
+
 		$c = Base::getConnection();
 		
 		$souhait = Souhait::findByPK($this->idP, $this->idU);
-		echo $souhait->getAttr('idP');
+
 
 		if(is_null($souhait)){ 
 
+			
 
 
 		$dbres = odbc_exec($c, $query);
@@ -115,16 +124,16 @@ class Souhait {
 		$query = "SELECT * FROM souhait_echange WHERE idP = ".$idP;
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
-		$obj = odbc_fetch_object($dbres);
-
-		if(!$obj){
-			return(false);
-		}
-		else{
+		if(!$dbres){
+				return(false);		
+			}
+			else{
+			$res = array();
 			
+			while($obj = odbc_fetch_object($dbres)){
 			
 				
-				$souhait = new Souhait();
+			$souhait = new Souhait();
 				
 				$souhait->setAttr('idP', $obj->idP);
 				$souhait->setAttr('idU', $obj->idU);
@@ -132,13 +141,11 @@ class Souhait {
 				$souhait->setAttr('date_souhait', $obj->date_souhait);
 				
 
-
-
+				array_push($res, $souhait);
 			
-		
-		
-		return($souhait);
 		}
+	}
+	return $res;
 	
 		
 	}
@@ -150,7 +157,7 @@ class Souhait {
 		$obj = odbc_fetch_object($dbres);
 
 		if(!$obj){
-			return(false);
+			return(NULL);
 		}
 		else{
 			
@@ -218,19 +225,21 @@ class Souhait {
 
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
-		$obj = odbc_fetch_object($dbres);
+	
 
 	if(!$dbres){
 				return(false);		
 			}
 			else{
 			$res = array();
+
+			$souhait = new Souhait();
 			
 			while($obj = odbc_fetch_object($dbres)){
 			
 			
 				
-				$souhait = new Souhait();
+				
 				
 				$souhait->setAttr('idP', $obj->idP);
 				$souhait->setAttr('idU', $obj->idU);
@@ -257,19 +266,21 @@ class Souhait {
 
 		$c = Base::getConnection();
 		$dbres = odbc_exec($c, $query);
-		$obj = odbc_fetch_object($dbres);
+	
 
 	if(!$dbres){
 				return(false);		
 			}
 			else{
 			$res = array();
+
+			$souhait = new Souhait();
 			
 			while($obj = odbc_fetch_object($dbres)){
 			
 			
 				
-				$souhait = new Souhait();
+				
 				
 				$souhait->setAttr('idP', $obj->idP);
 				$souhait->setAttr('idU', $obj->idU);

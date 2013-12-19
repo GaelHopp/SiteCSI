@@ -294,13 +294,15 @@ public function faireSouhait($idP){
 
 	if($_POST['options'] == "option1"){
 
-		$souhait->setAttr('idP2', NULL);
+		$souhait->setAttr('idP2', 0);
+		
 
 	}
-	elseif($_POST['options'] == "option2"){
+	else{
 
 		$idP2 = $_POST['produit'];
 		$souhait->setAttr('idP2', $idP2);
+		
 	}
 
 	$date_souhait = date("Y-m-d H:i:s");
@@ -321,6 +323,44 @@ public function afficheSouhait($idU){
 
 	$centre = $this->vue->afficheSouhait($idU);
 	$this->vue->AffichePage($this->vue->afficheSideBarNormale(), $centre);
+
+}
+
+
+
+public function ajoutTroc($idP1, $idU2){
+
+	$souhait = Souhait::findyByPK($idP1, $idU2);
+
+	$produit = Produit::findByidP($idP1);
+
+	$dateT = date("Y-m-d H:i:s");
+
+	$troc = new Troc();
+
+	$troc->setAttr('dateT', $dateT);
+	$troc->setAttr('mode_echange_final', $produit->getAttr('modeEchange'));
+	$troc->setAttr('effectif', "Faux");
+	$troc->setAttr('idU1', $produit->getAttr('idU'));
+	$troc->setAttr('idU2', $idU2);
+	$troc->setAttr('idP1', $idP1);
+	$troc->setAttr('idP2', $souhait->getAttr('idP2'));
+
+	$troc->insert();
+
+	$listeSouhait1 = Souhait::findByidP($idP1);
+	$listeSouhait2 = Souhait::findByidP($troc->getAttr('idP1'));
+
+	foreach ($listeSouhait1 as $souhait) {
+		$souhait->delete();
+	}
+
+	foreach ($listeSouhait1 as $souhait) {
+		$souhait->delete();
+	}
+
+
+
 
 }
 	
@@ -402,6 +442,12 @@ public function afficheSouhait($idU){
 				case 'afficheSouhait':
 				$this->afficheSouhait($_SESSION['idU']);
 				break;
+
+				case 'ajoutTroc':
+				$this->ajoutTroc($idP1, $idU2);
+				break;
+
+
 				
 			}
 		}
